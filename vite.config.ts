@@ -21,6 +21,11 @@ export default defineConfig({
         short_name: "pwa-side",
         description: "pwa-side",
         theme_color: "#ffffff",
+        icons: [
+          {
+            src: "favicon",
+          },
+        ],
       },
 
       workbox: {
