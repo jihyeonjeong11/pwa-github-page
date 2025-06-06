@@ -1,6 +1,6 @@
 import "./PWABadge.css";
 
-import { useRegisterSW } from "virtual:pwa-register/preact";
+import { useRegisterSW } from "virtual:pwa-register/react";
 
 function PWABadge() {
   // periodic sync is disabled, change the value to enable it, the period is in milliseconds
@@ -25,9 +25,7 @@ function PWABadge() {
   });
 
   function close() {
-    // don't remove the typeof check: check https://github.com/vite-pwa/vite-plugin-pwa/issues/712
-
-    typeof setNeedRefresh === "function" && setNeedRefresh(false);
+    setNeedRefresh(false);
   }
 
   return (
