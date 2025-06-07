@@ -12,6 +12,8 @@
     "deploy2": "gh-pages -d dist"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.2.1",
+    "eslint-plugin-unicorn": "^59.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
