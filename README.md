@@ -10,11 +10,13 @@
 
 - Todos:
 
+  - Define user stories, Using Playwright would be good idea.
   - SEO
   - IndexedDB handler
   - Design System + Library
-
   - Remote control & shocase for dev mode: Can I not use router library?
+  - Windows powershell icon generation error - consider using wls || docker
+  - Find Windows Header icons - minimize, maximize, close
 
 - Settled(mostly regarding free resources):
 
@@ -26,3 +28,9 @@
 
 https://github.com/askides/clean-architecture-react
 https://github.com/DustinBrett/daedalOS
+
+- fixing vite path variable along with tsconfig.json
+  https://stackoverflow.com/questions/77249074/how-do-i-use-typescript-path-aliases-in-vite
+
+- sementic color convention
+  https://designsystem.line.me/LDSM/foundation/color/line-semantic-colors-ex-en
