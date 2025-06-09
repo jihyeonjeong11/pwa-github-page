@@ -26,7 +26,7 @@ function Showcases() {
   }
 
   return (
-    <div className="gap-8 flex flex-col p-4">
+    <div id="app" className="gap-8 flex flex-col p-4 overflow-y-scroll">
       <h1 className="pb-4">This is Showcase tester.</h1>
       <Button
         onClick={() => {
@@ -61,7 +61,7 @@ function Showcases() {
         <Window>
           <WindowHeader className="justify-between h-[32px]">
             <span>This is showcase window with header buttons.</span>
-            <div className="flex gap-1">
+            <nav className="flex gap-1">
               <Button
                 variant={"primary"}
                 className={"p-0 w-[22px] flex items-center justify-center"}
@@ -80,10 +80,10 @@ function Showcases() {
               >
                 <Close />
               </Button>
-            </div>
+            </nav>
           </WindowHeader>
           <WindowContent>
-            <span>{string}</span>
+            <span>Window with navigators</span>
           </WindowContent>
           <WindowFooter>
             <Button asChild variant={"primary"}>
@@ -97,7 +97,7 @@ function Showcases() {
       <div>
         <div className="gap-4 flex flex-col px-8 bg-[var(--primary-background)] py-10">
           <h2>2. Buttons</h2>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <Button asChild variant={"primary"}>
               <span>Primary</span>
             </Button>
