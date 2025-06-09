@@ -1,8 +1,8 @@
 import PWABadge from "./PWABadge.tsx";
 import "./app.css";
 import { useSlug } from "./hooks/useSlug.tsx";
-import Routing from "./components/routing/index.tsx";
-import Showcases from "./components/showcases/index.tsx";
+import Routing from "./components/_devPurpose/routing/index.tsx";
+import Showcases from "./components/_devPurpose/showcases/index.tsx";
 
 export default function App() {
   const { slug } = useSlug();

@@ -4,7 +4,7 @@ import {
   WindowFooter,
   WindowHeader,
 } from "@/components/ui/Window";
-import { Button } from "../ui/Button";
+import { Button } from "../../ui/Button";
 import { DEV_ROOT } from "@/constants";
 
 function Routing() {
@@ -29,14 +29,14 @@ function Routing() {
         </Window>
         <Window>
           <WindowHeader>
-            <span>DND Showcases</span>
+            <span>RND Showcases</span>
           </WindowHeader>
           <WindowContent>
-            <span>Explore DND feature, with a Windows95-styled window.</span>
+            <span>Explore RND feature, with a Windows95-styled window.</span>
           </WindowContent>
           <WindowFooter>
             <Button asChild variant={"disabled"}>
-              <a aria-label="go-DND" aria-disabled="true" href={``}>
+              <a aria-label="go-DND" aria-disabled="true">
                 Get me there
               </a>
             </Button>
@@ -53,7 +53,7 @@ function Routing() {
           </WindowContent>
           <WindowFooter>
             <Button asChild variant={"disabled"}>
-              <a aria-label="go-editing" aria-disabled="true" href={``}>
+              <a aria-label="go-editing" aria-disabled="true">
                 Get me there
               </a>
             </Button>
