@@ -2,6 +2,7 @@ import PWABadge from "./PWABadge.tsx";
 import "./app.css";
 import { useSlug } from "./hooks/useSlug.tsx";
 import Routing from "./components/routing/index.tsx";
+import Showcases from "./components/showcases/index.tsx";
 
 export default function App() {
   const { slug } = useSlug();
@@ -11,13 +12,9 @@ export default function App() {
       {(() => {
         switch (slug) {
           default:
-            return (
-              <>
-                <Routing />
-              </>
-            );
+            return <Routing />;
           case "showcases":
-            return <div>ui-showcase</div>;
+            return <Showcases />;
           case "features":
             return <div>feature showcase not specified yet.</div>;
         }

@@ -9,6 +9,9 @@
   --primary-window-background: #c0c0c0;
   --primary-header-background: #000181;
   --secondary-header-background: #c0c0c0;
+
+  --primary-button-border: #858585;
+  --secondary-button-border: white;
 }
 
 #app {

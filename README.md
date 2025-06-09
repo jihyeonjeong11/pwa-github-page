@@ -34,3 +34,10 @@ https://github.com/DustinBrett/daedalOS
 
 - sementic color convention
   https://designsystem.line.me/LDSM/foundation/color/line-semantic-colors-ex-en
+
+- Windows95 codepen theme
+
+https://codepen.io/gabriellewee/pen/MWqRZzp
+
+- pseudo double border
+  https://blog.logrocket.com/how-to-create-double-border-css/

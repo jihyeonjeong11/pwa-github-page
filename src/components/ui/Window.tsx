@@ -27,10 +27,10 @@ const WindowHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
+  <nav
     ref={ref}
     className={cn(
-      "bg-[var(--primary-header-background)] p-1 border-[2px] border-[#bdbdbd]",
+      "bg-[var(--primary-header-background)] p-1 border-[2px] border-[#bdbdbd] text-base inline-flex w-full",
       className
     )}
     {...props}
@@ -59,7 +59,7 @@ const WindowFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("py-[10px] px-[7px] flex ", className)}
+    className={cn("py-[10px] px-[7px] flex", className)}
     {...props}
   />
 ));

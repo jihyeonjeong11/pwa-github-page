@@ -3,38 +3,39 @@ import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
 
-// color: #ffffff;
-// background-color: #008081;
-// border-color: #008081;
-
-const buttonVariants = cva("inline-flex border-[2px]", {
-  variants: {
-    variant: {
-      default:
-        "border-t-white border-l-white border-r-[#858585] border-b-[#858585]",
-      primary:
-        "border-t-white border-l-white border-r-[#858585] border-b-[#858585] text-black",
-      secondary: "bg-[var(--primary-background)] text-white",
-      tertiary: "",
-      info: "",
-      success: "",
-      warning: "",
-      danger: "",
-      disabled:
-        "bg-[var(--primary-background)] border-t-white border-l-white border-r-[#858585] border-b-[#858585] text-white pointer-events-none cursor-not-allowed",
+const buttonVariants = cva(
+  "relative border-[2px] bg-[var(--primary-window-background)] border-white border-r-[var(--primary-button-border)] border-b-[var(--primary-button-border)] text-black",
+  {
+    variants: {
+      variant: {
+        primary:
+          "active:translate-y-[2px] active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        secondary:
+          "bg-[var(--primary-background)] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        tertiary:
+          "bg-[#000181] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        info: "bg-[#00bf9a] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        success:
+          "bg-[#1e90ff] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        warning:
+          " bg-[#f5b759] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        danger:
+          " bg-[#FA5252] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+        disabled: "",
+      },
+      size: {
+        default: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
+        small: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
+        regular: "",
+        large: "",
+      },
     },
-    size: {
-      default: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
-      small: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
-      regular: "",
-      large: "",
+    defaultVariants: {
+      variant: "primary",
+      size: "default",
     },
-  },
-  defaultVariants: {
-    variant: "default",
-    size: "default",
-  },
-});
+  }
+);
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
