@@ -3,9 +3,9 @@ import {
   WindowContent,
   WindowFooter,
   WindowHeader,
-} from "@/components/ui/Window";
-import { Button } from "../../ui/Button";
-import { DEV_ROOT } from "@/constants";
+} from '@/components/ui/Window';
+import { Button } from '../../ui/Button';
+import { DEV_ROOT } from '@/constants';
 
 function Routing() {
   return (
@@ -20,7 +20,7 @@ function Routing() {
             <span>Explore Windows95 themed ui components</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"primary"}>
+            <Button asChild variant={'primary'}>
               <a aria-label="go-showcases" href={`${DEV_ROOT}/showcases`}>
                 Get me there
               </a>
@@ -35,8 +35,12 @@ function Routing() {
             <span>Explore RND feature, with a Windows95-styled window.</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"disabled"}>
-              <a aria-label="go-DND" aria-disabled="true">
+            <Button asChild variant={'disabled'}>
+              <a
+                aria-label="go-rnd"
+                aria-disabled="true"
+                href={`${DEV_ROOT}/rnd`}
+              >
                 Get me there
               </a>
             </Button>
@@ -52,7 +56,7 @@ function Routing() {
             </span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"disabled"}>
+            <Button asChild variant={'disabled'}>
               <a aria-label="go-editing" aria-disabled="true">
                 Get me there
               </a>

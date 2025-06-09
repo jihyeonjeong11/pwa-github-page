@@ -1,8 +1,9 @@
-import PWABadge from "./PWABadge.tsx";
-import "./app.css";
-import { useSlug } from "./hooks/useSlug.tsx";
-import Routing from "./components/_devPurpose/routing/index.tsx";
-import Showcases from "./components/_devPurpose/showcases/index.tsx";
+import PWABadge from './PWABadge.tsx';
+import './app.css';
+import { useSlug } from './hooks/useSlug.tsx';
+import Routing from './components/_devPurpose/routing/index.tsx';
+import Showcases from './components/_devPurpose/showcases/index.tsx';
+import RndTester from './components/_devPurpose/rnd/intdex.tsx';
 
 export default function App() {
   const { slug } = useSlug();
@@ -13,9 +14,11 @@ export default function App() {
         switch (slug) {
           default:
             return <Routing />;
-          case "showcases":
+          case 'showcases':
             return <Showcases />;
-          case "features":
+          case 'rnd':
+            return <RndTester />;
+          case 'features':
             return <div>feature showcase not specified yet.</div>;
         }
       })()}
