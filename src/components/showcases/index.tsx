@@ -101,7 +101,7 @@ function Showcases() {
         <div>
           <div className="gap-4 flex flex-col px-8 bg-[var(--primary-background)] py-10">
             <h2>2. Buttons</h2>
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-col md:flex-row gap-4">
               <Button asChild variant={'primary'}>
                 <span>Primary</span>
               </Button>

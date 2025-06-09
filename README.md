@@ -17,6 +17,7 @@
   - Remote control & shocase for dev mode: Can I not use router library?
   - Windows powershell icon generation error - consider using wls || docker
   - Find Windows Header icons - minimize, maximize, close
+  - Window size calculation - disable responsiveness
 
 - Settled(mostly regarding free resources):
 
