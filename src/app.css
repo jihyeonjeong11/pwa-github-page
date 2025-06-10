@@ -4,14 +4,18 @@
 /* https://tailwindcss.com/docs/theme */
 
 /* Editor problem. */
-@theme {
-  --primary-background: #018281;
-  --primary-window-background: #c0c0c0;
-  --primary-header-background: #000181;
-  --secondary-header-background: #c0c0c0;
+/*todo: custom theme variable for pixel values*/
 
-  --primary-button-border: #858585;
-  --secondary-button-border: white;
+@theme {
+  --color-primary-background: #018281;
+  --color-primary-window-background: #c0c0c0;
+  --color-primary-header-background: #000181;
+  --color-secondary-header-background: #c0c0c0;
+
+  --color-primary-button-border: #858585;
+  --color-secondary-button-border: white;
+
+  --window-header-height: 30px;
 }
 
 #app {

@@ -15,7 +15,7 @@ const Window = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      " bg-[var(--primary-window-background)] text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]",
+      "w-full h-full bg-primary-window-background text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]",
       className
     )}
     {...props}
@@ -30,7 +30,7 @@ const WindowHeader = React.forwardRef<
   <header
     ref={ref}
     className={cn(
-      "bg-[var(--primary-header-background)] p-1 border-[2px] border-[#bdbdbd] text-base inline-flex w-full truncate",
+      "bg-primary-header-background h-window-header-height p-1  border-[2px] border-[#bdbdbd] text-base inline-flex w-full truncate",
       className
     )}
     {...props}

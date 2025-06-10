@@ -4,23 +4,23 @@ import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "relative border-[2px] bg-[var(--primary-window-background)] border-white border-r-[var(--primary-button-border)] border-b-[var(--primary-button-border)] text-black",
+  "relative border-[2px] bg-primary-window-background border-white border-r-primary-button-border border-b-primary-button-border text-black",
   {
     variants: {
       variant: {
         primary:
-          "active:translate-y-[2px] active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          "active:translate-y-[2px] active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         secondary:
-          "bg-[var(--primary-background)] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          "bg-primary-background text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         tertiary:
-          "bg-[#000181] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
-        info: "bg-[#00bf9a] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          "bg-[#000181] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
+        info: "bg-[#00bf9a] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         success:
-          "bg-[#1e90ff] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          "bg-[#1e90ff] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         warning:
-          " bg-[#f5b759] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          " bg-[#f5b759] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         danger:
-          " bg-[#FA5252] text-white active:border-[var(--primary-button-border)] active:border-r-[var(--secondary-button-border)] active:border-b-[var(--secondary-button-border)]",
+          " bg-[#FA5252] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         disabled: "",
       },
       size: {

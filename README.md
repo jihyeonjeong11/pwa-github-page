@@ -1,3 +1,11 @@
+## PWA-Windows-Clone
+
+Windows 95환경을 PWA로 만들어보는 프로젝트.
+
+다운로드 링크: https://jihyeonjeong11.github.io/pwa-github-page/
+
+현재: Proof of Concept
+
 2025/06/07
 
 - PoC
@@ -18,6 +26,7 @@
   - Windows powershell icon generation error - consider using wls || docker
   - Find Windows Header icons - minimize, maximize, close
   - Window size calculation - disable responsiveness
+  - favicon? -> check all environments
 
 - Settled(mostly regarding free resources):
 
