@@ -24,15 +24,14 @@ const buttonVariants = cva(
         disabled: "",
       },
       size: {
-        default: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
-        small: "px-[1.6rem] py-[0.4rem] text-[0.53rem]",
+        small: "px-[1.6rem] py-[0.15rem] text-xs",
         regular: "",
         large: "",
       },
     },
     defaultVariants: {
       variant: "primary",
-      size: "default",
+      size: "small",
     },
   }
 );

@@ -48,10 +48,12 @@ function Showcases() {
             <span>{string}</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"primary"}>
-              <button onClick={getRandomLorem} aria-label="get-random-strings">
-                Get random Strings
-              </button>
+            <Button
+              onClick={getRandomLorem}
+              aria-label="get-random-strings"
+              variant={"primary"}
+            >
+              Get random Strings
             </Button>
           </WindowFooter>
         </Window>
@@ -92,10 +94,12 @@ function Showcases() {
             <span>Window with navigators</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"primary"}>
-              <button onClick={getRandomLorem} aria-label="get-random-strings">
-                Get random Strings
-              </button>
+            <Button
+              variant={"primary"}
+              onClick={getRandomLorem}
+              aria-label="get-random-strings"
+            >
+              <span>Get random Strings</span>
             </Button>
           </WindowFooter>
         </Window>

@@ -1,12 +1,12 @@
-const DEV_ROOT = "/pwa-github-page";
-const DEFAULT_WINDOW_SIZE = {
+export const DEV_ROOT = "/pwa-github-page";
+export const DEFAULT_WINDOW_SIZE = {
   height: 510,
   width: 640,
 };
 
-const MIN_WINDOW_SIZE = {
+export const MIN_WINDOW_SIZE = {
   height: 30,
   width: 166,
 };
 
-export { DEV_ROOT, DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE };
+export const TASKBAR_HEIGHT = 32;

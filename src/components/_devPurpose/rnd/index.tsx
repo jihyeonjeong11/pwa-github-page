@@ -1,9 +1,4 @@
-import {
-  Window,
-  WindowContent,
-  WindowFooter,
-  WindowHeader,
-} from "@/components/ui/Window";
+import { Window, WindowHeader } from "@/components/ui/Window";
 import { Button } from "../../ui/Button";
 import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
 import { Rnd, Props } from "react-rnd";
@@ -149,6 +144,7 @@ function RndTester() {
               </nav>
             </WindowHeader>
             <div className="flex h-full justify-center items-center">
+              {/* todo: ref size listener  */}
               <textarea
                 placeholder="put any texteditor in here"
                 className="bg-white w-[calc(100%-30px)] h-[400px]"

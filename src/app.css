@@ -22,7 +22,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background-color: var(--primary-background);
+  background-color: var(--color-primary-background);
   /*temp: fixed height */
   height: 100vh;
 }

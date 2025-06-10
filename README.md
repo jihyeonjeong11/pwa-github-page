@@ -6,7 +6,7 @@ Windows 95환경을 PWA로 만들어보는 프로젝트.
 
 현재: Proof of Concept
 
-2025/06/07
+2025/06/07 0608 0609 0610
 
 - PoC
 
@@ -27,6 +27,7 @@ Windows 95환경을 PWA로 만들어보는 프로젝트.
   - Find Windows Header icons - minimize, maximize, close
   - Window size calculation - disable responsiveness
   - favicon? -> check all environments
+  - Get Taskbar Design & color
 
 - Settled(mostly regarding free resources):
 
@@ -51,3 +52,9 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 
 - pseudo double border
   https://blog.logrocket.com/how-to-create-double-border-css/
+
+- web windows95 emulator
+  https://copy.sh/v86/?profile=windows95
+
+- electron windows95
+  https://github.com/felixrieseberg/windows95?tab=readme-ov-file
