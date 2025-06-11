@@ -124,6 +124,8 @@ function RndTester() {
             y: e.y,
           }}
           onDragStop={(e, d) => {
+            console.log("presswe");
+            console.log(d);
             const updated = [...entries];
             updated[i] = { ...updated[i], x: d.x, y: d.y };
             setEntries(updated);

@@ -25,11 +25,6 @@ export const viewHeight = (): number => window.innerHeight;
 
 export const viewWidth = (): number => window.innerWidth;
 
-const getMaxDimensions = (): Partial<Variant> => ({
-  height: viewHeight() - TASKBAR_HEIGHT,
-  width: viewWidth(),
-});
-
 export function useWindowTransition(entries) {
   // todo pass from rndTester
 
@@ -56,11 +51,11 @@ export function useWindowTransition(entries) {
 
   useLayoutEffect(() => {
     if (entries.maximized) {
-      console.log("eiei");
       setMaximize({
         ...baseMaximize,
-        x: 300,
-        y: 600,
+        x: -30,
+        y: -200,
+
         backgroundColor: "blue",
       });
     }
@@ -73,7 +68,7 @@ export function useWindowTransition(entries) {
       ? "maximize"
       : "",
     transition: {
-      duration: 1,
+      duration: 10,
     },
     variants: {
       initial: initial,
