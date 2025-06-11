@@ -1,6 +1,7 @@
+import { type RndDefaultProps } from "../_devPurpose/rnd";
 import { Button } from "../ui/Button";
 
-export default function Taskbar() {
+export default function Taskbar({ entries }: { entries: RndDefaultProps[] }) {
   return (
     <nav
       className={`fixed left-0 bottom-0 bg-primary-window-background w-[100vw] h-8 border-t-2 border-t-white flex justify-start gap-2`}
@@ -20,11 +21,13 @@ export default function Taskbar() {
         </Button>
       </div>
       <ol className="p-0.5 flex grow">
-        <li className="bg-red-200 text-sm">
-          <Button className="h-[26px] overflow-hidden" variant={"primary"}>
-            <label>Test-window</label>
-          </Button>
-        </li>
+        {entries.map((e) => (
+          <li className="bg-red-200 text-sm">
+            <Button className="h-[26px] overflow-hidden" variant={"primary"}>
+              <label>{e.name}</label>
+            </Button>
+          </li>
+        ))}
       </ol>
 
       <div className="shrink-0 p-0.5 shadow-[inset_-1.5px_-1.5px_0_0_#fcfcfc,_inset_1.5px_1.5px_0_0_#a099a1]">

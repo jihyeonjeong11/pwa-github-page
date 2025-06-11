@@ -7,25 +7,25 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { HTMLMotionProps, motion } from "motion/react";
 
-const Window = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "w-full h-full bg-primary-window-background text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]",
-      className
-    )}
-    {...props}
-  />
-));
+const Window = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
+  ({ className, ...props }, ref) => (
+    <motion.div
+      ref={ref}
+      className={cn(
+        "w-full h-full bg-primary-window-background text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]",
+        className
+      )}
+      {...props}
+    />
+  )
+);
 Window.displayName = "Window";
 
 const WindowHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  React.HTMLAttributes<HTMLElement>
 >(({ className, ...props }, ref) => (
   <header
     ref={ref}

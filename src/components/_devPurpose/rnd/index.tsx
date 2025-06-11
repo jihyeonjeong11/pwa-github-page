@@ -2,16 +2,41 @@ import { Window, WindowHeader } from "@/components/ui/Window";
 import { Button } from "../../ui/Button";
 import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
 import { Rnd, Props } from "react-rnd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
+import { AnimatePresence, motion, useAnimate } from "motion/react";
+import { useWindowTransition } from "@/components/WIndow.tsx/useWindowTransition";
 
 type WindowType = {
   minimized: boolean;
   maximized: boolean;
+  name: string;
+  id: string;
+
+  // name, id, icon?
 };
 
-type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
+export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
+
+const windowVariants = {
+  initial: {
+    backgroundColor: "none",
+    x: "calc(50vw - 50%)", // Center horizontally relative to viewport
+    y: "calc(50vh - 50%)", // Center vertically relative to viewport
+  },
+  open: {},
+  minimized: {},
+  maximized: {
+    backgroundColor: "green",
+    x: 0, // Move to left edge (0 offset from original left)
+    y: 0, // Move to top edge (0 offset from original top)
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const resizePoints = {
   right: true,
@@ -25,9 +50,11 @@ const resizePoints = {
 };
 
 function RndTester() {
-  const [entries, setEntries] = useState<RndDefaultProps[]>([]);
+  const [state, setState] = useState<
+    "open" | "minimized" | "maximized" | "restored"
+  >("open");
 
-  function generateWindow() {
+  const generateWindow = useCallback(() => {
     const x = (window.innerWidth - DEFAULT_WINDOW_SIZE.width) / 2;
     const y = (window.innerHeight - DEFAULT_WINDOW_SIZE.height) / 2;
 
@@ -38,86 +65,59 @@ function RndTester() {
       height: DEFAULT_WINDOW_SIZE.height,
       minimized: false,
       maximized: false,
+      name: "test-window",
+      id: `test-${1}`,
     };
-  }
+  }, []);
+
+  const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
+  const [scope, animate] = useAnimate();
+  // todo: motion props return
+  const windowTransition = useWindowTransition(entries[0]);
+
+  useEffect(() => {}, [entries]);
 
   useEffect(() => {
     setEntries(() => [generateWindow()]);
   }, []);
 
   function minimize() {
-    setEntries((prev) => {
-      return prev.map((p) => {
-        return {
-          ...p,
-          width: 0,
-          height: 0,
-          minimized: true,
-        };
-      });
-    });
+    setEntries([
+      {
+        ...entries[0],
+        minimized: !entries[0].minimized,
+      },
+    ]);
   }
 
   function maximize() {
-    setEntries((prev) => {
-      return prev.map((p) => {
-        if (p.maximized) {
-          return generateWindow();
-        } else {
-          return {
-            ...p,
-            x: 0,
-            y: 0,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            maximized: true,
-          };
-        }
-      });
-    });
-  }
-  function close() {
-    setEntries([]);
+    setEntries([
+      {
+        ...entries[0],
+        maximized: !entries[0].maximized,
+      },
+    ]);
   }
 
   return (
     <div id="app">
       <h1 className="pb-4">This is Rnd testing window.</h1>
+      {entries.map((e) => {
+        return (
+          // todo: add zIndex for multiple windows
 
-      {entries.map((e, i) => (
-        // todo: add zIndex for multiple windows
-        <Rnd
-          className={e.minimized ? "opacity-0" : ""}
-          id={"window-" + i}
-          position={{
-            x: e.x,
-            y: e.y,
-          }}
-          onDragStop={(e, d) => {
-            const updated = [...entries];
-            updated[i] = { ...updated[i], x: d.x, y: d.y };
-            setEntries(updated);
-          }}
-          onResizeStop={(e, dir, ref, delta, position) => {
-            const updated = [...entries];
-            updated[i] = {
-              ...updated[i],
-              width: ref.offsetWidth,
-              height: ref.offsetHeight,
-              ...position,
-            };
-            setEntries(updated);
-          }}
-          disableDragging={e.maximized}
-          size={{ width: e.width, height: e.height }}
-          minHeight={MIN_WINDOW_SIZE.height}
-          minWidth={MIN_WINDOW_SIZE.width}
-          enableResizing={resizePoints}
-        >
-          <Window>
+          <Window
+            key={"window"}
+            ref={scope}
+            {...windowTransition}
+            // animate={e.minimized ? "minimize" : ""}
+            // variants={{ minimize: { x: 500 } }}
+            className="w-64 h-64"
+          >
             <WindowHeader className="justify-between">
               <div className="grow min-w-0 overflow-hidden">
-                <p>This is showcase window with header buttons.</p>
+                {/* <p>This is showcase window with header buttons.</p> */}
+                {e.maximized ? "max" : "min"}
               </div>
               <nav className="flex gap-1 shrink-0">
                 <Button
@@ -135,7 +135,7 @@ function RndTester() {
                   <Maximize />
                 </Button>
                 <Button
-                  onClick={close}
+                  //onClick={close}
                   variant={"primary"}
                   className={"p-0 w-[22px] flex items-center justify-center"}
                 >
@@ -143,17 +143,10 @@ function RndTester() {
                 </Button>
               </nav>
             </WindowHeader>
-            <div className="flex h-full justify-center items-center">
-              {/* todo: ref size listener  */}
-              <textarea
-                placeholder="put any texteditor in here"
-                className="bg-white w-[calc(100%-30px)] h-[400px]"
-              />
-            </div>
           </Window>
-        </Rnd>
-      ))}
-      <Taskbar />
+        );
+      })}
+      <Taskbar entries={entries} />
     </div>
   );
 }
