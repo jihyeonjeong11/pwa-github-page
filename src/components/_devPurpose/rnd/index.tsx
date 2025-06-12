@@ -1,6 +1,6 @@
 import Window from '@/components/Window';
 import { Rnd, Props } from 'react-rnd';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
 import Taskbar from '@/components/taskbar';
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
@@ -27,7 +27,7 @@ const resizePoints = {
 };
 
 function RndTester() {
-  const generateWindow = useCallback(() => {
+  const generateWindow = () => {
     const x = (window.innerWidth - DEFAULT_WINDOW_SIZE.width) / 2;
     const y = (window.innerHeight - DEFAULT_WINDOW_SIZE.height) / 2;
 
@@ -41,9 +41,36 @@ function RndTester() {
       name: 'test-window',
       id: `test-${1}`,
     };
-  }, []);
+  };
 
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
+
+  function handleTaskbarAction(entry: RndDefaultProps) {
+    console.log(entry);
+    //todo: minimize라면 active.
+    //todo: 화면을 벗어났다면 크기 초기화.
+    if (entry.minimized) {
+      // minimized 해소 및 사이드 돌림.
+      setEntries(
+        entries.map((e) => {
+          if (e.id === entry.id) {
+            // todo: animationstate active 새로 만들기
+            //
+            return {
+              ...e,
+              minimized: false,
+            };
+          } else {
+            return e;
+          }
+        })
+      );
+    }
+
+    // todo: if(entry가 스크린을 벗어났다면)?
+    // 사이즈 원래 세팅대로 되돌림
+  }
+
   // todo: motion props return
   useEffect(() => {}, [entries]);
 
@@ -107,7 +134,7 @@ function RndTester() {
           </Rnd>
         );
       })}
-      <Taskbar entries={entries} />
+      <Taskbar entries={entries} handleTaskbarAction={handleTaskbarAction} />
     </div>
   );
 }
