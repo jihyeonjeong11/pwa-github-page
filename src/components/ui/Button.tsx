@@ -20,8 +20,10 @@ const buttonVariants = cva(
         warning:
           " bg-[#f5b759] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         danger:
-          " bg-[#FA5252] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
+          "bg-[#FA5252] text-white active:border-primary-button-border active:border-r-secondary-button-border active:border-b-secondary-button-border",
         disabled: "",
+        focused:
+          "bg-[#dadada] border-primary-button-border border-r-white border-b-white",
       },
       size: {
         small: "px-[1.6rem] py-[0.15rem] text-xs",

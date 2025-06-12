@@ -1,5 +1,5 @@
-import { type RndDefaultProps } from '../_devPurpose/rnd';
-import { Button } from '../ui/Button';
+import { type RndDefaultProps } from "../_devPurpose/rnd";
+import { Button } from "../ui/Button";
 
 export default function Taskbar({
   entries,
@@ -28,13 +28,12 @@ export default function Taskbar({
       </div>
       <ol className="p-0.5 flex grow">
         {entries.map((entry, i) => (
-          <li className="text-sm">
+          <li key={`${entry.name}_task_${i}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
-              key={`${entry.name}_task_${i}`}
               onClick={() => handleTaskbarAction(entry)}
               className="h-[26px] overflow-hidden"
-              variant={'primary'}
+              variant={entry.minimized ? "primary" : "focused"}
             >
               <label>{entry.name}</label>
             </Button>
