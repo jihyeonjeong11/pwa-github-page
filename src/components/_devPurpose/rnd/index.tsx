@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 import Window from "@/components/Window";
 import { Rnd, Props } from "react-rnd";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
-=======
-import Window from '@/components/Window';
-import { Rnd, Props } from 'react-rnd';
-import { useEffect, useState } from 'react';
-import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
-import Taskbar from '@/components/taskbar';
->>>>>>> 6c5eb3373516029801d21e6eda344580888b642d
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 type WindowType = {
   minimized: boolean;
@@ -22,25 +14,6 @@ type WindowType = {
 };
 
 export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
-
-const windowVariants = {
-  initial: {
-    backgroundColor: "none",
-    x: "calc(50vw - 50%)",
-    y: "calc(50vh - 50%)",
-  },
-  open: {},
-  minimized: {},
-  maximized: {
-    backgroundColor: "green",
-    x: 0,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-    },
-  },
-};
 
 const resizePoints = {
   right: true,
@@ -71,11 +44,6 @@ function RndTester() {
   };
 
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
-<<<<<<< HEAD
-  // todo: motion props return, seperate it for singleton multiple window instances
-  const windowTransition = useWindowTransition(entries);
-
-=======
 
   function handleTaskbarAction(entry: RndDefaultProps) {
     console.log(entry);
@@ -104,7 +72,6 @@ function RndTester() {
   }
 
   // todo: motion props return
->>>>>>> 6c5eb3373516029801d21e6eda344580888b642d
   useEffect(() => {}, [entries]);
 
   function minimize() {
