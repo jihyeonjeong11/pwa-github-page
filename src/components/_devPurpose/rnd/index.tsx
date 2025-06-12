@@ -1,22 +1,17 @@
-import {
-  Window,
-  WindowContent,
-  WindowFooter,
-  WindowHeader,
-} from "@/components/ui/Window";
-import { Button } from "../../ui/Button";
-import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
-import { Rnd, Props } from "react-rnd";
-import { useEffect, useState } from "react";
-import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
-import Taskbar from "@/components/taskbar";
+import { Window, WindowHeader } from '@/components/ui/Window';
+import { Button } from '../../ui/Button';
+import { Minimize, Maximize, Close } from '@/components/ui/NavigationIcons';
+import { Rnd, Props } from 'react-rnd';
+import { useEffect, useState } from 'react';
+import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
+import Taskbar from '@/components/taskbar';
 
 type WindowType = {
   minimized: boolean;
   maximized: boolean;
 };
 
-type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
+type RndDefaultProps = NonNullable<Props['default']> & WindowType;
 
 const resizePoints = {
   right: true,
@@ -71,10 +66,10 @@ function RndTester() {
         } else {
           return {
             ...p,
-            x: 0,
-            y: 0,
-            width: window.innerWidth,
-            height: window.innerHeight,
+            // x: 0,
+            // y: 0,
+            // width: window.innerWidth,
+            // height: window.innerHeight,
             maximized: true,
           };
         }
@@ -92,8 +87,8 @@ function RndTester() {
       {entries.map((e, i) => (
         // todo: add zIndex for multiple windows
         <Rnd
-          className={e.minimized ? "opacity-0" : ""}
-          id={"window-" + i}
+          className={e.minimized ? 'opacity-0' : ''}
+          id={'window-' + i}
           position={{
             x: e.x,
             y: e.y,
@@ -119,7 +114,7 @@ function RndTester() {
           minWidth={MIN_WINDOW_SIZE.width}
           enableResizing={resizePoints}
         >
-          <Window>
+          <Window className={e.maximized ? 'animate' : ''}>
             <WindowHeader className="justify-between">
               <div className="grow min-w-0 overflow-hidden">
                 <p>This is showcase window with header buttons.</p>
@@ -127,22 +122,22 @@ function RndTester() {
               <nav className="flex gap-1 shrink-0">
                 <Button
                   onClick={minimize}
-                  variant={"primary"}
-                  className={"p-0 w-[22px] flex items-center justify-center"}
+                  variant={'primary'}
+                  className={'p-0 w-[22px] flex items-center justify-center'}
                 >
                   <Minimize />
                 </Button>
                 <Button
                   onClick={maximize}
-                  variant={"primary"}
-                  className={"p-0 w-[22px] flex items-center justify-center"}
+                  variant={'primary'}
+                  className={'p-0 w-[22px] flex items-center justify-center'}
                 >
                   <Maximize />
                 </Button>
                 <Button
                   onClick={close}
-                  variant={"primary"}
-                  className={"p-0 w-[22px] flex items-center justify-center"}
+                  variant={'primary'}
+                  className={'p-0 w-[22px] flex items-center justify-center'}
                 >
                   <Close />
                 </Button>

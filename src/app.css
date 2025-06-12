@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* todo: tailwinds updates: use @theme over :root*/
 /* https://tailwindcss.com/docs/theme */
@@ -25,4 +25,14 @@
   background-color: var(--primary-background);
   /*temp: fixed height */
   height: 100vh;
+}
+
+.animate {
+  animation: move 3s ease;
+}
+
+@keyframes move {
+  50% {
+    transform: translate(10px, 100px);
+  }
 }
