@@ -1,9 +1,12 @@
 import Window from "@/components/Window";
 import { Rnd, Props } from "react-rnd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
+// todo: RND 부분 따로 빼기
+// titlebar 펑션 넣기 - 포커스, 더블클릭
+// 포커스 - 윈도우 하나 이상, z-index
 type WindowType = {
   minimized: boolean;
   maximized: boolean;
@@ -46,7 +49,6 @@ function RndTester() {
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
 
   function handleTaskbarAction(entry: RndDefaultProps) {
-    console.log(entry);
     //todo: minimize라면 active.
     //todo: 화면을 벗어났다면 크기 초기화.
     if (entry.minimized) {
@@ -70,9 +72,6 @@ function RndTester() {
     // todo: if(entry가 스크린을 벗어났다면)?
     // 사이즈 원래 세팅대로 되돌림
   }
-
-  // todo: motion props return
-  useEffect(() => {}, [entries]);
 
   function minimize() {
     setEntries([
