@@ -39,9 +39,8 @@ export function useWindowTransition(entry: RndDefaultProps) {
       // todo: innerWidth - 현재위치 = 0 계산
       setMinimize({
         ...baseMinimize,
-        x: 0 - entry.x,
+        x: -entry.x,
         y: window.innerHeight,
-        backgroundColor: 'red',
       });
     }
   }, [entry.minimized, entry.x]);
