@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import Window from "@/components/Window";
 import { Rnd, Props } from "react-rnd";
 import { useCallback, useEffect, useState } from "react";
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
+=======
+import Window from '@/components/Window';
+import { Rnd, Props } from 'react-rnd';
+import { useEffect, useState } from 'react';
+import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
+import Taskbar from '@/components/taskbar';
+>>>>>>> 6c5eb3373516029801d21e6eda344580888b642d
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 type WindowType = {
   minimized: boolean;
@@ -46,7 +54,7 @@ const resizePoints = {
 };
 
 function RndTester() {
-  const generateWindow = useCallback(() => {
+  const generateWindow = () => {
     const x = (window.innerWidth - DEFAULT_WINDOW_SIZE.width) / 2;
     const y = (window.innerHeight - DEFAULT_WINDOW_SIZE.height) / 2;
 
@@ -60,12 +68,43 @@ function RndTester() {
       name: "test-window",
       id: `test-${1}`,
     };
-  }, []);
+  };
 
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
+<<<<<<< HEAD
   // todo: motion props return, seperate it for singleton multiple window instances
   const windowTransition = useWindowTransition(entries);
 
+=======
+
+  function handleTaskbarAction(entry: RndDefaultProps) {
+    console.log(entry);
+    //todo: minimize라면 active.
+    //todo: 화면을 벗어났다면 크기 초기화.
+    if (entry.minimized) {
+      // minimized 해소 및 사이드 돌림.
+      setEntries(
+        entries.map((e) => {
+          if (e.id === entry.id) {
+            // todo: animationstate active 새로 만들기
+            //
+            return {
+              ...e,
+              minimized: false,
+            };
+          } else {
+            return e;
+          }
+        })
+      );
+    }
+
+    // todo: if(entry가 스크린을 벗어났다면)?
+    // 사이즈 원래 세팅대로 되돌림
+  }
+
+  // todo: motion props return
+>>>>>>> 6c5eb3373516029801d21e6eda344580888b642d
   useEffect(() => {}, [entries]);
 
   function minimize() {
@@ -129,7 +168,7 @@ function RndTester() {
           </Rnd>
         );
       })}
-      <Taskbar entries={entries} />
+      <Taskbar entries={entries} handleTaskbarAction={handleTaskbarAction} />
     </div>
   );
 }

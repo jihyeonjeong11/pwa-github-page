@@ -1,7 +1,13 @@
-import { type RndDefaultProps } from "../_devPurpose/rnd";
-import { Button } from "../ui/Button";
+import { type RndDefaultProps } from '../_devPurpose/rnd';
+import { Button } from '../ui/Button';
 
-export default function Taskbar({ entries }: { entries: RndDefaultProps[] }) {
+export default function Taskbar({
+  entries,
+  handleTaskbarAction,
+}: {
+  entries: RndDefaultProps[];
+  handleTaskbarAction: (entry: RndDefaultProps) => void;
+}) {
   return (
     <nav
       className={`fixed left-0 bottom-0 bg-primary-window-background w-[100vw] h-8 border-t-2 border-t-white flex justify-start gap-2`}
@@ -21,10 +27,16 @@ export default function Taskbar({ entries }: { entries: RndDefaultProps[] }) {
         </Button>
       </div>
       <ol className="p-0.5 flex grow">
-        {entries.map((e) => (
-          <li className="bg-red-200 text-sm">
-            <Button className="h-[26px] overflow-hidden" variant={"primary"}>
-              <label>{e.name}</label>
+        {entries.map((entry, i) => (
+          <li className="text-sm">
+            {/* todo: 아이콘 */}
+            <Button
+              key={`${entry.name}_task_${i}`}
+              onClick={() => handleTaskbarAction(entry)}
+              className="h-[26px] overflow-hidden"
+              variant={'primary'}
+            >
+              <label>{entry.name}</label>
             </Button>
           </li>
         ))}
