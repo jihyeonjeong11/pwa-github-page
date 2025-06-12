@@ -1,8 +1,8 @@
-import Window from '@/components/Window';
-import { Rnd, Props } from 'react-rnd';
-import { useCallback, useEffect, useState } from 'react';
-import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
-import Taskbar from '@/components/taskbar';
+import Window from "@/components/Window";
+import { Rnd, Props } from "react-rnd";
+import { useCallback, useEffect, useState } from "react";
+import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
+import Taskbar from "@/components/taskbar";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 type WindowType = {
   minimized: boolean;
@@ -13,7 +13,26 @@ type WindowType = {
   // name, id, icon?
 };
 
-export type RndDefaultProps = NonNullable<Props['default']> & WindowType;
+export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
+
+const windowVariants = {
+  initial: {
+    backgroundColor: "none",
+    x: "calc(50vw - 50%)",
+    y: "calc(50vh - 50%)",
+  },
+  open: {},
+  minimized: {},
+  maximized: {
+    backgroundColor: "green",
+    x: 0,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const resizePoints = {
   right: true,
@@ -38,13 +57,15 @@ function RndTester() {
       height: DEFAULT_WINDOW_SIZE.height,
       minimized: false,
       maximized: false,
-      name: 'test-window',
+      name: "test-window",
       id: `test-${1}`,
     };
   }, []);
 
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
-  // todo: motion props return
+  // todo: motion props return, seperate it for singleton multiple window instances
+  const windowTransition = useWindowTransition(entries);
+
   useEffect(() => {}, [entries]);
 
   function minimize() {
@@ -67,15 +88,16 @@ function RndTester() {
 
   return (
     <div id="app">
+      <h1 className="pb-4">This is Rnd testing window.</h1>
+      {/* todo: debugging panal */}
       {entries.map((e) => {
         return <div key="coords">{`x: ${e.x} y: ${e.y}`}</div>;
       })}
-      <h1 className="pb-4">This is Rnd testing window.</h1>
       {entries.map((e, i) => {
         return (
           // todo: add zIndex for multiple windows
           <Rnd
-            key={'window-' + i}
+            key={"window-" + i}
             position={{
               x: e.x,
               y: e.y,

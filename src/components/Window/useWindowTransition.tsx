@@ -34,6 +34,7 @@ export function useWindowTransition(entry: RndDefaultProps) {
     Object.create(null) as Variant
   );
 
+  // todo: minimize. Move window to bottom left, make opacity to 0(baseMinimize)
   useLayoutEffect(() => {
     if (entry.minimized) {
       // todo: innerWidth - 현재위치 = 0 계산
@@ -45,6 +46,7 @@ export function useWindowTransition(entry: RndDefaultProps) {
     }
   }, [entry.minimized, entry.x]);
 
+  // todo: figure out how enlarging works
   useLayoutEffect(() => {
     if (entry.maximized) {
       //todo: 최대화값 x, y = -원래위치 , window.innerWidth, window.innerHeight - TASKBAR_HEIGHT
