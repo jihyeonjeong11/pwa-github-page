@@ -1,13 +1,13 @@
 import {
-  Window,
+  WindowRoot,
   WindowContent,
   WindowFooter,
   WindowHeader,
-} from "@/components/ui/Window";
-import { Button } from "../../ui/Button";
-import { LoremIpsum } from "lorem-ipsum";
-import { useState } from "react";
-import { Close, Maximize, Minimize } from "../../ui/NavigationIcons";
+} from '@/components/ui/Window';
+import { Button } from '../../ui/Button';
+import { LoremIpsum } from 'lorem-ipsum';
+import { useState } from 'react';
+import { Close, Maximize, Minimize } from '../../ui/NavigationIcons';
 
 function Showcases() {
   const [string, setString] = useState(
@@ -40,7 +40,7 @@ function Showcases() {
 
       <div className="gap-4 flex flex-col">
         <h2>1. Base Window</h2>
-        <Window>
+        <WindowRoot>
           <WindowHeader>
             <span>This is showcase window.</span>
           </WindowHeader>
@@ -51,39 +51,39 @@ function Showcases() {
             <Button
               onClick={getRandomLorem}
               aria-label="get-random-strings"
-              variant={"primary"}
+              variant={'primary'}
             >
               Get random Strings
             </Button>
           </WindowFooter>
-        </Window>
+        </WindowRoot>
       </div>
       <div className="py-10 flex flex-col gap-4">
         <h2>3. Interactable window</h2>
-        <Window>
+        <WindowRoot>
           <WindowHeader className="justify-between">
             <span>This is showcase window with header buttons.</span>
             <nav className="flex gap-1 h-full">
               <Button
-                variant={"primary"}
+                variant={'primary'}
                 className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
+                  'p-0 w-[22px] h-full flex items-center justify-center'
                 }
               >
                 <Minimize />
               </Button>
               <Button
-                variant={"primary"}
+                variant={'primary'}
                 className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
+                  'p-0 w-[22px] h-full flex items-center justify-center'
                 }
               >
                 <Maximize />
               </Button>
               <Button
-                variant={"primary"}
+                variant={'primary'}
                 className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
+                  'p-0 w-[22px] h-full flex items-center justify-center'
                 }
               >
                 <Close />
@@ -95,38 +95,38 @@ function Showcases() {
           </WindowContent>
           <WindowFooter>
             <Button
-              variant={"primary"}
+              variant={'primary'}
               onClick={getRandomLorem}
               aria-label="get-random-strings"
             >
               <span>Get random Strings</span>
             </Button>
           </WindowFooter>
-        </Window>
+        </WindowRoot>
       </div>
       <div>
         <div className="gap-4 flex flex-col px-8 bg-primary-background py-10">
           <h2>2. Buttons</h2>
           <div className="flex flex-col md:flex-row gap-4">
-            <Button asChild variant={"primary"}>
+            <Button asChild variant={'primary'}>
               <span>Primary</span>
             </Button>
-            <Button variant={"secondary"}>
+            <Button variant={'secondary'}>
               <span>Secondary</span>
             </Button>
-            <Button variant={"tertiary"}>
+            <Button variant={'tertiary'}>
               <span>Tetiary</span>
             </Button>
-            <Button variant={"info"}>
+            <Button variant={'info'}>
               <span>Info</span>
             </Button>
-            <Button variant={"success"}>
+            <Button variant={'success'}>
               <span>Success</span>
             </Button>
-            <Button variant={"warning"}>
+            <Button variant={'warning'}>
               <span>Warning</span>
             </Button>
-            <Button variant={"danger"}>
+            <Button variant={'danger'}>
               <span>Danger</span>
             </Button>
           </div>

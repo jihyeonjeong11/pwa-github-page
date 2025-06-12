@@ -1,17 +1,9 @@
-import { Window, WindowHeader } from "@/components/ui/Window";
-import { Button } from "../../ui/Button";
-import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
-import { Rnd, Props } from "react-rnd";
-import { useCallback, useEffect, useState } from "react";
-import {
-  DEFAULT_WINDOW_SIZE,
-  MIN_WINDOW_SIZE,
-  TASKBAR_HEIGHT,
-} from "@/constants";
-import Taskbar from "@/components/taskbar";
-import { AnimatePresence, motion, useAnimate } from "motion/react";
-import { useWindowTransition } from "@/components/WIndow.tsx/useWindowTransition";
-
+import Window from '@/components/Window';
+import { Rnd, Props } from 'react-rnd';
+import { useCallback, useEffect, useState } from 'react';
+import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from '@/constants';
+import Taskbar from '@/components/taskbar';
+// todo: functions.ts? 페이지에 종속시키는게 나을지?
 type WindowType = {
   minimized: boolean;
   maximized: boolean;
@@ -21,26 +13,7 @@ type WindowType = {
   // name, id, icon?
 };
 
-export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
-
-const windowVariants = {
-  initial: {
-    backgroundColor: "none",
-    x: "calc(50vw - 50%)", // Center horizontally relative to viewport
-    y: "calc(50vh - 50%)", // Center vertically relative to viewport
-  },
-  open: {},
-  minimized: {},
-  maximized: {
-    backgroundColor: "green",
-    x: 0, // Move to left edge (0 offset from original left)
-    y: 0, // Move to top edge (0 offset from original top)
-    transition: {
-      duration: 0.5,
-      ease: "easeInOut",
-    },
-  },
-};
+export type RndDefaultProps = NonNullable<Props['default']> & WindowType;
 
 const resizePoints = {
   right: true,
@@ -65,16 +38,13 @@ function RndTester() {
       height: DEFAULT_WINDOW_SIZE.height,
       minimized: false,
       maximized: false,
-      name: "test-window",
+      name: 'test-window',
       id: `test-${1}`,
     };
   }, []);
 
   const [entries, setEntries] = useState<RndDefaultProps[]>([generateWindow()]);
-  const [scope, animate] = useAnimate();
   // todo: motion props return
-  const windowTransition = useWindowTransition(entries[0]);
-
   useEffect(() => {}, [entries]);
 
   function minimize() {
@@ -105,7 +75,7 @@ function RndTester() {
         return (
           // todo: add zIndex for multiple windows
           <Rnd
-            key={"window-" + i}
+            key={'window-' + i}
             position={{
               x: e.x,
               y: e.y,
@@ -133,37 +103,7 @@ function RndTester() {
             minWidth={MIN_WINDOW_SIZE.width}
             enableResizing={resizePoints}
           >
-            <Window {...windowTransition}>
-              <WindowHeader className="justify-between">
-                <div className="grow min-w-0 overflow-hidden">
-                  {/* <p>This is showcase window with header buttons.</p> */}
-                  {e.maximized ? "max" : "min"}
-                </div>
-                <nav className="flex gap-1 shrink-0">
-                  <Button
-                    onClick={minimize}
-                    variant={"primary"}
-                    className={"p-0 w-[22px] flex items-center justify-center"}
-                  >
-                    <Minimize />
-                  </Button>
-                  <Button
-                    onClick={maximize}
-                    variant={"primary"}
-                    className={"p-0 w-[22px] flex items-center justify-center"}
-                  >
-                    <Maximize />
-                  </Button>
-                  <Button
-                    //onClick={close}
-                    variant={"primary"}
-                    className={"p-0 w-[22px] flex items-center justify-center"}
-                  >
-                    <Close />
-                  </Button>
-                </nav>
-              </WindowHeader>
-            </Window>
+            <Window entry={e} minimize={minimize} maximize={maximize} />
           </Rnd>
         );
       })}

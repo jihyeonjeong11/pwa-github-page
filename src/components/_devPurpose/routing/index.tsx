@@ -1,18 +1,18 @@
 import {
-  Window,
   WindowContent,
   WindowFooter,
   WindowHeader,
-} from "@/components/ui/Window";
-import { Button } from "../../ui/Button";
-import { DEV_ROOT } from "@/constants";
+  WindowRoot,
+} from '@/components/ui/Window';
+import { Button } from '../../ui/Button';
+import { DEV_ROOT } from '@/constants';
 
 function Routing() {
   return (
     <div id="app">
       <h1 className="pb-4">This is DEV Remote Control.</h1>
       <div className="gap-4 flex flex-col">
-        <Window>
+        <WindowRoot>
           <WindowHeader>
             <span>UI Shocases - WIP</span>
           </WindowHeader>
@@ -20,14 +20,14 @@ function Routing() {
             <span>Explore Windows95 themed ui components</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"primary"}>
+            <Button asChild variant={'primary'}>
               <a aria-label="go-showcases" href={`${DEV_ROOT}/showcases`}>
                 Get me there
               </a>
             </Button>
           </WindowFooter>
-        </Window>
-        <Window>
+        </WindowRoot>
+        <WindowRoot>
           <WindowHeader>
             <span>RND Showcases</span>
           </WindowHeader>
@@ -35,7 +35,7 @@ function Routing() {
             <span>Explore RND feature, with a Windows95-styled window.</span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"primary"}>
+            <Button asChild variant={'primary'}>
               <a
                 aria-label="go-rnd"
                 aria-disabled="true"
@@ -45,8 +45,8 @@ function Routing() {
               </a>
             </Button>
           </WindowFooter>
-        </Window>
-        <Window>
+        </WindowRoot>
+        <WindowRoot>
           <WindowHeader>
             <span>Rich text editing Showcases</span>
           </WindowHeader>
@@ -56,13 +56,13 @@ function Routing() {
             </span>
           </WindowContent>
           <WindowFooter>
-            <Button asChild variant={"disabled"}>
+            <Button asChild variant={'disabled'}>
               <a aria-label="go-editing" aria-disabled="true">
                 Get me there
               </a>
             </Button>
           </WindowFooter>
-        </Window>
+        </WindowRoot>
       </div>
     </div>
   );

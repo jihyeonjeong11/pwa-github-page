@@ -1,6 +1,25 @@
-import { TASKBAR_HEIGHT } from "@/constants";
-import { Variant } from "motion/react";
-import { useLayoutEffect, useState } from "react";
+import { Variant } from 'motion/react';
+import { useLayoutEffect, useState } from 'react';
+import { RndDefaultProps } from '../_devPurpose/rnd';
+
+const windowVariants = {
+  initial: {
+    backgroundColor: 'none',
+    x: 'calc(50vw - 50%)', // Center horizontally relative to viewport
+    y: 'calc(50vh - 50%)', // Center vertically relative to viewport
+  },
+  open: {},
+  minimized: {},
+  maximized: {
+    backgroundColor: 'green',
+    x: 0, // Move to left edge (0 offset from original left)
+    y: 0, // Move to top edge (0 offset from original top)
+    transition: {
+      duration: 0.5,
+      ease: 'easeInOut',
+    },
+  },
+};
 
 const baseMaximize = {
   opacity: 1,
@@ -25,7 +44,7 @@ export const viewHeight = (): number => window.innerHeight;
 
 export const viewWidth = (): number => window.innerWidth;
 
-export function useWindowTransition(entries) {
+export function useWindowTransition(entry: RndDefaultProps) {
   // todo pass from rndTester
 
   // const { processes: { [id]: process } = {} } = useProcesses();
@@ -39,34 +58,30 @@ export function useWindowTransition(entries) {
   );
 
   useLayoutEffect(() => {
-    if (entries.minimized) {
+    if (entry.minimized) {
       setMinimize({
         ...baseMinimize,
         x: window.innerWidth,
         y: window.innerHeight,
-        backgroundColor: "red",
+        backgroundColor: 'red',
       });
     }
-  }, [entries.minimized]);
+  }, [entry.minimized]);
 
   useLayoutEffect(() => {
-    if (entries.maximized) {
+    if (entry.maximized) {
       setMaximize({
         ...baseMaximize,
         x: -30,
         y: -200,
 
-        backgroundColor: "blue",
+        backgroundColor: 'blue',
       });
     }
-  }, [entries.maximized]);
+  }, [entry.maximized]);
 
   return {
-    animate: entries.minimized
-      ? "minimize"
-      : entries.maximized
-      ? "maximize"
-      : "",
+    animate: entry.minimized ? 'minimize' : entry.maximized ? 'maximize' : '',
     transition: {
       duration: 10,
     },
