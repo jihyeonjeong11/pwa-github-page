@@ -7,6 +7,7 @@ import Taskbar from "@/components/taskbar";
 // todo: RND 부분 따로 빼기
 // titlebar 펑션 넣기 - 포커스, 더블클릭
 // 포커스 - 윈도우 하나 이상, z-index
+// RndWindow SOC 추가
 type WindowType = {
   minimized: boolean;
   maximized: boolean;

@@ -4,6 +4,9 @@ Windows 95환경을 PWA로 만들어보는 프로젝트.
 
 다운로드 링크: https://jihyeonjeong11.github.io/pwa-github-page/
 
+코드 구조:
+Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)
+
 현재: Proof of Concept
 
 2025/06/07 0608 0609 0610
