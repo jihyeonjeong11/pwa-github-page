@@ -1,14 +1,12 @@
 import Window from "@/components/Window";
-import { Rnd, Props } from "react-rnd";
+import { Props } from "react-rnd";
 import { useState } from "react";
-import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
+import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import RndWindow from "@/components/Window/RndWindow";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
-// todo: RND 부분 따로 빼기 SOC
 // titlebar 펑션 넣기 - 포커스, 더블클릭
-// 포커스 - 윈도우 하나 이상, z-index
 type WindowType = {
   minimized: boolean;
   maximized: boolean;
@@ -90,6 +88,16 @@ function RndTester() {
     );
   }
 
+  function focus(id = "") {
+    if (!id) return;
+    setEntries((p) =>
+      p.map((e) => ({
+        ...e,
+        focused: id === e.id ? true : false,
+      }))
+    );
+  }
+
   function close(id = "") {
     if (!id) return;
     setEntries((p) => handleSplice(p, id));
@@ -123,7 +131,12 @@ function RndTester() {
       {entries.map((e, i) => {
         return (
           // todo: add zIndex for multiple windows
-          <RndWindow key={"window-" + i} entry={e}>
+          <RndWindow
+            key={"window-" + i}
+            entry={e}
+            focus={focus}
+            setEntries={setEntries}
+          >
             <Window
               entry={e}
               minimize={minimize}

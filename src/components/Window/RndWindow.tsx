@@ -1,6 +1,7 @@
 import { Rnd } from "react-rnd";
 import { RndDefaultProps } from "../_devPurpose/rnd";
 import { useMemo } from "react";
+import { MIN_WINDOW_SIZE } from "@/constants";
 
 const RESIZING_DISABLED = {
   bottom: false,
@@ -27,9 +28,13 @@ const RESIZING_ENABLED = {
 function RndWindow({
   children,
   entry,
+  focus,
+  setEntries,
 }: {
   children: React.ReactElement;
   entry: RndDefaultProps;
+  focus: (id: string) => void;
+  setEntries: React.Dispatch<React.SetStateAction<RndDefaultProps[]>>;
 }) {
   const style = useMemo<React.CSSProperties>(
     () => ({
@@ -39,43 +44,50 @@ function RndWindow({
     [entry.minimized, entry.focused]
   );
 
-  return <Rnd style={style}>{children}</Rnd>;
+  return (
+    <Rnd
+      style={style}
+      position={{
+        x: entry.x,
+        y: entry.y,
+      }}
+      onDragStart={() => {
+        focus(entry.id);
+      }}
+      onDragStop={(_event, { x, y }) => {
+        // todo: cleanit
+        setEntries((p) =>
+          p.map((e) => ({
+            ...e,
+            x: e.id === entry.id ? x : e.x,
+            y: e.id === entry.id ? y : e.y,
+          }))
+        );
+      }}
+      onResizeStop={(e, dir, ref, delta, position) => {
+        setEntries((p) =>
+          p.map((e) => ({
+            ...e,
+            width: e.id === entry.id ? ref.offsetWidth : e.width,
+            height: e.id === entry.id ? ref.offsetHeight : e.height,
+            x: e.id === entry.id ? position.x : e.x,
+            y: e.id === entry.id ? position.y : e.y,
+          }))
+        );
+      }}
+      size={{ width: entry.width, height: entry.height }}
+      minHeight={MIN_WINDOW_SIZE.height}
+      minWidth={MIN_WINDOW_SIZE.width}
+      enableResizing={
+        entry.minimized || entry.maximized
+          ? RESIZING_DISABLED
+          : RESIZING_ENABLED
+      }
+      disableDragging={entry.maximized || entry.minimized}
+    >
+      {children}
+    </Rnd>
+  );
 }
 
 export default RndWindow;
-
-// <Rnd
-// style={{ zIndex: e.minimized ? -1 : e.focused ? 3 : 1 }}
-// key={"window-" + i}
-// position={{
-//   x: e.x,
-//   y: e.y,
-// }}
-// onDragStart={() => {
-//   // todo: focus
-// }}
-// onDragStop={(_event, { x, y }) => {
-//   // 위치 업데이트
-//   const updated = [...entries];
-//   updated[i] = { ...updated[i], x: x, y: y };
-//   setEntries(updated);
-// }}
-// onResizeStop={(e, dir, ref, delta, position) => {
-//   const updated = [...entries];
-//   updated[i] = {
-//     ...updated[i],
-//     width: ref.offsetWidth,
-//     height: ref.offsetHeight,
-//     ...position,
-//   };
-//   setEntries(updated);
-// }}
-// zIndex={e.minimized ? 1 : e.focused ? 3 : 2}
-// size={{ width: e.width, height: e.height }}
-// minHeight={MIN_WINDOW_SIZE.height}
-// minWidth={MIN_WINDOW_SIZE.width}
-// enableResizing={
-//   e.minimized || e.maximized ? RESIZING_DISABLED : RESIZING_ENABLED
-// }
-// disableDragging={e.maximized || e.minimized}
-// >
