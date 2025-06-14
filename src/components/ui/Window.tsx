@@ -4,24 +4,24 @@
 // close button
 // buttons
 
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/lib/utils';
-import { HTMLMotionProps, motion } from 'motion/react';
+import { cn } from "@/lib/utils";
+import { HTMLMotionProps, motion } from "motion/react";
 
-const WindowRoot = React.forwardRef<HTMLDivElement, HTMLMotionProps<'div'>>(
+const WindowRoot = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
   ({ className, ...props }, ref) => (
-    <motion.div
+    <motion.section
       ref={ref}
       className={cn(
-        'w-full h-full bg-primary-window-background text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]',
+        "w-full h-full bg-primary-window-background text-white border-t-white border-l-white border-r-[#393939] border-b-[#393939] border-[2px]",
         className
       )}
       {...props}
     />
   )
 );
-WindowRoot.displayName = 'WindowRoot';
+WindowRoot.displayName = "WindowRoot";
 
 const WindowHeader = React.forwardRef<
   HTMLDivElement,
@@ -30,13 +30,13 @@ const WindowHeader = React.forwardRef<
   <header
     ref={ref}
     className={cn(
-      'bg-primary-header-background h-window-header-height p-1  border-[2px] border-[#bdbdbd] text-base inline-flex w-full truncate',
+      "bg-primary-header-background h-window-header-height p-1  border-[2px] border-[#bdbdbd] text-base inline-flex w-full truncate",
       className
     )}
     {...props}
   />
 ));
-WindowHeader.displayName = 'WindowHeader';
+WindowHeader.displayName = "WindowHeader";
 
 const WindowContent = React.forwardRef<
   HTMLDivElement,
@@ -45,13 +45,13 @@ const WindowContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'py-[10px] px-[7px] text-black text-sm border-x-[3px] border-y-[2px] border-[#bdbdbd]',
+      "py-[10px] px-[7px] text-black text-sm border-x-[3px] border-y-[2px] border-[#bdbdbd]",
       className
     )}
     {...props}
   />
 ));
-WindowContent.displayName = 'WindowContent';
+WindowContent.displayName = "WindowContent";
 
 const WindowFooter = React.forwardRef<
   HTMLDivElement,
@@ -59,10 +59,10 @@ const WindowFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn('py-[10px] px-[7px] flex', className)}
+    className={cn("py-[10px] px-[7px] flex", className)}
     {...props}
   />
 ));
-WindowFooter.displayName = 'WindowFooter';
+WindowFooter.displayName = "WindowFooter";
 
 export { WindowRoot, WindowHeader, WindowContent, WindowFooter };

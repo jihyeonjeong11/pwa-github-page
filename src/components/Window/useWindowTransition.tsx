@@ -1,7 +1,7 @@
-import { Variant } from 'motion/react';
-import { useLayoutEffect, useState } from 'react';
-import { RndDefaultProps } from '../_devPurpose/rnd';
-import { TASKBAR_HEIGHT } from '@/constants';
+import { Variant } from "motion/react";
+import { useLayoutEffect, useState } from "react";
+import { RndDefaultProps } from "../_devPurpose/rnd";
+import { TASKBAR_HEIGHT } from "@/constants";
 
 const baseMaximize = {
   opacity: 1,
@@ -61,10 +61,10 @@ export function useWindowTransition(entry: RndDefaultProps) {
   }, [entry.maximized, entry.x, entry.y]);
 
   return {
-    animate: entry.minimized ? 'minimize' : entry.maximized ? 'maximize' : '',
+    animate: entry.minimized ? "minimize" : entry.maximized ? "maximize" : "",
     transition: {
       duration: 0.5,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
     variants: {
       initial: initial,

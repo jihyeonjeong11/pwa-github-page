@@ -25,4 +25,5 @@
   background-color: var(--color-primary-background);
   /*temp: fixed height */
   height: 100vh;
+  z-index: 2;
 }

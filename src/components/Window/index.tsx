@@ -1,46 +1,54 @@
-import { WindowRoot, WindowHeader } from '@/components/ui/Window';
-import { Button } from '@/components/ui/Button';
-import { Minimize, Maximize, Close } from '@/components/ui/NavigationIcons';
-import { RndDefaultProps } from '@/components/_devPurpose/rnd';
-import { useWindowTransition } from './useWindowTransition';
+import { WindowRoot, WindowHeader } from "@/components/ui/Window";
+import { Button } from "@/components/ui/Button";
+import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
+import { RndDefaultProps } from "@/components/_devPurpose/rnd";
+import { useWindowTransition } from "./useWindowTransition";
 
 function Window({
   entry,
   minimize,
   maximize,
+  close,
+  onClickFocusElement,
 }: {
   entry: RndDefaultProps;
-  minimize: () => void;
-  maximize: () => void;
+  minimize: (id: string) => void;
+  maximize: (id: string) => void;
+  close: (id: string) => void;
+  onClickFocusElement: (id: string) => void;
 }) {
   const windowTransition = useWindowTransition(entry);
+  const { focused, name, id } = entry;
 
   return (
-    <WindowRoot {...windowTransition}>
-      <WindowHeader className="justify-between">
-        <div className="grow min-w-0 overflow-hidden">
-          {/* <p>This is showcase window with header buttons.</p> */}
-          {entry.maximized ? 'max' : 'min'}
-        </div>
+    <WindowRoot onClick={() => onClickFocusElement(id)} {...windowTransition}>
+      <WindowHeader
+        className={
+          focused
+            ? "justify-between"
+            : "justify-between bg-primary-button-border"
+        }
+      >
+        <div className="grow min-w-0 overflow-hidden">{`${name}-${id}`}</div>
         <nav className="flex gap-1 shrink-0">
           <Button
-            onClick={minimize}
-            variant={'primary'}
-            className={'p-0 w-[22px] flex items-center justify-center'}
+            onClick={() => minimize(id)}
+            variant={"primary"}
+            className={"p-0 w-[22px] flex items-center justify-center"}
           >
             <Minimize />
           </Button>
           <Button
-            onClick={maximize}
-            variant={'primary'}
-            className={'p-0 w-[22px] flex items-center justify-center'}
+            onClick={() => maximize(id)}
+            variant={"primary"}
+            className={"p-0 w-[22px] flex items-center justify-center"}
           >
             <Maximize />
           </Button>
           <Button
-            //onClick={close}
-            variant={'primary'}
-            className={'p-0 w-[22px] flex items-center justify-center'}
+            onClick={() => close(id)}
+            variant={"primary"}
+            className={"p-0 w-[22px] flex items-center justify-center"}
           >
             <Close />
           </Button>
