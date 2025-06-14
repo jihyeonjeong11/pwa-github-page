@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE, MIN_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
+import RndWindow from "@/components/Window/RndWindow";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // todo: RND 부분 따로 빼기 SOC
 // titlebar 펑션 넣기 - 포커스, 더블클릭
@@ -17,29 +18,8 @@ type WindowType = {
   focused: boolean;
 };
 
+// todo: not Default anymore chagne name
 export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
-
-export const RESIZING_DISABLED = {
-  bottom: false,
-  bottomLeft: false,
-  bottomRight: false,
-  left: false,
-  right: false,
-  top: false,
-  topLeft: false,
-  topRight: false,
-};
-
-export const RESIZING_ENABLED = {
-  bottom: true,
-  bottomLeft: true,
-  bottomRight: true,
-  left: true,
-  right: true,
-  top: true,
-  topLeft: true,
-  topRight: true,
-};
 
 function handleRestUnfocus(entries: RndDefaultProps[]) {
   return entries.map((e) => ({ ...e, focused: false }));
@@ -143,41 +123,7 @@ function RndTester() {
       {entries.map((e, i) => {
         return (
           // todo: add zIndex for multiple windows
-          <Rnd
-            style={{ zIndex: e.minimized ? -1 : e.focused ? 3 : 1 }}
-            key={"window-" + i}
-            position={{
-              x: e.x,
-              y: e.y,
-            }}
-            onDragStart={() => {
-              // todo: focus
-            }}
-            onDragStop={(_event, { x, y }) => {
-              // 위치 업데이트
-              const updated = [...entries];
-              updated[i] = { ...updated[i], x: x, y: y };
-              setEntries(updated);
-            }}
-            onResizeStop={(e, dir, ref, delta, position) => {
-              const updated = [...entries];
-              updated[i] = {
-                ...updated[i],
-                width: ref.offsetWidth,
-                height: ref.offsetHeight,
-                ...position,
-              };
-              setEntries(updated);
-            }}
-            zIndex={e.minimized ? 1 : e.focused ? 3 : 2}
-            size={{ width: e.width, height: e.height }}
-            minHeight={MIN_WINDOW_SIZE.height}
-            minWidth={MIN_WINDOW_SIZE.width}
-            enableResizing={
-              e.minimized || e.maximized ? RESIZING_DISABLED : RESIZING_ENABLED
-            }
-            disableDragging={e.maximized || e.minimized}
-          >
+          <RndWindow key={"window-" + i} entry={e}>
             <Window
               entry={e}
               minimize={minimize}
@@ -185,7 +131,7 @@ function RndTester() {
               close={close}
               onClickFocusElement={onClickFocusElement}
             />
-          </Rnd>
+          </RndWindow>
         );
       })}
       <Taskbar entries={entries} handleTaskbarAction={handleTaskbarAction} />
