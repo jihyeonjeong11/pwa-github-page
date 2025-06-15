@@ -8,6 +8,10 @@
 
 ## Features
 
+### PWA
+
+- PWA powered by [Vite PWA](https://vite-pwa-org.netlify.app/)
+
 ### Windows Interactions - 작업 중
 
 ![rnd-test](/public/images/rnd-test.png)
