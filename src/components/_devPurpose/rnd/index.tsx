@@ -144,20 +144,22 @@ function RndTester() {
     <div id="app">
       <h1 className="pb-4">This is Rnd testing window.</h1>
       {/* todo: debugging panal */}
-      {entries.map((e) => {
-        return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
-      })}
-      <Button
-        onClick={() =>
-          setEntries((p) => [
-            ...handleRestUnfocus(p),
-            generateWindow(p.length + 1),
-          ])
-        }
-        className="my-4"
-      >
-        Add new window
-      </Button>
+      <>
+        {entries.map((e) => {
+          return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
+        })}
+        <Button
+          onClick={() =>
+            setEntries((p) => [
+              ...handleRestUnfocus(p),
+              generateWindow(p.length + 1),
+            ])
+          }
+          className="my-4"
+        >
+          Add new window
+        </Button>
+      </>
       {entries.map((e, i) => {
         return (
           <RndWindow

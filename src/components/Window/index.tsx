@@ -4,6 +4,8 @@ import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
 import { RndDefaultProps } from "@/components/_devPurpose/rnd";
 import { useWindowTransition } from "./useWindowTransition";
 
+// todo: Drag액션 WindowsHeader에 걸기.
+
 function Window({
   entry,
   minimize,

@@ -1,66 +1,17 @@
-## PWA-Windows-Clone
+# PWA-Windows
 
-Windows 95환경을 PWA로 만들어보는 프로젝트.
+## 윈도우 95 테마 PWA
 
-다운로드 링크: https://jihyeonjeong11.github.io/pwa-github-page/
+### Deployed / Download link : [깃헙 페이지](https://jihyeonjeong11.github.io/pwa-github-page/)
 
-코드 구조:
-Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)
+현재 개발 단계: Proof of Concept
 
-현재: Proof of Concept
+## Features
 
-2025/06/07
+### Windows Interactions - 작업 중
 
-- PoC
+[rnd-test](/public/images/rnd-test.png)
 
-  - Windows 95 themed interactive PWA
-  - Window handling
-    - RND
-    - Task management - determine data management procedure.
-  - Some functionalities...
-
-- Todos:
-
-  - Define user stories, Using Playwright would be good idea.
-  - SEO
-  - IndexedDB handler or not.
-  - Design System + Library
-  - Windows powershell icon generation error - consider using wls || docker
-  - Find Windows Header icons - minimize, maximize, close
-  - Window size calculation - disable responsiveness
-  - favicon? -> check all environments
-
-- done:
-
-  - Get Taskbar Design & color
-  - Remote control & shocase for dev mode: Can I not use router library?
-
-- Settled(mostly regarding free resources):
-
-  - ico set https://archive.org/details/windows-95-all-icons
-  - Theme ui
-    https://themesberg.com/product/ui-kit/windows-95-ui-kit
-
-- Just record everything I pirated...
-
-https://github.com/askides/clean-architecture-react
-https://github.com/DustinBrett/daedalOS
-
-- fixing vite path variable along with tsconfig.json
-  https://stackoverflow.com/questions/77249074/how-do-i-use-typescript-path-aliases-in-vite
-
-- sementic color convention
-  https://designsystem.line.me/LDSM/foundation/color/line-semantic-colors-ex-en
-
-- Windows95 codepen theme
-
-https://codepen.io/gabriellewee/pen/MWqRZzp
-
-- pseudo double border
-  https://blog.logrocket.com/how-to-create-double-border-css/
-
-- web windows95 emulator
-  https://copy.sh/v86/?profile=windows95
-
-- electron windows95
-  https://github.com/felixrieseberg/windows95?tab=readme-ov-file
+- 리사이즈, 드래그 powered by [React rnd](https://github.com/bokuweb/react-rnd)
+- 창 최소화, 최대화, 닫기
+- 윈도우 애니메이션 powered by [Motion](https://motion.dev/)
