@@ -1,10 +1,11 @@
 import Window from "@/components/Window";
-import { Props } from "react-rnd";
+import { DraggableData, Position, Props, ResizableDelta } from "react-rnd";
 import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import RndWindow from "@/components/Window/RndWindow";
+import { DraggableEvent } from "react-draggable";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
 type WindowType = {
@@ -15,6 +16,16 @@ type WindowType = {
   // todo: temp solution
   focused: boolean;
 };
+
+export type ResizeDirection =
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "topRight"
+  | "bottomRight"
+  | "bottomLeft"
+  | "topLeft";
 
 // todo: not Default anymore chagne name
 export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
@@ -49,21 +60,14 @@ function RndTester() {
     generateWindow(1),
   ]);
 
-  function handleTaskbarAction(entry: RndDefaultProps) {
-    if (entry.minimized) {
-      setEntries((p) =>
-        p.map((e) => {
-          if (e.id === entry.id) {
-            return {
-              ...e,
-              minimized: false,
-            };
-          } else {
-            return e;
-          }
-        })
-      );
-    }
+  function restoreFromMinimize(id: string) {
+    setEntries((p) =>
+      p.map((e) => ({
+        ...e,
+        focused: id === e.id ? true : false,
+        minimized: id === e.id ? !e.minimized : e.minimized,
+      }))
+    );
   }
 
   function minimize(id = "") {
@@ -103,19 +107,45 @@ function RndTester() {
     setEntries((p) => handleSplice(p, id));
   }
 
-  function onClickFocusElement(id = "") {
-    if (!id) return;
-    setEntries((p) =>
-      p.map((e) => ({ ...e, focused: id === e.id ? true : false }))
-    );
+  // todo:strutural: useRnd hook
+  function onDragStop(_event: DraggableEvent, data: Partial<DraggableData>) {
+    return function (id: string) {
+      setEntries((p) =>
+        p.map((e) => ({
+          ...e,
+          x: e.id === id && data.x ? data.x : e.x,
+          y: e.id === id && data.y ? data.y : e.y,
+        }))
+      );
+    };
   }
+
+  const onResizeStop =
+    (
+      _e: MouseEvent | TouchEvent,
+      _dir: ResizeDirection,
+      _ref: HTMLElement,
+      _delta: ResizableDelta,
+      _position: Position
+    ) =>
+    (id: string) => {
+      setEntries((p) =>
+        p.map((e) => ({
+          ...e,
+          width: e.id === id ? _ref.offsetWidth : e.width,
+          height: e.id === id ? _ref.offsetHeight : e.height,
+          x: e.id === id ? _position.x : e.x,
+          y: e.id === id ? _position.y : e.y,
+        }))
+      );
+    };
 
   return (
     <div id="app">
       <h1 className="pb-4">This is Rnd testing window.</h1>
       {/* todo: debugging panal */}
       {entries.map((e) => {
-        return <div key="coords">{`x: ${e.x} y: ${e.y}`}</div>;
+        return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
       })}
       <Button
         onClick={() =>
@@ -130,24 +160,29 @@ function RndTester() {
       </Button>
       {entries.map((e, i) => {
         return (
-          // todo: add zIndex for multiple windows
           <RndWindow
             key={"window-" + i}
             entry={e}
             focus={focus}
-            setEntries={setEntries}
+            onDragStop={onDragStop}
+            onResizeStop={onResizeStop}
           >
             <Window
               entry={e}
               minimize={minimize}
               maximize={maximize}
               close={close}
-              onClickFocusElement={onClickFocusElement}
+              onClickFocusElement={focus}
             />
           </RndWindow>
         );
       })}
-      <Taskbar entries={entries} handleTaskbarAction={handleTaskbarAction} />
+      <Taskbar
+        entries={entries}
+        restoreFromMinimize={restoreFromMinimize}
+        focus={focus}
+        maximize={maximize}
+      />
     </div>
   );
 }

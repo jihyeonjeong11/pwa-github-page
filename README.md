@@ -9,7 +9,7 @@ Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation
 
 현재: Proof of Concept
 
-2025/06/07 0608 0609 0610
+2025/06/07
 
 - PoC
 
@@ -23,14 +23,17 @@ Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation
 
   - Define user stories, Using Playwright would be good idea.
   - SEO
-  - IndexedDB handler
+  - IndexedDB handler or not.
   - Design System + Library
-  - Remote control & shocase for dev mode: Can I not use router library?
   - Windows powershell icon generation error - consider using wls || docker
   - Find Windows Header icons - minimize, maximize, close
   - Window size calculation - disable responsiveness
   - favicon? -> check all environments
+
+- done:
+
   - Get Taskbar Design & color
+  - Remote control & shocase for dev mode: Can I not use router library?
 
 - Settled(mostly regarding free resources):
 

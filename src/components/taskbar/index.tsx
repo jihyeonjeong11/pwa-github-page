@@ -4,10 +4,14 @@ import { Button } from "../ui/Button";
 // currently for testing
 export default function Taskbar({
   entries,
-  handleTaskbarAction,
+  restoreFromMinimize,
+  focus,
+  maximize,
 }: {
   entries: RndDefaultProps[];
-  handleTaskbarAction: (entry: RndDefaultProps) => void;
+  restoreFromMinimize: (id: string) => void;
+  focus: (id: string) => void;
+  maximize: (id: string) => void;
 }) {
   return (
     <nav
@@ -19,7 +23,7 @@ export default function Taskbar({
             <div>
               <img
                 alt="logo"
-                src="/images/start.png"
+                src="public/images/start.png"
                 className="w-[20px] h-[20px] object-contain"
               />
             </div>
@@ -32,7 +36,12 @@ export default function Taskbar({
           <li key={`${entry.name}_task_${i}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
-              onClick={() => handleTaskbarAction(entry)}
+              onDoubleClick={() => maximize(entry.id)}
+              onClick={() =>
+                entry.minimized
+                  ? restoreFromMinimize(entry.id)
+                  : focus(entry.id)
+              }
               className="h-[26px] overflow-hidden"
               variant={entry.focused ? "focused" : "primary"}
             >
@@ -40,7 +49,7 @@ export default function Taskbar({
                 <div>
                   <img
                     alt="disk"
-                    src="/images/drive1.ico"
+                    src="public/images/drive1.ico"
                     className="w-[20px] h-[20px] object-contain"
                   />
                 </div>

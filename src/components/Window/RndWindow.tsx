@@ -1,5 +1,6 @@
-import { Rnd } from "react-rnd";
-import { RndDefaultProps } from "../_devPurpose/rnd";
+import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
+import { DraggableEvent } from "react-draggable";
+import { ResizeDirection, RndDefaultProps } from "../_devPurpose/rnd";
 import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
 
@@ -29,12 +30,23 @@ function RndWindow({
   children,
   entry,
   focus,
-  setEntries,
+  onDragStop,
+  onResizeStop,
 }: {
   children: React.ReactElement;
   entry: RndDefaultProps;
   focus: (id: string) => void;
-  setEntries: React.Dispatch<React.SetStateAction<RndDefaultProps[]>>;
+  onDragStop: (
+    _event: DraggableEvent,
+    data: Partial<DraggableData>
+  ) => (id: string) => void;
+  onResizeStop: (
+    e: MouseEvent | TouchEvent,
+    dir: ResizeDirection,
+    elementRef: HTMLElement,
+    delta: ResizableDelta,
+    position: Position
+  ) => (id: string) => void;
 }) {
   const style = useMemo<React.CSSProperties>(
     () => ({
@@ -54,27 +66,10 @@ function RndWindow({
       onDragStart={() => {
         focus(entry.id);
       }}
-      onDragStop={(_event, { x, y }) => {
-        // todo: cleanit
-        setEntries((p) =>
-          p.map((e) => ({
-            ...e,
-            x: e.id === entry.id ? x : e.x,
-            y: e.id === entry.id ? y : e.y,
-          }))
-        );
-      }}
-      onResizeStop={(e, dir, ref, delta, position) => {
-        setEntries((p) =>
-          p.map((e) => ({
-            ...e,
-            width: e.id === entry.id ? ref.offsetWidth : e.width,
-            height: e.id === entry.id ? ref.offsetHeight : e.height,
-            x: e.id === entry.id ? position.x : e.x,
-            y: e.id === entry.id ? position.y : e.y,
-          }))
-        );
-      }}
+      onDragStop={(_event, { x, y }) => onDragStop(_event, { x, y })(entry.id)}
+      onResizeStop={(e, dir, ref, delta, position) =>
+        onResizeStop(e, dir, ref, delta, position)(entry.id)
+      }
       size={{ width: entry.width, height: entry.height }}
       minHeight={MIN_WINDOW_SIZE.height}
       minWidth={MIN_WINDOW_SIZE.width}

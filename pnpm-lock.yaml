@@ -54,6 +54,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      react-draggable:
+        specifier: ^4.4.6
+        version: 4.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-rnd:
         specifier: ^10.5.2
         version: 10.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
