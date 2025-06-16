@@ -23,6 +23,7 @@ function Window({
   const { focused, name, id } = entry;
 
   return (
+    // @ts-expect-error: todo: 오늘 고칠거야
     <WindowRoot onClick={() => onClickFocusElement(id)} {...windowTransition}>
       <WindowHeader
         className={

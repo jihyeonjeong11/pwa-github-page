@@ -23,7 +23,7 @@ export default function Taskbar({
             <div>
               <img
                 alt="logo"
-                src="public/images/start.png"
+                src="images/start.png"
                 className="w-[20px] h-[20px] object-contain"
               />
             </div>
@@ -49,7 +49,7 @@ export default function Taskbar({
                 <div>
                   <img
                     alt="disk"
-                    src="public/images/drive1.ico"
+                    src="images/drive1.ico"
                     className="w-[20px] h-[20px] object-contain"
                   />
                 </div>

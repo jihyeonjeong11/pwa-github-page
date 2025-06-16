@@ -19,3 +19,7 @@
 - 리사이즈, 드래그 powered by [React rnd](https://github.com/bokuweb/react-rnd)
 - 창 최소화, 최대화, 닫기
 - 윈도우 애니메이션 powered by [Motion](https://motion.dev/)
+
+## License
+
+교육적인 목적으로 제작되었습니다. 상업적인 목적으로 사용할 수 없고 마이크로소프트로부터 공식 인증을 받지 않았습니다.

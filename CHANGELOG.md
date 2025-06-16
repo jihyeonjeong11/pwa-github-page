@@ -10,6 +10,10 @@
 
 - Todos:
 
+  - icons - check docs
+  - mobile - windows size limited by innerwidth\
+  - mobile onClick - use touchstart
+
   - Define user stories, Using Playwright would be good idea.
   - SEO
   - IndexedDB handler or not.

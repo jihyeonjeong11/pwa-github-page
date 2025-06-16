@@ -9,7 +9,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { HTMLMotionProps, motion } from "motion/react";
 
-const WindowRoot = React.forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
+const WindowRoot = React.forwardRef<HTMLDivElement, HTMLMotionProps<"section">>(
   ({ className, ...props }, ref) => (
     <motion.section
       ref={ref}

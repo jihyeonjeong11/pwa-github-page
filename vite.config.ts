@@ -24,10 +24,28 @@ export default defineConfig({
       },
 
       manifest: {
-        name: "pwa-side",
-        short_name: "pwa-side",
-        description: "pwa-side",
+        publicPath: "/",
+        name: "Pwa-windows",
+        short_name: "Pwa-windows",
+        description: "Pwa-windows emulating experiecne.",
         theme_color: "#ffffff",
+        icons: [
+          {
+            src: "logo-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
+          },
+          {
+            src: "logo-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "logo-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
       },
 
       workbox: {
