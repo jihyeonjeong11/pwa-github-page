@@ -2,6 +2,7 @@ import { Variant } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 import { RndDefaultProps } from "../_devPurpose/rnd";
 import { TASKBAR_HEIGHT } from "@/constants";
+import { Easing } from "motion/react";
 
 const baseMaximize = {
   opacity: 1,
@@ -64,7 +65,7 @@ export function useWindowTransition(entry: RndDefaultProps) {
     animate: entry.minimized ? "minimize" : entry.maximized ? "maximize" : "",
     transition: {
       duration: 0.5,
-      ease: "easeInOut",
+      ease: "easeInOut" as Easing,
     },
     variants: {
       initial: initial,
