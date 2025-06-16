@@ -88,7 +88,7 @@ function RndTester() {
     setEntries((p) =>
       p.map((e) => ({
         ...e,
-        focused: id === e.id ? false : e.focused,
+        focused: false,
         minimized: id === e.id ? !e.minimized : e.minimized,
       }))
     );
