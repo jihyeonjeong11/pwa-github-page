@@ -40,17 +40,9 @@ function Window({
         }
       >
         <div className="grow min-w-0 overflow-hidden">{`${name}-${id}`}</div>
-        <nav
-          className="flex gap-1 shrink-0"
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}
-        >
+        <nav className="flex gap-1 shrink-0 cancel">
           <Button
             onClick={() => {
-              minimize(id);
-            }}
-            onTouchStart={() => {
               minimize(id);
             }}
             variant={"primary"}
@@ -62,7 +54,6 @@ function Window({
             onClick={() => {
               maximize(id);
             }}
-            onTouchStart={() => maximize(id)}
             variant={"primary"}
             className={"p-0 w-[22px] flex items-center justify-center"}
           >
@@ -72,7 +63,6 @@ function Window({
             onClick={() => {
               close(id);
             }}
-            onTouchStart={() => close(id)}
             variant={"primary"}
             className={"p-0 w-[22px] flex items-center justify-center"}
           >

@@ -60,6 +60,7 @@ function RndWindow({
 
   return (
     <Rnd
+      cancel=".cancel"
       dragHandleClassName="drag-handle"
       style={style}
       position={{

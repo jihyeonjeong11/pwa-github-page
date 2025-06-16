@@ -10,10 +10,6 @@
 
 - Todos:
 
-  - icons - check docs
-  - mobile - windows size limited by innerwidth\
-  - mobile onClick - use touchstart
-
   - Define user stories, Using Playwright would be good idea.
   - SEO
   - IndexedDB handler or not.
@@ -24,6 +20,10 @@
   - favicon? -> check all environments
 
 - done:
+
+  - icons - check docs
+  - mobile - windows size limited by innerwidth\
+  - mobile onClick - use touchstart
 
   - Get Taskbar Design & color
   - Remote control & shocase for dev mode: Can I not use router library?
