@@ -3,11 +3,11 @@ import {
   WindowContent,
   WindowFooter,
   WindowHeader,
-} from '@/components/ui/Window';
-import { Button } from '../../ui/Button';
-import { LoremIpsum } from 'lorem-ipsum';
-import { useState } from 'react';
-import { Close, Maximize, Minimize } from '../../ui/NavigationIcons';
+} from "@/components/ui/Window";
+import { Button } from "../../ui/Button";
+import { LoremIpsum } from "lorem-ipsum";
+import { useState } from "react";
+import { Close, Maximize, Minimize } from "../../ui/NavigationIcons";
 
 function Showcases() {
   const [string, setString] = useState(
@@ -29,7 +29,7 @@ function Showcases() {
     <div id="app" className="gap-8 flex flex-col p-4 overflow-y-scroll">
       <h1 className="pb-4">This is Showcase tester.</h1>
       <Button
-        onClick={() => {
+        onMouseDown={() => {
           history.back();
         }}
         aria-label="go-back"
@@ -51,7 +51,7 @@ function Showcases() {
             <Button
               onClick={getRandomLorem}
               aria-label="get-random-strings"
-              variant={'primary'}
+              variant={"primary"}
             >
               Get random Strings
             </Button>
@@ -65,25 +65,25 @@ function Showcases() {
             <span>This is showcase window with header buttons.</span>
             <nav className="flex gap-1 h-full">
               <Button
-                variant={'primary'}
+                variant={"primary"}
                 className={
-                  'p-0 w-[22px] h-full flex items-center justify-center'
+                  "p-0 w-[22px] h-full flex items-center justify-center"
                 }
               >
                 <Minimize />
               </Button>
               <Button
-                variant={'primary'}
+                variant={"primary"}
                 className={
-                  'p-0 w-[22px] h-full flex items-center justify-center'
+                  "p-0 w-[22px] h-full flex items-center justify-center"
                 }
               >
                 <Maximize />
               </Button>
               <Button
-                variant={'primary'}
+                variant={"primary"}
                 className={
-                  'p-0 w-[22px] h-full flex items-center justify-center'
+                  "p-0 w-[22px] h-full flex items-center justify-center"
                 }
               >
                 <Close />
@@ -95,8 +95,8 @@ function Showcases() {
           </WindowContent>
           <WindowFooter>
             <Button
-              variant={'primary'}
-              onClick={getRandomLorem}
+              variant={"primary"}
+              onMouseDown={getRandomLorem}
               aria-label="get-random-strings"
             >
               <span>Get random Strings</span>
@@ -108,25 +108,25 @@ function Showcases() {
         <div className="gap-4 flex flex-col px-8 bg-primary-background py-10">
           <h2>2. Buttons</h2>
           <div className="flex flex-col md:flex-row gap-4">
-            <Button asChild variant={'primary'}>
+            <Button asChild variant={"primary"}>
               <span>Primary</span>
             </Button>
-            <Button variant={'secondary'}>
+            <Button variant={"secondary"}>
               <span>Secondary</span>
             </Button>
-            <Button variant={'tertiary'}>
+            <Button variant={"tertiary"}>
               <span>Tetiary</span>
             </Button>
-            <Button variant={'info'}>
+            <Button variant={"info"}>
               <span>Info</span>
             </Button>
-            <Button variant={'success'}>
+            <Button variant={"success"}>
               <span>Success</span>
             </Button>
-            <Button variant={'warning'}>
+            <Button variant={"warning"}>
               <span>Warning</span>
             </Button>
-            <Button variant={'danger'}>
+            <Button variant={"danger"}>
               <span>Danger</span>
             </Button>
           </div>

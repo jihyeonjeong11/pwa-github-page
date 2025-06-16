@@ -38,15 +38,28 @@ function handleSplice(entries: RndDefaultProps[], id: string) {
   return entries.filter((e) => e.id !== id);
 }
 
+function determineDefaultWindowSize() {
+  // todo: Write isMobile hook
+  if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
+    return {
+      width: window.innerWidth,
+      height: window.innerWidth - 100,
+    };
+  }
+  return DEFAULT_WINDOW_SIZE;
+}
+
 const generateWindow = (length = 1) => {
-  const x = (window.innerWidth - DEFAULT_WINDOW_SIZE.width) / 2;
-  const y = (window.innerHeight - DEFAULT_WINDOW_SIZE.height) / 2;
+  const { width, height } = determineDefaultWindowSize();
+
+  const x = (window.innerWidth - width) / 2;
+  const y = (window.innerHeight - height) / 2;
 
   return {
     x,
     y,
-    width: DEFAULT_WINDOW_SIZE.width,
-    height: DEFAULT_WINDOW_SIZE.height,
+    width: width,
+    height: height,
     minimized: false,
     maximized: false,
     name: "test-window",
@@ -149,7 +162,7 @@ function RndTester() {
           return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
         })}
         <Button
-          onClick={() =>
+          onMouseDown={() =>
             setEntries((p) => [
               ...handleRestUnfocus(p),
               generateWindow(p.length + 1),

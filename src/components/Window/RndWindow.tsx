@@ -4,6 +4,8 @@ import { ResizeDirection, RndDefaultProps } from "../_devPurpose/rnd";
 import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
 
+// todo: write hook useRndProps for handling more stubs
+
 const RESIZING_DISABLED = {
   bottom: false,
   bottomLeft: false,
@@ -58,6 +60,7 @@ function RndWindow({
 
   return (
     <Rnd
+      dragHandleClassName="drag-handle"
       style={style}
       position={{
         x: entry.x,
