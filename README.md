@@ -14,7 +14,7 @@
 
 ### Windows Interactions - 작업 중
 
-![rnd-test](/public/images/rnd-test.png)
+![rnd-test](/public/images/rnd-test.webp)
 
 - 리사이즈, 드래그 powered by [React rnd](https://github.com/bokuweb/react-rnd)
 - 창 최소화, 최대화, 닫기

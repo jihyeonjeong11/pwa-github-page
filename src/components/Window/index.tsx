@@ -15,12 +15,14 @@ function Window({
   maximize,
   close,
   onClickFocusElement,
+  children,
 }: {
   entry: RndDefaultProps;
   minimize: (id: string) => void;
   maximize: (id: string) => void;
   close: (id: string) => void;
   onClickFocusElement: (id: string) => void;
+  children: React.ReactElement;
 }) {
   const windowTransition = useWindowTransition(entry);
   const { focused, name, id } = entry;
@@ -72,6 +74,7 @@ function Window({
           </Button>
         </nav>
       </WindowHeader>
+      {children}
     </WindowRoot>
   );
 }

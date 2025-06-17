@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "pwa-github-page",
+  base: "/pwa-github-page",
   plugins: [
     tailwindcss(),
     react(),

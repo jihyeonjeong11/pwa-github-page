@@ -100,7 +100,7 @@ function RndTester() {
       p.map((e) => ({
         ...e,
         focused: id === e.id ? true : false,
-        maximized: id === e.id ? !e.maximized : e.maximized,
+        maximized: id === e.id ? !e.maximized : false,
       }))
     );
   }
@@ -159,6 +159,7 @@ function RndTester() {
       {/* todo: debugging panal */}
       <>
         {entries.map((e) => {
+          console.log(e.id);
           return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
         })}
         <Button
@@ -188,7 +189,14 @@ function RndTester() {
               maximize={maximize}
               close={close}
               onClickFocusElement={focus}
-            />
+            >
+              <div className="w-full h-[calc(100%-36px)] text-black bg-white">
+                <textarea
+                  onClick={() => focus(e.id)}
+                  className="w-full h-full p-2"
+                />
+              </div>
+            </Window>
           </RndWindow>
         );
       })}
