@@ -1,7 +1,6 @@
 import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
 import { DraggableEvent } from "react-draggable";
 import { ResizeDirection, RndDefaultProps } from "../_devPurpose/rnd";
-import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
 
 // todo: write hook useRndProps for handling more stubs
@@ -50,19 +49,11 @@ function RndWindow({
     position: Position
   ) => (id: string) => void;
 }) {
-  const style = useMemo<React.CSSProperties>(
-    () => ({
-      pointerEvents: entry.minimized ? "none" : undefined,
-      zIndex: entry.minimized ? -1 : entry.focused ? 3 : 1,
-    }),
-    [entry.minimized, entry.focused]
-  );
-
   return (
     <Rnd
       cancel=".cancel"
       dragHandleClassName="drag-handle"
-      style={style}
+      //style={style}
       position={{
         x: entry.x,
         y: entry.y,

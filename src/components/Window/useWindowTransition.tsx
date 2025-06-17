@@ -12,6 +12,7 @@ const baseMaximize = {
 const baseMinimize = {
   opacity: 0,
   scale: 0.7,
+  zIndex: 1,
 };
 
 const exit = {
