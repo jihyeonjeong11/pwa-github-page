@@ -6,6 +6,7 @@ import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import RndWindow from "@/components/Window/RndWindow";
 import { DraggableEvent } from "react-draggable";
+import Editor from "@/components/programs/editor";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
 type WindowType = {
@@ -190,12 +191,7 @@ function RndTester() {
               close={close}
               onClickFocusElement={focus}
             >
-              <div className="w-full h-[calc(100%-36px)] text-black bg-white">
-                <textarea
-                  onClick={() => focus(e.id)}
-                  className="w-full h-full p-2"
-                />
-              </div>
+              <Editor e={e} focus={focus} />
             </Window>
           </RndWindow>
         );
