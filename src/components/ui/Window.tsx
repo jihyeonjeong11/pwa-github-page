@@ -28,9 +28,10 @@ const WindowHeader = React.forwardRef<
   React.HTMLAttributes<HTMLElement>
 >(({ className, ...props }, ref) => (
   <header
+    style={{ height: 30 }}
     ref={ref}
     className={cn(
-      "bg-primary-header-background h-window-header-height p-1  border-[2px] border-[#bdbdbd] text-base inline-flex w-full truncate",
+      "w-full bg-primary-header-background border-[2px] border-[#bdbdbd] text-base truncate",
       className
     )}
     {...props}

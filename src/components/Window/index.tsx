@@ -41,38 +41,40 @@ function Window({
             : "justify-between bg-primary-button-border drag-handle"
         }
       >
-        <button className="w-full">
-          <div className="grow min-w-0 overflow-hidden">{`${name}-${id}`}</div>
-        </button>
-        <nav className="flex gap-1 shrink-0 cancel">
-          <Button
-            onClick={() => {
-              minimize(id);
-            }}
-            variant={"primary"}
-            className={"p-0 w-[22px] flex items-center justify-center"}
-          >
-            <Minimize />
-          </Button>
-          <Button
-            onClick={() => {
-              maximize(id);
-            }}
-            variant={"primary"}
-            className={"p-0 w-[22px] flex items-center justify-center"}
-          >
-            <Maximize />
-          </Button>
-          <Button
-            onClick={() => {
-              close(id);
-            }}
-            variant={"primary"}
-            className={"p-0 w-[22px] flex items-center justify-center"}
-          >
-            <Close />
-          </Button>
-        </nav>
+        <div className="w-full h-full flex">
+          <div className="flex-1 min-w-0">
+            <div className="px-2 overflow-hidden text-nowrap text-ellipsis">{`${name}-${id}`}</div>
+          </div>
+          <nav className="flex flex-shrink-0 gap-1 h-full cancel items-center pr-1">
+            <Button
+              onClick={() => {
+                minimize(id);
+              }}
+              variant={"primary"}
+              className={"p-0 w-[22px] flex items-center justify-center"}
+            >
+              <Minimize />
+            </Button>
+            <Button
+              onClick={() => {
+                maximize(id);
+              }}
+              variant={"primary"}
+              className={"p-0 w-[22px] flex items-center justify-center"}
+            >
+              <Maximize />
+            </Button>
+            <Button
+              onClick={() => {
+                close(id);
+              }}
+              variant={"primary"}
+              className={"p-0 w-[22px] flex items-center justify-center"}
+            >
+              <Close />
+            </Button>
+          </nav>
+        </div>
       </WindowHeader>
       {children}
     </WindowRoot>

@@ -1,3 +1,8 @@
+2025/06/19
+
+- 윈도우 래퍼, 컴포넌트 lazy load 구조.
+- tailwinds 변수 및 constants 변수를 같이 못쓰는 경우 생각해야 함. Rnd 기반이라 tailwinds 변수를 css 파일 내부에서 인터셉트하는게 좋아보이지 않음... Styled-components를 쓰는게 나았을 수 있음.
+
 2025/06/07
 
 - PoC

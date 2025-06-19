@@ -58,7 +58,8 @@ function determineDefaultWindowSize() {
 }
 
 function determineGamewindowSize() {
-  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT };
+  // todo: 스타일 변수 css와 constants 두개로 저장하기.
+  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT + 30 };
 }
 
 const generateWindow = (length = 1) => {
@@ -220,7 +221,6 @@ function RndTester() {
         </div>
       </>
       {entries.map((e, i) => {
-        console.log(e);
         return (
           <RndWindow
             key={"window-" + i}
