@@ -1,12 +1,18 @@
 import Window from "@/components/Window";
 import { DraggableData, Position, Props, ResizableDelta } from "react-rnd";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import RndWindow from "@/components/Window/RndWindow";
 import { DraggableEvent } from "react-draggable";
-import Editor from "@/components/programs/editor";
+import programs from "@/components/programs/programs";
+
+import AppRenderer from "@/components/programs/AppRenderer";
+import {
+  DEFAULT_GAME_HEIGHT,
+  DEFAULT_GAME_WIDTH,
+} from "@/components/programs/games/minesweeper";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
 type WindowType = {
@@ -14,6 +20,7 @@ type WindowType = {
   maximized: boolean;
   name: string;
   id: string;
+  Component: React.LazyExoticComponent<() => JSX.Element>;
   // todo: temp solution
   focused: boolean;
 };
@@ -50,9 +57,13 @@ function determineDefaultWindowSize() {
   return DEFAULT_WINDOW_SIZE;
 }
 
+function determineGamewindowSize() {
+  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT };
+}
+
 const generateWindow = (length = 1) => {
   const { width, height } = determineDefaultWindowSize();
-
+  const Program = programs["Editor"];
   const x = (window.innerWidth - width) / 2;
   const y = (window.innerHeight - height) / 2;
 
@@ -65,6 +76,27 @@ const generateWindow = (length = 1) => {
     maximized: false,
     name: "test-window",
     id: `test-${length}`,
+    focused: true,
+    Component: Program.Component,
+  };
+};
+
+const generateMineSweeper = (length = 1) => {
+  const { width, height } = determineGamewindowSize();
+
+  const x = (window.innerWidth - width) / 2;
+  const y = (window.innerHeight - height) / 2;
+  const Program = programs.Minesweeper;
+  return {
+    x,
+    y,
+    width: width,
+    height: height,
+    minimized: false,
+    maximized: false,
+    name: "minesweeper",
+    id: `game-${length}`,
+    Component: Program.Component,
     focused: true,
   };
 };
@@ -160,22 +192,35 @@ function RndTester() {
       {/* todo: debugging panal */}
       <>
         {entries.map((e) => {
-          console.log(e.id);
           return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
         })}
-        <Button
-          onMouseDown={() =>
-            setEntries((p) => [
-              ...handleRestUnfocus(p),
-              generateWindow(p.length + 1),
-            ])
-          }
-          className="my-4"
-        >
-          Add new window
-        </Button>
+        <div className="flex flex-col items-center">
+          <Button
+            onMouseDown={() =>
+              setEntries((p) => [
+                ...handleRestUnfocus(p),
+                generateWindow(p.length + 1),
+              ])
+            }
+            className="my-4 w-[300px]"
+          >
+            Add new window
+          </Button>
+          <Button
+            onMouseDown={() =>
+              setEntries((p) => [
+                ...handleRestUnfocus(p),
+                generateMineSweeper(p.length + 1),
+              ])
+            }
+            className="my-4 w-[300px]"
+          >
+            Add new minesweeper
+          </Button>
+        </div>
       </>
       {entries.map((e, i) => {
+        console.log(e);
         return (
           <RndWindow
             key={"window-" + i}
@@ -191,7 +236,7 @@ function RndTester() {
               close={close}
               onClickFocusElement={focus}
             >
-              <Editor e={e} focus={focus} />
+              <AppRenderer Component={e.Component} />
             </Window>
           </RndWindow>
         );

@@ -28,7 +28,12 @@ function Window({
   const { focused, name, id } = entry;
 
   return (
-    <WindowRoot {...windowTransition}>
+    <WindowRoot
+      onMouseDown={() => {
+        onClickFocusElement(id);
+      }}
+      {...windowTransition}
+    >
       <WindowHeader
         className={
           focused
@@ -36,12 +41,7 @@ function Window({
             : "justify-between bg-primary-button-border drag-handle"
         }
       >
-        <button
-          className="w-full"
-          onClick={() => {
-            onClickFocusElement(id);
-          }}
-        >
+        <button className="w-full">
           <div className="grow min-w-0 overflow-hidden">{`${name}-${id}`}</div>
         </button>
         <nav className="flex gap-1 shrink-0 cancel">
