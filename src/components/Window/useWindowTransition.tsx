@@ -1,8 +1,8 @@
 import { Variant } from "motion/react";
 import { useLayoutEffect, useState } from "react";
-import { RndDefaultProps } from "../_devPurpose/rnd";
 import { TASKBAR_HEIGHT } from "@/constants";
 import { Easing } from "motion/react";
+import { RndWindowType } from "../programs/types";
 
 const baseMaximize = {
   opacity: 1,
@@ -28,7 +28,7 @@ export const viewHeight = (): number => window.innerHeight;
 
 export const viewWidth = (): number => window.innerWidth;
 
-export function useWindowTransition(entry: RndDefaultProps) {
+export function useWindowTransition(entry: RndWindowType) {
   const [maximize, setMaximize] = useState<Variant>(
     Object.create(null) as Variant
   );
@@ -36,10 +36,8 @@ export function useWindowTransition(entry: RndDefaultProps) {
     Object.create(null) as Variant
   );
 
-  // todo: minimize. Move window to bottom left, make opacity to 0(baseMinimize)
   useLayoutEffect(() => {
     if (entry.minimized) {
-      // todo: innerWidth - 현재위치 = 0 계산
       setMinimize({
         ...baseMinimize,
         x: -entry.x,
@@ -48,10 +46,8 @@ export function useWindowTransition(entry: RndDefaultProps) {
     }
   }, [entry.minimized, entry.x]);
 
-  // todo: figure out how enlarging works
   useLayoutEffect(() => {
     if (entry.maximized) {
-      //todo: 최대화값 x, y = -원래위치 , window.innerWidth, window.innerHeight - TASKBAR_HEIGHT
       setMaximize({
         ...baseMaximize,
         x: -entry.x,

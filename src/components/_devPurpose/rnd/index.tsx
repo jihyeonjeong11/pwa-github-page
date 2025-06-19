@@ -1,6 +1,6 @@
 import Window from "@/components/Window";
-import { DraggableData, Position, Props, ResizableDelta } from "react-rnd";
-import { JSX, useState } from "react";
+import { DraggableData, Position, ResizableDelta } from "react-rnd";
+import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
@@ -12,18 +12,9 @@ import {
   DEFAULT_GAME_HEIGHT,
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
+import { RndWindowsType, RndWindowType } from "@/components/programs/types";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
-type WindowType = {
-  minimized: boolean;
-  maximized: boolean;
-  name: string;
-  id: string;
-  Component: React.LazyExoticComponent<() => JSX.Element>;
-  // todo: temp solution
-  focused: boolean;
-  resizeEnabled: boolean;
-};
 
 export type ResizeDirection =
   | "top"
@@ -35,14 +26,11 @@ export type ResizeDirection =
   | "bottomLeft"
   | "topLeft";
 
-// todo: not Default anymore chagne name
-export type RndDefaultProps = NonNullable<Props["default"]> & WindowType;
-
-function handleRestUnfocus(entries: RndDefaultProps[]) {
+function handleRestUnfocus(entries: RndWindowsType) {
   return entries.map((e) => ({ ...e, focused: false }));
 }
 
-function handleSplice(entries: RndDefaultProps[], id: string) {
+function handleSplice(entries: RndWindowsType, id: string) {
   return entries.filter((e) => e.id !== id);
 }
 
@@ -62,53 +50,56 @@ function determineGamewindowSize() {
   return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT };
 }
 
-const generateWindow = (length = 1) => {
+// todo: 핸들러 다른 파일로 빼기
+const generateWindow = (length = 1): RndWindowType => {
   const { width, height } = determineDefaultWindowSize();
-  const Program = programs["Editor"];
+  const program = programs["Editor"];
   const x = (window.innerWidth - width) / 2;
   const y = (window.innerHeight - height) / 2;
-
   return {
+    // rnd props
     x,
     y,
     width: width,
     height: height,
+    // Window props
     minimized: false,
     maximized: false,
-    name: "test-window",
-    id: `test-${length}`,
+    allowResizing: program.allowResizing,
+    // Component Props
+    name: program.name,
+    id: `${program.name}-${length}`,
     focused: true,
-    Component: Program.Component,
-    resizeEnabled: Program.allowResizing,
+    Component: program.Component,
   };
 };
 
 const generateMineSweeper = (length = 1) => {
   const { width, height } = determineGamewindowSize();
-  // todo: 리사이즈 불가일때 리사이즈 아이콘도 다 지워야 함. Wrapper 펑션 하나가 더 필요할 듯?
-  // maximized도 막아야 함.
   const x = (window.innerWidth - width) / 2;
   const y = (window.innerHeight - height) / 2;
-  const Program = programs.Minesweeper;
+  const program = programs.Minesweeper;
   return {
+    // Rnd props
     x,
     y,
     width: width,
     height: height,
+    // Window props
     minimized: false,
     maximized: false,
-    name: "minesweeper",
-    id: `game-${length}`,
-    Component: Program.Component,
     focused: true,
-    resizeEnabled: Program.allowResizing,
+    allowResizing: program.allowResizing,
+    // Component props
+    name: program.name,
+    id: `${program.name}-${length}`,
+    Component: program.Component,
   };
 };
 
 function RndTester() {
-  const [entries, setEntries] = useState<RndDefaultProps[]>([
-    generateWindow(1),
-  ]);
+  // todo: Window 하나당 singleton을 위해 context 도입하기 및 useHook 만들기.
+  const [entries, setEntries] = useState<RndWindowType[]>([generateWindow(1)]);
 
   function restoreFromMinimize(id: string) {
     setEntries((p) =>
@@ -238,7 +229,7 @@ function RndTester() {
               minimize={minimize}
               maximize={maximize}
               close={close}
-              onClickFocusElement={focus}
+              focus={focus}
             >
               <AppRenderer Component={e.Component} />
             </Window>

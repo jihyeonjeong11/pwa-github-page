@@ -1,4 +1,4 @@
-import { type RndDefaultProps } from "../_devPurpose/rnd";
+import { RndWindowsType } from "../programs/types";
 import { Button } from "../ui/Button";
 
 // currently for testing
@@ -8,7 +8,7 @@ export default function Taskbar({
   focus,
   maximize,
 }: {
-  entries: RndDefaultProps[];
+  entries: RndWindowsType;
   restoreFromMinimize: (id: string) => void;
   focus: (id: string) => void;
   maximize: (id: string) => void;

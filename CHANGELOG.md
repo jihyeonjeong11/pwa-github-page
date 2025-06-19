@@ -15,6 +15,7 @@
 
 - Todos:
 
+  - 아이콘들 AI로 만들어서 다 쓸수 있을듯?
   - Define user stories, Using Playwright would be good idea.
   - SEO
   - IndexedDB handler or not.

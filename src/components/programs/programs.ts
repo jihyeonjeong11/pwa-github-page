@@ -1,14 +1,24 @@
-// todo: 윈도우 관련 모든 값 여기서 컨트롤 해야 함.
 import { lazy } from "react";
+import { BaseWindowType, ProgramsType } from "./types";
 
-const programs = {
+const baseWindow: BaseWindowType = {
+  allowResizing: true,
+  minimized: false,
+  maximized: false,
+  focused: false,
+};
+
+const programs: ProgramsType = {
   Editor: {
-    allowResizing: true,
+    ...baseWindow,
     Component: lazy(() => import("@/components/programs/editor/index")),
+    name: "test-editor",
   },
   Minesweeper: {
+    ...baseWindow,
     allowResizing: false,
     Component: lazy(() => import("@/components/programs/games/minesweeper")),
+    name: "test-minesweeper",
   },
 };
 

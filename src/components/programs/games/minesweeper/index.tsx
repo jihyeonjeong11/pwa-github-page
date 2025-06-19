@@ -10,7 +10,6 @@ const matrix = Array.from({ length: 9 }, () =>
   Array.from({ length: 9 }, () => 0)
 );
 
-// todo: 바깥 보더 안쪽 보더 재사용
 function Minesweeper() {
   return (
     <div className="w-full h-[calc(100%-30px)] text-black flex">
@@ -22,7 +21,7 @@ function Minesweeper() {
         </div>
         <div className="grow border-2 border-white border-t-primary-button-border border-l-primary-button-border m-[5px] inline-grid grid-cols-9">
           {matrix.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
+            row.map((_, colIndex) => (
               <div
                 key={`${rowIndex}-${colIndex}`}
                 className="border-2 border-white border-r-primary-button-border border-b-primary-button-border"

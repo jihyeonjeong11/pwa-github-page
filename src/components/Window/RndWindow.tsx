@@ -1,10 +1,9 @@
 import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
 import { DraggableEvent } from "react-draggable";
-import { ResizeDirection, RndDefaultProps } from "../_devPurpose/rnd";
+import { ResizeDirection } from "../_devPurpose/rnd";
 import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
-
-// todo: write hook useRndProps for handling more stubs
+import { RndWindowType } from "../programs/types";
 
 const RESIZING_DISABLED = {
   bottom: false,
@@ -36,7 +35,7 @@ function RndWindow({
   onResizeStop,
 }: {
   children: React.ReactElement;
-  entry: RndDefaultProps;
+  entry: RndWindowType;
   focus: (id: string) => void;
   onDragStop: (
     _event: DraggableEvent,
@@ -76,7 +75,7 @@ function RndWindow({
       minHeight={MIN_WINDOW_SIZE.height}
       minWidth={MIN_WINDOW_SIZE.width}
       enableResizing={
-        entry.minimized || entry.maximized || !entry.resizeEnabled
+        entry.minimized || entry.maximized || !entry.allowResizing
           ? RESIZING_DISABLED
           : RESIZING_ENABLED
       }
