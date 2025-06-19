@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
-/* todo: tailwinds updates: use @theme over :root*/
+/* tailwinds updates: use @theme over :root*/
 /* https://tailwindcss.com/docs/theme */
 
 /* Editor problem. */
-/*todo: custom theme variable for pixel values*/
+/*custom theme variable for pixel values*/
 
 @theme {
   --color-primary-background: #018281;

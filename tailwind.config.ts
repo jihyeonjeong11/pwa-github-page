@@ -3,7 +3,7 @@ const config = {
   content: ["./src/**/*.{ts,tsx}", "./node_modules/fumadocs-ui/dist/**/*.js"],
   prefix: "",
   theme: {
-    // todo: Old color variable not working
+    // Old color variable not working
     // extends: {
     //   colors: {
     //     background: "var(--primary-background)",

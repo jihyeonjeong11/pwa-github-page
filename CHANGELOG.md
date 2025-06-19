@@ -63,5 +63,8 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 - electron windows95
   https://github.com/felixrieseberg/windows95?tab=readme-ov-file
 
+- mineSweeper
+  https://codepen.io/kfalencik/pen/LYrpdPp
+
 코드 구조:
 Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)

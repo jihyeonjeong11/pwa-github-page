@@ -2,7 +2,7 @@
 
 function Editor() {
   return (
-    <div className="w-full h-[calc(100%-36px)] text-black bg-white">
+    <div className="w-full h-[calc(100%-30px)] text-black bg-white">
       <textarea className="w-full h-full p-2" />
     </div>
   );

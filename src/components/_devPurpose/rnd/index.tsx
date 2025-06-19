@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import RndWindow from "@/components/Window/RndWindow";
 import { DraggableEvent } from "react-draggable";
 import programs from "@/components/programs/programs";
-
 import AppRenderer from "@/components/programs/AppRenderer";
 import {
   DEFAULT_GAME_HEIGHT,
@@ -23,6 +22,7 @@ type WindowType = {
   Component: React.LazyExoticComponent<() => JSX.Element>;
   // todo: temp solution
   focused: boolean;
+  resizeEnabled: boolean;
 };
 
 export type ResizeDirection =
@@ -59,7 +59,7 @@ function determineDefaultWindowSize() {
 
 function determineGamewindowSize() {
   // todo: 스타일 변수 css와 constants 두개로 저장하기.
-  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT + 30 };
+  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT };
 }
 
 const generateWindow = (length = 1) => {
@@ -79,12 +79,14 @@ const generateWindow = (length = 1) => {
     id: `test-${length}`,
     focused: true,
     Component: Program.Component,
+    resizeEnabled: Program.allowResizing,
   };
 };
 
 const generateMineSweeper = (length = 1) => {
   const { width, height } = determineGamewindowSize();
-
+  // todo: 리사이즈 불가일때 리사이즈 아이콘도 다 지워야 함. Wrapper 펑션 하나가 더 필요할 듯?
+  // maximized도 막아야 함.
   const x = (window.innerWidth - width) / 2;
   const y = (window.innerHeight - height) / 2;
   const Program = programs.Minesweeper;
@@ -99,6 +101,7 @@ const generateMineSweeper = (length = 1) => {
     id: `game-${length}`,
     Component: Program.Component,
     focused: true,
+    resizeEnabled: Program.allowResizing,
   };
 };
 
@@ -190,7 +193,7 @@ function RndTester() {
   return (
     <div id="app">
       <h1 className="pb-4">This is Rnd testing window.</h1>
-      {/* todo: debugging panal */}
+      {/* todo: 데이터 확정되면 여기 표시,  */}
       <>
         {entries.map((e) => {
           return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
@@ -221,6 +224,7 @@ function RndTester() {
         </div>
       </>
       {entries.map((e, i) => {
+        // todo: 상태관리로 하나로 끝내기
         return (
           <RndWindow
             key={"window-" + i}

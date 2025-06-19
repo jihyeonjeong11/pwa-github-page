@@ -61,30 +61,24 @@ function Showcases() {
       <div className="py-10 flex flex-col gap-4">
         <h2>3. Interactable window</h2>
         <WindowRoot>
-          <WindowHeader className="justify-between">
+          <WindowHeader className="justify-between w-full h-full flex">
             <span>This is showcase window with header buttons.</span>
-            <nav className="flex gap-1 h-full">
+            <nav className="flex flex-shrink-0 gap-1 h-full cancel items-center pr-1">
               <Button
                 variant={"primary"}
-                className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
-                }
+                className={"p-0 w-[22px] flex items-center justify-center"}
               >
                 <Minimize />
               </Button>
               <Button
                 variant={"primary"}
-                className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
-                }
+                className={"p-0 w-[22px] flex items-center justify-center"}
               >
                 <Maximize />
               </Button>
               <Button
                 variant={"primary"}
-                className={
-                  "p-0 w-[22px] h-full flex items-center justify-center"
-                }
+                className={"p-0 w-[22px] flex items-center justify-center"}
               >
                 <Close />
               </Button>

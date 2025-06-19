@@ -56,7 +56,6 @@ function RndWindow({
     }),
     [entry.focused]
   );
-
   return (
     <Rnd
       cancel=".cancel"
@@ -77,7 +76,7 @@ function RndWindow({
       minHeight={MIN_WINDOW_SIZE.height}
       minWidth={MIN_WINDOW_SIZE.width}
       enableResizing={
-        entry.minimized || entry.maximized
+        entry.minimized || entry.maximized || !entry.resizeEnabled
           ? RESIZING_DISABLED
           : RESIZING_ENABLED
       }
