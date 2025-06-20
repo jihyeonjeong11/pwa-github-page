@@ -1,6 +1,6 @@
 import Window from "@/components/Window";
 import { DraggableData, Position, ResizableDelta } from "react-rnd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
@@ -13,8 +13,11 @@ import {
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
 import { RndWindowsType, RndWindowType } from "@/components/programs/types";
+import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
+
+// todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력.
 
 export type ResizeDirection =
   | "top"
@@ -66,10 +69,10 @@ const generateWindow = (length = 1): RndWindowType => {
     minimized: false,
     maximized: false,
     allowResizing: program.allowResizing,
+    focused: true,
     // Component Props
     name: program.name,
     id: `${program.name}-${length}`,
-    focused: true,
     Component: program.Component,
   };
 };
@@ -99,8 +102,11 @@ const generateMineSweeper = (length = 1) => {
 
 function RndTester() {
   // todo: Window 하나당 singleton을 위해 context 도입하기 및 useHook 만들기.
-  const [entries, setEntries] = useState<RndWindowType[]>([generateWindow(1)]);
+  const [entries, setEntries] = useState<RndWindowType[]>([]);
+  const { order } = useWindowStackOrder(entries);
+  const closing = useRef<boolean>(false);
 
+  // zindex length
   function restoreFromMinimize(id: string) {
     setEntries((p) =>
       p.map((e) => ({
@@ -111,6 +117,7 @@ function RndTester() {
     );
   }
 
+  // todo: zindex 0
   function minimize(id = "") {
     if (!id) return;
     setEntries((p) =>
@@ -122,17 +129,7 @@ function RndTester() {
     );
   }
 
-  function maximize(id = "") {
-    if (!id) return;
-    setEntries((p) =>
-      p.map((e) => ({
-        ...e,
-        focused: id === e.id ? true : false,
-        maximized: id === e.id ? !e.maximized : false,
-      }))
-    );
-  }
-
+  // todo: zindex length
   function focus(id = "") {
     if (!id) return;
     setEntries((p) =>
@@ -143,10 +140,24 @@ function RndTester() {
     );
   }
 
+  // todo: zindex length
+  function maximize(id = "") {
+    if (!id) return;
+    setEntries((p) =>
+      p.map((e) => ({
+        ...e,
+        maximized: id === e.id ? !e.maximized : e.maximized,
+      }))
+    );
+  }
+
+  // zindex -1 for all, skip when zIndex === 0
   function close(id = "") {
     if (!id) return;
     setEntries((p) => handleSplice(p, id));
   }
+
+  // todo: onClickCapture 필요할 수 있음. 포커스 -> 인터랙션일 경우, 클릭 이전 capture단계에서 포커스가 들어가야 함.
 
   // todo:strutural: useRnd hook
   function onDragStop(_event: DraggableEvent, data: Partial<DraggableData>) {
@@ -187,7 +198,11 @@ function RndTester() {
       {/* todo: 데이터 확정되면 여기 표시,  */}
       <>
         {entries.map((e) => {
-          return <div key={`coords + ${e.id}`}>{`x: ${e.x} y: ${e.y}`}</div>;
+          return (
+            <div key={`coords-${e.id}`}>{`focused: ${
+              e.focused ? "true" : "false"
+            } x: ${e.x} y: ${e.y}`}</div>
+          );
         })}
         <div className="flex flex-col items-center">
           <Button
@@ -218,6 +233,7 @@ function RndTester() {
         // todo: 상태관리로 하나로 끝내기
         return (
           <RndWindow
+            order={order}
             key={"window-" + i}
             entry={e}
             focus={focus}

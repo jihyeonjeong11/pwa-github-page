@@ -1,3 +1,9 @@
+현재: 윈도우 기능 구현 중
+
+2025/06/20
+
+- Windows zindex 로직 구현 중.
+
 2025/06/19
 
 - 윈도우 래퍼, 컴포넌트 lazy load 구조.
@@ -15,21 +21,22 @@
 
 - Todos:
 
+  - zIndex 꼬임. - focus 시 엔트리 길이, 이전 엘리먼트가 -1... 식으로
   - 아이콘들 AI로 만들어서 다 쓸수 있을듯?
   - Define user stories, Using Playwright would be good idea.
   - SEO
   - IndexedDB handler or not.
   - Design System + Library
-  - Windows powershell icon generation error - consider using wls || docker
   - Find Windows Header icons - minimize, maximize, close
   - Window size calculation - disable responsiveness
   - favicon? -> check all environments
 
 - done:
 
+  - Windows powershell icon generation error
   - icons - check docs
   - mobile - windows size limited by innerwidth\
-  - mobile onClick - use touchstart
+  - mobile onClick
 
   - Get Taskbar Design & color
   - Remote control & shocase for dev mode: Can I not use router library?
@@ -66,6 +73,9 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 
 - mineSweeper
   https://codepen.io/kfalencik/pen/LYrpdPp
+
+- React exhaustiveDeps
+  https://www.reddit.com/r/reactjs/comments/1jsvggd/is_it_me_or_is_reacthooksexhaustivedeps/
 
 코드 구조:
 Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)

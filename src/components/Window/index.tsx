@@ -4,6 +4,7 @@ import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
 import { useWindowTransition } from "./useWindowTransition";
 import { cn } from "@/lib/utils";
 import { RndWindowType } from "../programs/types";
+import { memo } from "react";
 
 // todo: hook으로 빼면 더 복잡하게 추가 가능. 이후에 minimize 애니메이션 살리는게 편할 듯.
 // drag -> 타이틀바, 타이틀바 클릭, 터치 -> 포커스, 버튼 세개 -> 최소화 최대화 닫기
@@ -80,4 +81,4 @@ function Window({
   );
 }
 
-export default Window;
+export default memo(Window);

@@ -33,7 +33,9 @@ function RndWindow({
   focus,
   onDragStop,
   onResizeStop,
+  order,
 }: {
+  order: string[];
   children: React.ReactElement;
   entry: RndWindowType;
   focus: (id: string) => void;
@@ -51,10 +53,11 @@ function RndWindow({
 }) {
   const style = useMemo<React.CSSProperties>(
     () => ({
-      zIndex: entry.focused ? 3 : 1,
+      zIndex: order.indexOf(entry.id) + 1,
     }),
-    [entry.focused]
+    [entry.id, order]
   );
+
   return (
     <Rnd
       cancel=".cancel"
