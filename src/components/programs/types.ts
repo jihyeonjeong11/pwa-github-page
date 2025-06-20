@@ -20,4 +20,6 @@ export type RndProgramType = NonNullable<Props["default"]> & ProgramType;
 
 export type RndWindowType = RndProgramType & { id: string };
 
+export type RndWindowEntriesType = Record<string, RndWindowType>;
+
 export type RndWindowsType = RndWindowType[];

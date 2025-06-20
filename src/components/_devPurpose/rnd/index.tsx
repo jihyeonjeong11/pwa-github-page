@@ -1,5 +1,5 @@
 import Window from "@/components/Window";
-import { DraggableData, Position, ResizableDelta } from "react-rnd";
+import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
 import { useRef, useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
@@ -12,7 +12,11 @@ import {
   DEFAULT_GAME_HEIGHT,
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
-import { RndWindowsType, RndWindowType } from "@/components/programs/types";
+import {
+  RndWindowEntriesType,
+  RndWindowsType,
+  RndWindowType,
+} from "@/components/programs/types";
 import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
 // todo: functions.ts? 페이지에 종속시키는게 나을지?
 // titlebar 펑션 넣기 - 포커스, 더블클릭
@@ -103,58 +107,83 @@ const generateMineSweeper = (length = 1) => {
 function RndTester() {
   // todo: Window 하나당 singleton을 위해 context 도입하기 및 useHook 만들기.
   const [entries, setEntries] = useState<RndWindowType[]>([]);
-  const { order } = useWindowStackOrder(entries);
-  const closing = useRef<boolean>(false);
+  const [entryObjects, setEntryObjects] = useState<RndWindowEntriesType>(
+    {} as RndWindowEntriesType
+  );
+  const { order } = useWindowStackOrder(entryObjects);
+
+  function addNewWindow() {
+    const lastEntry = Object.entries(entryObjects).pop();
+    if (!lastEntry) {
+      const generated = generateWindow(1);
+      setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+    } else {
+      const [id] = lastEntry;
+
+      const number = Number(id.split("-").pop());
+
+      const generated = generateWindow(Number(number) + 1);
+      setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+    }
+  }
 
   // zindex length
   function restoreFromMinimize(id: string) {
-    setEntries((p) =>
-      p.map((e) => ({
-        ...e,
-        focused: id === e.id ? true : false,
-        minimized: id === e.id ? !e.minimized : e.minimized,
-      }))
-    );
+    setEntryObjects((p) => {
+      const newObj = {
+        ...p,
+        [id]: { ...p[id], minimized: !p[id].minimized, focused: true },
+      };
+      return newObj;
+    });
   }
 
   // todo: zindex 0
-  function minimize(id = "") {
-    if (!id) return;
-    setEntries((p) =>
-      p.map((e) => ({
-        ...e,
-        focused: false,
-        minimized: id === e.id ? !e.minimized : e.minimized,
-      }))
-    );
+  function minimize(id: string) {
+    setEntryObjects((p) => {
+      const newObj = {
+        ...p,
+        [id]: { ...p[id], minimized: true, focused: false },
+      };
+      return newObj;
+    });
   }
 
   // todo: zindex length
   function focus(id = "") {
     if (!id) return;
-    setEntries((p) =>
-      p.map((e) => ({
-        ...e,
-        focused: id === e.id ? true : false,
-      }))
+    setEntryObjects((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).map(([entryId, entry]) => [
+          entryId,
+          {
+            ...entry,
+            focused: entryId === id,
+          },
+        ])
+      )
     );
   }
 
   // todo: zindex length
-  function maximize(id = "") {
-    if (!id) return;
-    setEntries((p) =>
-      p.map((e) => ({
-        ...e,
-        maximized: id === e.id ? !e.maximized : e.maximized,
-      }))
-    );
+  function maximize(id: string) {
+    setEntryObjects((p) => {
+      const newObj = {
+        ...p,
+        [id]: { ...p[id], maximized: !p[id].maximized },
+      };
+      return newObj;
+    });
   }
 
   // zindex -1 for all, skip when zIndex === 0
   function close(id = "") {
     if (!id) return;
-    setEntries((p) => handleSplice(p, id));
+    setEntryObjects((p) =>
+      Object.fromEntries(
+        Object.entries(p).filter(([entryId]) => entryId !== id)
+      )
+    );
   }
 
   // todo: onClickCapture 필요할 수 있음. 포커스 -> 인터랙션일 경우, 클릭 이전 capture단계에서 포커스가 들어가야 함.
@@ -162,13 +191,16 @@ function RndTester() {
   // todo:strutural: useRnd hook
   function onDragStop(_event: DraggableEvent, data: Partial<DraggableData>) {
     return function (id: string) {
-      setEntries((p) =>
-        p.map((e) => ({
-          ...e,
-          x: e.id === id && data.x ? data.x : e.x,
-          y: e.id === id && data.y ? data.y : e.y,
-        }))
-      );
+      setEntryObjects((p) => {
+        return {
+          ...p,
+          [id]: {
+            ...p[id],
+            x: data.x!,
+            y: data.y!,
+          },
+        };
+      });
     };
   }
 
@@ -181,15 +213,18 @@ function RndTester() {
       _position: Position
     ) =>
     (id: string) => {
-      setEntries((p) =>
-        p.map((e) => ({
-          ...e,
-          width: e.id === id ? _ref.offsetWidth : e.width,
-          height: e.id === id ? _ref.offsetHeight : e.height,
-          x: e.id === id ? _position.x : e.x,
-          y: e.id === id ? _position.y : e.y,
-        }))
-      );
+      setEntryObjects((p) => {
+        return {
+          ...p,
+          [id]: {
+            ...p[id],
+            width: _ref.offsetWidth,
+            height: _ref.offsetHeight,
+            x: _position.x,
+            y: _position.y,
+          },
+        };
+      });
     };
 
   return (
@@ -197,6 +232,7 @@ function RndTester() {
       <h1 className="pb-4">This is Rnd testing window.</h1>
       {/* todo: 데이터 확정되면 여기 표시,  */}
       <>
+        {Object.entries(entryObjects).length}
         {entries.map((e) => {
           return (
             <div key={`coords-${e.id}`}>{`focused: ${
@@ -207,10 +243,7 @@ function RndTester() {
         <div className="flex flex-col items-center">
           <Button
             onMouseDown={() =>
-              setEntries((p) => [
-                ...handleRestUnfocus(p),
-                generateWindow(p.length + 1),
-              ])
+              addNewWindow(Object.entries(entryObjects).length)
             }
             className="my-4 w-[300px]"
           >
@@ -229,12 +262,11 @@ function RndTester() {
           </Button>
         </div>
       </>
-      {entries.map((e, i) => {
-        // todo: 상태관리로 하나로 끝내기
+      {Object.entries(entryObjects).map(([id, e]) => {
         return (
           <RndWindow
             order={order}
-            key={"window-" + i}
+            key={"rnd" + id}
             entry={e}
             focus={focus}
             onDragStop={onDragStop}
@@ -253,7 +285,7 @@ function RndTester() {
         );
       })}
       <Taskbar
-        entries={entries}
+        entries={entryObjects}
         restoreFromMinimize={restoreFromMinimize}
         focus={focus}
         maximize={maximize}

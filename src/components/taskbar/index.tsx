@@ -1,4 +1,4 @@
-import { RndWindowsType } from "../programs/types";
+import { RndWindowEntriesType } from "../programs/types";
 import { Button } from "../ui/Button";
 
 // currently for testing
@@ -8,7 +8,7 @@ export default function Taskbar({
   focus,
   maximize,
 }: {
-  entries: RndWindowsType;
+  entries: RndWindowEntriesType;
   restoreFromMinimize: (id: string) => void;
   focus: (id: string) => void;
   maximize: (id: string) => void;
@@ -32,18 +32,16 @@ export default function Taskbar({
         </Button>
       </div>
       <ol className="p-0.5 flex grow gap-1">
-        {entries.map((entry, i) => (
-          <li key={`${entry.name}_task_${i}`} className="text-sm">
+        {Object.entries(entries).map(([id, e]) => (
+          <li key={`${e.name}_task_${id}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
-              onDoubleClick={() => maximize(entry.id)}
+              onDoubleClick={() => maximize(id)}
               onClick={() =>
-                entry.minimized
-                  ? restoreFromMinimize(entry.id)
-                  : focus(entry.id)
+                e.minimized ? restoreFromMinimize(id) : focus(id)
               }
               className="h-[26px] overflow-hidden"
-              variant={entry.focused ? "focused" : "primary"}
+              variant={e.focused ? "focused" : "primary"}
             >
               <label className="flex items-center h-full w-full gap-1 text-nowrap text-ellipsis">
                 <div>
@@ -53,7 +51,7 @@ export default function Taskbar({
                     className="w-[20px] h-[20px] object-contain"
                   />
                 </div>
-                {entry.name}
+                {e.name}
               </label>
             </Button>
           </li>
