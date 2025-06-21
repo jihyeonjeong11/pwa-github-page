@@ -241,12 +241,7 @@ function RndTester() {
           );
         })}
         <div className="flex flex-col items-center">
-          <Button
-            onMouseDown={() =>
-              addNewWindow(Object.entries(entryObjects).length)
-            }
-            className="my-4 w-[300px]"
-          >
+          <Button onMouseDown={() => addNewWindow()} className="my-4 w-[300px]">
             Add new window
           </Button>
           <Button
