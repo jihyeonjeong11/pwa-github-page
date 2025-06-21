@@ -11,7 +11,6 @@ export function useWindowStackOrder(entries: RndWindowEntriesType) {
   const [order, setOrder] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("aciton");
     const currentIds = Object.keys(entries);
 
     // 1. Add new windows

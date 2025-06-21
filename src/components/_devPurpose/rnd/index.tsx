@@ -1,45 +1,22 @@
 import Window from "@/components/Window";
-import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
-import { useRef, useState } from "react";
+import { DraggableData, Position, ResizableDelta } from "react-rnd";
+import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
-import RndWindow from "@/components/Window/RndWindow";
 import { DraggableEvent } from "react-draggable";
 import programs from "@/components/programs/programs";
-import AppRenderer from "@/components/programs/AppRenderer";
 import {
   DEFAULT_GAME_HEIGHT,
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
 import {
+  ResizeDirection,
   RndWindowEntriesType,
-  RndWindowsType,
   RndWindowType,
 } from "@/components/programs/types";
 import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
-// todo: functions.ts? 페이지에 종속시키는게 나을지?
-// titlebar 펑션 넣기 - 포커스, 더블클릭
-
-// todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력.
-
-export type ResizeDirection =
-  | "top"
-  | "right"
-  | "bottom"
-  | "left"
-  | "topRight"
-  | "bottomRight"
-  | "bottomLeft"
-  | "topLeft";
-
-function handleRestUnfocus(entries: RndWindowsType) {
-  return entries.map((e) => ({ ...e, focused: false }));
-}
-
-function handleSplice(entries: RndWindowsType, id: string) {
-  return entries.filter((e) => e.id !== id);
-}
+// todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력. CHANGELOG 참고.
 
 function determineDefaultWindowSize() {
   // todo: Write isMobile hook
@@ -73,7 +50,7 @@ const generateWindow = (length = 1): RndWindowType => {
     minimized: false,
     maximized: false,
     allowResizing: program.allowResizing,
-    focused: true,
+    focused: false,
     // Component Props
     name: program.name,
     id: `${program.name}-${length}`,
@@ -95,7 +72,7 @@ const generateMineSweeper = (length = 1) => {
     // Window props
     minimized: false,
     maximized: false,
-    focused: true,
+    focused: false,
     allowResizing: program.allowResizing,
     // Component props
     name: program.name,
@@ -106,24 +83,42 @@ const generateMineSweeper = (length = 1) => {
 
 function RndTester() {
   // todo: Window 하나당 singleton을 위해 context 도입하기 및 useHook 만들기.
-  const [entries, setEntries] = useState<RndWindowType[]>([]);
   const [entryObjects, setEntryObjects] = useState<RndWindowEntriesType>(
     {} as RndWindowEntriesType
   );
   const { order } = useWindowStackOrder(entryObjects);
 
-  function addNewWindow() {
+  function focus(id = "") {
+    if (!id) return;
+    setEntryObjects((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).map(([entryId, entry]) => [
+          entryId,
+          {
+            ...entry,
+            focused: entryId === id,
+          },
+        ])
+      )
+    );
+  }
+
+  function addNewWindow(isTextArea: boolean) {
     const lastEntry = Object.entries(entryObjects).pop();
     if (!lastEntry) {
-      const generated = generateWindow(1);
+      const generated = isTextArea ? generateWindow(1) : generateMineSweeper(1);
       setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
     } else {
+      // todo: 더 나은 방법이 있을지?
       const [id] = lastEntry;
 
       const number = Number(id.split("-").pop());
 
-      const generated = generateWindow(Number(number) + 1);
+      const generated = isTextArea
+        ? generateWindow(Number(number) + 1)
+        : generateMineSweeper(Number(number) + 1);
       setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+      focus(generated.id);
     }
   }
 
@@ -150,22 +145,6 @@ function RndTester() {
   }
 
   // todo: zindex length
-  function focus(id = "") {
-    if (!id) return;
-    setEntryObjects((prev) =>
-      Object.fromEntries(
-        Object.entries(prev).map(([entryId, entry]) => [
-          entryId,
-          {
-            ...entry,
-            focused: entryId === id,
-          },
-        ])
-      )
-    );
-  }
-
-  // todo: zindex length
   function maximize(id: string) {
     setEntryObjects((p) => {
       const newObj = {
@@ -176,7 +155,6 @@ function RndTester() {
     });
   }
 
-  // zindex -1 for all, skip when zIndex === 0
   function close(id = "") {
     if (!id) return;
     setEntryObjects((p) =>
@@ -185,10 +163,6 @@ function RndTester() {
       )
     );
   }
-
-  // todo: onClickCapture 필요할 수 있음. 포커스 -> 인터랙션일 경우, 클릭 이전 capture단계에서 포커스가 들어가야 함.
-
-  // todo:strutural: useRnd hook
   function onDragStop(_event: DraggableEvent, data: Partial<DraggableData>) {
     return function (id: string) {
       setEntryObjects((p) => {
@@ -230,53 +204,39 @@ function RndTester() {
   return (
     <div id="app">
       <h1 className="pb-4">This is Rnd testing window.</h1>
-      {/* todo: 데이터 확정되면 여기 표시,  */}
       <>
-        {Object.entries(entryObjects).length}
-        {entries.map((e) => {
+        {/* 디버그 패널  */}
+        {/* {entries.map((e) => {
           return (
             <div key={`coords-${e.id}`}>{`focused: ${
               e.focused ? "true" : "false"
             } x: ${e.x} y: ${e.y}`}</div>
           );
-        })}
-        <div className="flex flex-col items-center">
-          <Button onMouseDown={() => addNewWindow()} className="my-4 w-[300px]">
-            Add new window
-          </Button>
-          <Button
-            onMouseDown={() =>
-              setEntries((p) => [
-                ...handleRestUnfocus(p),
-                generateMineSweeper(p.length + 1),
-              ])
-            }
-            className="my-4 w-[300px]"
-          >
-            Add new minesweeper
-          </Button>
-        </div>
+        })} */}
       </>
+      <div className="flex flex-col items-center">
+        <Button onClick={() => addNewWindow(true)} className="my-4 w-[300px]">
+          Add new window
+        </Button>
+        <Button onClick={() => addNewWindow(false)} className="my-4 w-[300px]">
+          Add new minesweeper
+        </Button>
+      </div>
+
       {Object.entries(entryObjects).map(([id, e]) => {
+        // 진짜 작업시에는 컨텍스트 + 훅으로 처리할 예정.
         return (
-          <RndWindow
+          <Window
             order={order}
             key={"rnd" + id}
             entry={e}
             focus={focus}
             onDragStop={onDragStop}
             onResizeStop={onResizeStop}
-          >
-            <Window
-              entry={e}
-              minimize={minimize}
-              maximize={maximize}
-              close={close}
-              focus={focus}
-            >
-              <AppRenderer Component={e.Component} />
-            </Window>
-          </RndWindow>
+            minimize={minimize}
+            maximize={maximize}
+            close={close}
+          />
         );
       })}
       <Taskbar

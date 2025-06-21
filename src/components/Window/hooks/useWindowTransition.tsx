@@ -2,7 +2,7 @@ import { Variant } from "motion/react";
 import { useLayoutEffect, useState } from "react";
 import { TASKBAR_HEIGHT } from "@/constants";
 import { Easing } from "motion/react";
-import { RndWindowType } from "../programs/types";
+import { RndWindowType } from "../../programs/types";
 
 const baseMaximize = {
   opacity: 1,

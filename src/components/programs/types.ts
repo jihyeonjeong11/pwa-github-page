@@ -22,4 +22,12 @@ export type RndWindowType = RndProgramType & { id: string };
 
 export type RndWindowEntriesType = Record<string, RndWindowType>;
 
-export type RndWindowsType = RndWindowType[];
+export type ResizeDirection =
+  | "top"
+  | "right"
+  | "bottom"
+  | "left"
+  | "topRight"
+  | "bottomRight"
+  | "bottomLeft"
+  | "topLeft";

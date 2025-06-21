@@ -1,9 +1,8 @@
 import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
 import { DraggableEvent } from "react-draggable";
-import { ResizeDirection } from "../_devPurpose/rnd";
 import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
-import { RndWindowType } from "../programs/types";
+import { ResizeDirection, RndWindowType } from "../programs/types";
 
 const RESIZING_DISABLED = {
   bottom: false,
