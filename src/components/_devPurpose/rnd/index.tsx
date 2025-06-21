@@ -89,7 +89,6 @@ function RndTester() {
   const { order } = useWindowStackOrder(entryObjects);
 
   function focus(id = "") {
-    console.log("hello", id);
     if (!id) return;
     setEntryObjects((prev) =>
       Object.fromEntries(
