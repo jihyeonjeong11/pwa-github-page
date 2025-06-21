@@ -89,6 +89,7 @@ function RndTester() {
   const { order } = useWindowStackOrder(entryObjects);
 
   function focus(id = "") {
+    console.log("hello", id);
     if (!id) return;
     setEntryObjects((prev) =>
       Object.fromEntries(
@@ -108,6 +109,7 @@ function RndTester() {
     if (!lastEntry) {
       const generated = isTextArea ? generateWindow(1) : generateMineSweeper(1);
       setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+      focus(generated.id);
     } else {
       // todo: 더 나은 방법이 있을지?
       const [id] = lastEntry;
@@ -118,7 +120,6 @@ function RndTester() {
         ? generateWindow(Number(number) + 1)
         : generateMineSweeper(Number(number) + 1);
       setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
-      focus(generated.id);
     }
   }
 

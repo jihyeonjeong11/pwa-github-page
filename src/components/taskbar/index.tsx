@@ -15,7 +15,7 @@ export default function Taskbar({
 }) {
   return (
     <nav
-      className={`fixed left-0 bottom-0 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2`}
+      className={`fixed left-0 bottom-0 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2 notch-safe`}
     >
       <div className="p-0.5">
         <Button className="p-1 h-[26px]">

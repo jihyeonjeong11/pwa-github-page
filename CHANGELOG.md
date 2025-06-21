@@ -82,5 +82,7 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 - React exhaustiveDeps
   https://www.reddit.com/r/reactjs/comments/1jsvggd/is_it_me_or_is_reacthooksexhaustivedeps/
 
+  https://www.dhiwise.com/post/mastering-react-iterate-over-object-a-comprehensive-guide
+
 코드 구조:
 Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)
