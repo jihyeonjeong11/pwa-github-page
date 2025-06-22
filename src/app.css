@@ -28,6 +28,8 @@
   z-index: 2;
 }
 
+/* 웹 화면(크롬, 사파리를 위해 유지) */
 .notch-safe {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }

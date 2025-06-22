@@ -16,6 +16,7 @@ import {
   RndWindowType,
 } from "@/components/programs/types";
 import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
+
 // todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력. CHANGELOG 참고.
 
 function determineDefaultWindowSize() {
@@ -203,7 +204,7 @@ function RndTester() {
 
   return (
     <div id="app">
-      <h1 className="pb-4">This is Rnd testing window.</h1>
+      <h1 className="pb-4">Rnd functionality testing page.</h1>
       <>
         {/* 디버그 패널  */}
         {/* {entries.map((e) => {

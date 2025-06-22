@@ -1,5 +1,12 @@
 현재: 윈도우 기능 구현 중
 
+2025/06/21
+
+- 기존 라우팅 제거 RndTester를 렌더링함.
+- 모바일 이슈: 바텀 navigation bar 세이프에리어 해결 중. 설치했을 때 적용 안되는 이슈.
+  https://webkit.org/blog/7929/designing-websites-for-iphone-x/
+  에 따르면, 지금 app.css 안의 코드로 바텀 위치가 잡혀야 함. 만약 해결 안된다면, 억지로 기기를 잡아서 55px 패딩을 먹일 것.
+
 2025/06/20
 
 - Windows zindex 로직 구현 중.

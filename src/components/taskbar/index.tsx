@@ -1,5 +1,7 @@
+import useIsMobile from "@/hooks/useIsMobile";
 import { RndWindowEntriesType } from "../programs/types";
 import { Button } from "../ui/Button";
+import { useHasIOSBottomBar } from "@/hooks/useIsIOSNotch";
 
 // currently for testing
 export default function Taskbar({
@@ -13,9 +15,14 @@ export default function Taskbar({
   focus: (id: string) => void;
   maximize: (id: string) => void;
 }) {
+  const { isMobile } = useIsMobile();
+  const { hasIOSBottomBar } = useHasIOSBottomBar();
+
+  //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
   return (
     <nav
-      className={`fixed left-0 bottom-0 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2 notch-safe`}
+      style={{ paddingBottom: isMobile && hasIOSBottomBar ? 55 : 0 }}
+      className={`fixed left-0 bottom-0 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2 notch-safe pb-[55px]`}
     >
       <div className="p-0.5">
         <Button className="p-1 h-[26px]">
