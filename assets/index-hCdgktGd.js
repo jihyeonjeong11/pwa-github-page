@@ -1,1 +1,0 @@
-import{j as t}from"./index-B2c49aYh.js";function a(){return t.jsx("div",{className:"w-full h-[calc(100%-30px)] text-black bg-white",children:t.jsx("textarea",{className:"w-full h-full p-2"})})}export{a as default};
