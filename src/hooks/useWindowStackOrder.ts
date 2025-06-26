@@ -7,7 +7,6 @@ export function useWindowStackOrder(entries: RndWindowEntriesType) {
   // rnd 인터랙션을 하는 엘리먼트는 focus한 엘리먼트 하나이기떄문에, 뺴도 문제없을 것 같긴 함.
   // https://www.zekehernandez.com/posts/little-react-things-less-reacting-more-deriving
 
-  // ai generated for now 한번 읽어보고 최적화
   const [order, setOrder] = useState<string[]>([]);
 
   useEffect(() => {

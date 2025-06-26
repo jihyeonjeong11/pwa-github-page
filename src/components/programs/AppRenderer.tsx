@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, memo } from "react";
 
 function AppRenderer({
   Component,
@@ -12,4 +12,4 @@ function AppRenderer({
   );
 }
 
-export default AppRenderer;
+export default memo(AppRenderer);

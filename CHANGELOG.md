@@ -33,7 +33,7 @@
 
 - Todos:
 
-  - zIndex 꼬임. - focus 시 엔트리 길이, 이전 엘리먼트가 -1... 식으로
+  - 시작메뉴 바텀 패딩 추가로 인한 스타일 다시 잡기.
   - 아이콘들 AI로 만들어서 다 쓸수 있을듯?
   - Define user stories, Using Playwright would be good idea.
   - SEO

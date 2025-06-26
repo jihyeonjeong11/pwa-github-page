@@ -4,6 +4,7 @@ import { ResizeDirection, RndWindowType } from "../programs/types";
 import RndWindow from "./RndWindow";
 import WindowContainer from "./WindowContainer";
 import { Position, ResizableDelta } from "react-rnd";
+import { useTraceUpdate } from "@/hooks/_devPurpose/useTraceUpdate";
 
 function Window({
   order,
@@ -33,6 +34,16 @@ function Window({
   close: (id: string) => void;
   focus: (id: string) => void;
 }) {
+  useTraceUpdate({
+    order,
+    entry,
+    focus,
+    onDragStop,
+    onResizeStop,
+    minimize,
+    maximize,
+    close,
+  });
   return (
     <RndWindow
       order={order}
