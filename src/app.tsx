@@ -1,16 +1,19 @@
 import PWABadge from "./PWABadge.tsx";
 import "./app.css";
-import ArrayRenderer from "./components/_devPurpose/arrayRenderer/index.tsx";
+import ArrayRenderer from "./components/_devPurpose/testRenderers/ArrayRenderer.tsx";
 // import Routing from "./components/_devPurpose/routing/index.tsx";
 // import Showcases from "./components/_devPurpose/showcases/index.tsx";
 import RndTester from "./components/_devPurpose/rnd/index.tsx";
+import ObjectRenderer from "./components/_devPurpose/testRenderers/ObjectRenderer.tsx";
+import TestRenderers from "./components/_devPurpose/testRenderers/index.tsx";
+import { Profiler } from "react";
 
 export default function App() {
   // todo: This is only for dev.
   return (
     <>
-      {/* <ArrayRenderer /> */}
-      <RndTester />
+      <TestRenderers />
+      {/* <RndTester /> */}
       {/* {(() => {
         switch (slug) {
           default:
