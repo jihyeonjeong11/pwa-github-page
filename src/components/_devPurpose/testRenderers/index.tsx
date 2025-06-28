@@ -203,7 +203,7 @@ function TestRenderers() {
     startTime,
     commitTime
   ) {
-    console.log("object", actualDuration, baseDuration);
+    console.log("object", commitTime - startTime);
   }
 
   function onRenderArray(
@@ -214,7 +214,7 @@ function TestRenderers() {
     startTime,
     commitTime
   ) {
-    console.log("array", actualDuration, baseDuration);
+    console.log("array", commitTime - startTime);
   }
 
   return (

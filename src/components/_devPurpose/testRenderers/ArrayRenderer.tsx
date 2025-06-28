@@ -1,17 +1,15 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   DEFAULTS_POSTS,
   generateMockPost,
   RedditPost,
   RedditPostType,
 } from ".";
-import useRenderTime from "./useRenderTime";
 
 const ArrayRenderer = () => {
   const [posts, setPosts] = useState<RedditPostType[]>(DEFAULTS_POSTS);
   const [prevAction, setPrevAction] = useState<string>("None");
-  const [actionDuration, setActionDuration] = useState<number>(0);
-  useRenderTime(`array-${prevAction}`);
+  const idCount = useRef(0);
   // todo: useRef id카운터
 
   const setNewPosts = (
@@ -27,7 +25,8 @@ const ArrayRenderer = () => {
     setNewPosts(`Added ${count} posts`, () => {
       const newPostsToAdd: RedditPostType[] = [];
       for (let i = 0; i < count; i++) {
-        newPostsToAdd.push(generateMockPost(`array-${posts.length + i}`));
+        const nextId = idCount.current++;
+        newPostsToAdd.push(generateMockPost(`array-${nextId + i}`));
       }
 
       let currentPosts = [...posts];
@@ -78,10 +77,6 @@ const ArrayRenderer = () => {
         </p>
         <p className="text-sm">
           Last Action: <span className="font-medium">{prevAction}</span>
-        </p>
-        <p className="text-sm">
-          Duration:{" "}
-          <span className="font-medium">{actionDuration.toFixed(3)} ms</span>
         </p>
       </div>
 
