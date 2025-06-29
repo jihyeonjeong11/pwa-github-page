@@ -120,6 +120,7 @@ function RndTester() {
         ? generateWindow(Number(number) + 1)
         : generateMineSweeper(Number(number) + 1);
       setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+      focus(generated.id);
     }
   }
 
@@ -220,7 +221,7 @@ function RndTester() {
           Add new window
         </Button>
         <Button onClick={() => addNewWindow(false)} className="my-4 w-[300px]">
-          Add new minesweeper
+          Add new minesweeper(not playable though)
         </Button>
       </div>
 
