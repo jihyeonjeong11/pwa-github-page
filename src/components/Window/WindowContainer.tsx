@@ -30,8 +30,11 @@ function WindowContainer({
 
   return (
     <WindowRoot
-      onMouseDown={() => {
+      onClick={() => {
         focus(id);
+      }}
+      onDoubleClick={() => {
+        maximize(id);
       }}
       {...windowTransition}
     >
@@ -48,7 +51,8 @@ function WindowContainer({
         </div>
         <nav className="flex flex-shrink-0 gap-1 h-full cancel items-center pr-1">
           <Button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               minimize(id);
             }}
             variant={"primary"}
@@ -66,7 +70,8 @@ function WindowContainer({
             <Maximize />
           </Button>
           <Button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               close(id);
             }}
             variant={"primary"}

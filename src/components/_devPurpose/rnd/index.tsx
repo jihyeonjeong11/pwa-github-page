@@ -90,7 +90,7 @@ function RndTester() {
   const { order } = useWindowStackOrder(entryObjects);
 
   function focus(id = "") {
-    if (!id) return;
+    if (!id && entryObjects[id].minimized) return;
     setEntryObjects((prev) =>
       Object.fromEntries(
         Object.entries(prev).map(([entryId, entry]) => [
@@ -127,15 +127,20 @@ function RndTester() {
   // zindex length
   function restoreFromMinimize(id: string) {
     setEntryObjects((p) => {
-      const newObj = {
-        ...p,
-        [id]: { ...p[id], minimized: !p[id].minimized, focused: true },
-      };
+      const newObj = Object.fromEntries(
+        Object.entries(p).map(([key, value]) => [
+          key,
+          {
+            ...value,
+            minimized: key === id ? !value.minimized : value.minimized,
+            focused: key === id,
+          },
+        ])
+      );
       return newObj;
     });
   }
 
-  // todo: zindex 0
   function minimize(id: string) {
     setEntryObjects((p) => {
       const newObj = {
@@ -146,7 +151,6 @@ function RndTester() {
     });
   }
 
-  // todo: zindex length
   function maximize(id: string) {
     setEntryObjects((p) => {
       const newObj = {
@@ -206,16 +210,7 @@ function RndTester() {
   return (
     <div id="app">
       <h1 className="pb-4">Rnd functionality testing page.</h1>
-      <>
-        {/* 디버그 패널  */}
-        {/* {entries.map((e) => {
-          return (
-            <div key={`coords-${e.id}`}>{`focused: ${
-              e.focused ? "true" : "false"
-            } x: ${e.x} y: ${e.y}`}</div>
-          );
-        })} */}
-      </>
+
       <div className="flex flex-col items-center">
         <Button onClick={() => addNewWindow(true)} className="my-4 w-[300px]">
           Add new window
