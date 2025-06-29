@@ -1,11 +1,10 @@
-import { useState, useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   DEFAULTS_POSTS,
   generateMockPost,
-  RedditPost,
+  RedditLikePost,
   RedditPostType,
 } from ".";
-import useRenderTime from "./useRenderTime";
 
 type RedditPostsObject = {
   [key: string]: RedditPostType;
@@ -19,8 +18,7 @@ const ObjectRenderer = () => {
     }, {})
   );
   const [prevAction, setPrevAction] = useState<string>("None");
-  const [actionDuration, setActionDuration] = useState<number>(0);
-  useRenderTime(`object-${prevAction}`);
+  const idCount = useRef(0);
 
   const setNewPosts = (
     actionName: string,
@@ -31,56 +29,40 @@ const ObjectRenderer = () => {
     setPrevAction(`${actionName}`);
   };
 
-  const handleAddPosts = (count: number, atRandomIndex: boolean) => {
-    setNewPosts(`Added ${count} posts`, () => {
-      const newPostsObjectToAdd: RedditPostsObject = {};
+  const handleAddPostsToHead = (count: number) => {
+    setNewPosts(`Added ${count} posts to head`, () => {
+      const newPostsArray: RedditPostType[] = [];
+      console.time("object-add");
       for (let i = 0; i < count; i++) {
-        const newPost = generateMockPost(
-          `object-${Object.keys(postsObject).length + i}`
-        );
-        newPostsObjectToAdd[newPost.id] = newPost;
+        const id = idCount.current++;
+        const post = generateMockPost(`object-${id}`);
+        newPostsArray.unshift(post);
       }
+      console.timeEnd("object-add");
+      console.time("object-merge");
+      const currentPosts = Object.values(postsObject);
+      const mergedArray = [...newPostsArray, ...currentPosts];
+      const merged = mergedArray.reduce<RedditPostsObject>((acc, post) => {
+        acc[post.id] = post;
+        return acc;
+      }, {});
+      console.timeEnd("object-merge");
 
-      if (atRandomIndex) {
-        const currentPostsArray = Object.values({ ...postsObject });
-        const newPostsArrayToAdd = Object.values(newPostsObjectToAdd);
-
-        newPostsArrayToAdd.forEach((p) => {
-          const randomIndex = Math.floor(
-            Math.random() * (currentPostsArray.length + 1)
-          );
-          currentPostsArray.splice(randomIndex, 0, p);
-        });
-
-        // Convert back to object
-        return currentPostsArray.reduce<RedditPostsObject>((acc, post) => {
-          acc[post.id] = post;
-          return acc;
-        }, {});
-      } else {
-        return { ...postsObject, ...newPostsObjectToAdd };
-      }
+      return merged;
     });
   };
 
-  const handleRemovePosts = (count: number) => {
-    setNewPosts(`Removed ${count} posts`, () => {
-      const currentPostsObject = { ...postsObject };
-      const currentPostIds = Object.keys(currentPostsObject);
-
-      if (currentPostIds.length === 0) return currentPostsObject;
-
-      if (count >= currentPostIds.length) {
-        return {};
+  const handleRemoveRandomPosts = (count: number) => {
+    setNewPosts(`Removed ${count} random posts`, () => {
+      const currentPostIds = Object.keys(postsObject);
+      const current = { ...postsObject };
+      for (let i = 0; i < count && currentPostIds.length > 0; i++) {
+        const randIndex = Math.floor(Math.random() * currentPostIds.length);
+        const idToRemove = currentPostIds[randIndex];
+        delete current[idToRemove];
+        currentPostIds.splice(randIndex, 1);
       }
-
-      for (let i = 0; i < count; i++) {
-        const randomIndex = Math.floor(Math.random() * currentPostIds.length);
-        const idToRemove = currentPostIds[randomIndex];
-        delete currentPostsObject[idToRemove];
-        currentPostIds.splice(randomIndex, 1);
-      }
-      return currentPostsObject;
+      return current;
     });
   };
 
@@ -91,7 +73,7 @@ const ObjectRenderer = () => {
   return (
     <div className="h-screen bg-gray-100 dark:bg-gray-900 font-sans p-4 flex flex-col items-center overflow-y-scroll">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 mt-4">
-        Reddit Feed Stress Test (Object Renderer)
+        Object feed performance tester
       </h1>
 
       <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg shadow-md mb-6 w-full max-w-2xl text-blue-800 dark:text-blue-200 text-center border border-blue-200 dark:border-blue-700">
@@ -102,49 +84,49 @@ const ObjectRenderer = () => {
         <p className="text-sm">
           Last Action: <span className="font-medium">{prevAction}</span>
         </p>
-        <p className="text-sm">
-          Duration:{" "}
-          <span className="font-medium">{actionDuration.toFixed(3)} ms</span>
-        </p>
       </div>
 
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-8 w-full max-w-2xl flex flex-wrap justify-center gap-4 border border-gray-200 dark:border-gray-700">
         <button
-          onClick={() => handleAddPosts(100, false)}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
+          onClick={() => handleAddPostsToHead(10)}
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
-          Add 100 Posts (End)
+          Add 10 Posts (Head)
         </button>
         <button
-          onClick={() => handleAddPosts(10, true)}
-          className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+          onClick={() => handleAddPostsToHead(1000)}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
-          Add 10 Posts (Random)
+          Add 1000 Posts (Head)
         </button>
         <button
-          onClick={() => handleRemovePosts(1)}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75"
+          onClick={() => handleRemoveRandomPosts(1)}
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
           Remove 1 Post (Random)
         </button>
         <button
-          onClick={() => handleRemovePosts(10)}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75"
+          onClick={() => handleRemoveRandomPosts(10)}
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
           Remove 10 Posts (Random)
         </button>
         <button
-          onClick={() => handleRemovePosts(Object.keys(postsObject).length)}
-          className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
+          onClick={() =>
+            handleRemoveRandomPosts(Object.keys(postsObject).length)
+          }
+          className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
           Clear All Posts
         </button>
       </div>
 
       <div className="w-full max-w-2xl">
-        {Object.entries(postsObject).map(([key, post]) => (
-          <RedditPost key={key} post={post} onClick={consoleFunction} />
-        ))}
+        {Object.entries(postsObject)
+          .sort(([, a], [, b]) => b.createdAt.getTime() - a.createdAt.getTime())
+          .map(([key, post]) => (
+            <RedditLikePost key={key} post={post} onClick={consoleFunction} />
+          ))}
       </div>
     </div>
   );

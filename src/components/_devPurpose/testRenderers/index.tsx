@@ -1,6 +1,6 @@
 // goal: Object.entries로 렌더 시 퍼포먼스의 차이를 확인하기 위함.
 
-import { memo, Profiler } from "react";
+import { memo } from "react";
 import ArrayRenderer from "./ArrayRenderer";
 import ObjectRenderer from "./ObjectRenderer";
 
@@ -13,6 +13,7 @@ export type RedditPostType = {
   subreddit: string;
   upvotes: string;
   comments: string;
+  createdAt: Date;
 };
 
 export const ArrowUpIcon = () => (
@@ -62,6 +63,7 @@ export const DEFAULTS_POSTS = [
     upvotes: "1.2k",
     comments: "234",
     imageUrl: "https://placehold.co/600x300/a0aec0/ffffff?text=AI+Models",
+    createdAt: new Date(),
   },
   {
     id: "2",
@@ -73,6 +75,7 @@ export const DEFAULTS_POSTS = [
     upvotes: "5.8k",
     comments: "789",
     imageUrl: "https://placehold.co/600x300/fbd38d/ffffff?text=Sunset+View",
+    createdAt: new Date(),
   },
   {
     id: "3",
@@ -84,6 +87,7 @@ export const DEFAULTS_POSTS = [
     upvotes: "890",
     comments: "150",
     imageUrl: null,
+    createdAt: new Date(),
   },
   {
     id: "4",
@@ -95,10 +99,11 @@ export const DEFAULTS_POSTS = [
     upvotes: "3.1k",
     comments: "400",
     imageUrl: "https://placehold.co/600x300/667eea/ffffff?text=React+Hooks",
+    createdAt: new Date(),
   },
 ];
 
-export const RedditPost = memo(
+export const RedditLikePost = memo(
   ({ post, onClick }: { post: RedditPostType; onClick: () => void }) => {
     const { title, content, imageUrl, author, subreddit, upvotes, comments } =
       post;
@@ -191,40 +196,15 @@ export const generateMockPost = (id: string): RedditPostType => {
             Math.random() * 16777215
           ).toString(16)}/ffffff?text=Generated+Post+${id}`
         : null,
+    createdAt: new Date(),
   };
 };
 
 function TestRenderers() {
-  function onRenderObject(
-    id,
-    phase,
-    actualDuration,
-    baseDuration,
-    startTime,
-    commitTime
-  ) {
-    console.log("object", commitTime - startTime);
-  }
-
-  function onRenderArray(
-    id,
-    phase,
-    actualDuration,
-    baseDuration,
-    startTime,
-    commitTime
-  ) {
-    console.log("array", commitTime - startTime);
-  }
-
   return (
     <div className="flex">
-      <Profiler id="object" onRender={onRenderObject}>
-        <ObjectRenderer />
-      </Profiler>
-      <Profiler id="array" onRender={onRenderArray}>
-        <ArrayRenderer />
-      </Profiler>
+      <ObjectRenderer />
+      <ArrayRenderer />
     </div>
   );
 }
