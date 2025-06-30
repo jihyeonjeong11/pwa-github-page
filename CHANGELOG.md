@@ -91,5 +91,8 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 
   https://www.dhiwise.com/post/mastering-react-iterate-over-object-a-comprehensive-guide
 
+- When to use useLayoutEffect - when dom need to be mutated before DOM measurements!
+  https://kentcdodds.com/blog/useeffect-vs-uselayouteffect
+
 코드 구조:
 Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)

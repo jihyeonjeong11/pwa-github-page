@@ -37,7 +37,6 @@ export function useWindowTransition(entry: RndWindowType) {
     Object.create(null) as Variant
   );
 
-  //todo: 다른 effect와 겹치는게 없다면, effect로 바꾸어도
   useLayoutEffect(() => {
     if (entry.minimized) {
       setMinimize({
