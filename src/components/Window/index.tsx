@@ -48,6 +48,7 @@ function Window({
         close={close}
         focus={focus}
       >
+        {/* todo: id 전달하기 */}
         <AppRenderer Component={entry.Component} />
       </WindowContainer>
     </RndWindow>

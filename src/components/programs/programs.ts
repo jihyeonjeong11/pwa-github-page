@@ -28,7 +28,7 @@ const programs: ProgramsType = {
   },
   MemeGenerator: {
     ...baseWindow,
-    Component: lazy(() => import("@/components/programs/editor/index")),
+    Component: lazy(() => import("@/components/programs/memeGenerator/index")),
     name: "meme-generator",
   },
 };

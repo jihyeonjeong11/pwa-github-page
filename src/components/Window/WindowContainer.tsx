@@ -33,12 +33,10 @@ function WindowContainer({
       onClick={() => {
         focus(id);
       }}
-      onDoubleClick={() => {
-        maximize(id);
-      }}
       {...windowTransition}
     >
       <WindowHeader
+        onDoubleClick={() => entry.allowResizing && maximize(id)}
         className={cn(
           focused
             ? "justify-between drag-handle"

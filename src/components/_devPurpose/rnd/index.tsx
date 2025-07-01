@@ -167,10 +167,13 @@ function RndTester() {
   return (
     <div id="app">
       <h1 className="pb-4">Rnd functionality testing page.</h1>
-
       <div className="flex flex-col items-center">
         {Object.entries(programs).map(([k, v]) => (
-          <Button onClick={() => addNewWindow(k)} className="my-4 w-[300px]">
+          <Button
+            key={k + "button"}
+            onClick={() => addNewWindow(k)}
+            className="my-4 w-[300px]"
+          >
             Add {v.name}
           </Button>
         ))}

@@ -1,7 +1,7 @@
-import useIsMobile from '@/hooks/useIsMobile';
-import { RndWindowEntriesType } from '../programs/types';
-import { Button } from '../ui/Button';
-import { useHasIOSBottomBar } from '@/hooks/useIsIOSNotch';
+import useIsMobile from "@/hooks/useIsMobile";
+import { RndWindowEntriesType } from "../programs/types";
+import { Button } from "../ui/Button";
+import { useHasIOSBottomBar } from "@/hooks/useIsIOSNotch";
 
 // currently for testing
 export default function Taskbar({
@@ -30,7 +30,7 @@ export default function Taskbar({
             <div>
               <img
                 alt="logo"
-                src="images/start.png"
+                src="./assets/start.png"
                 className="w-[20px] h-[20px] object-contain"
               />
             </div>
@@ -43,12 +43,12 @@ export default function Taskbar({
           <li key={`${e.name}_task_${id}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
-              onDoubleClick={() => maximize(id)}
+              onDoubleClick={() => e.allowResizing && maximize(id)}
               onClick={() =>
                 e.minimized ? restoreFromMinimize(id) : focus(id)
               }
               className="h-[26px] overflow-hidden"
-              variant={e.focused ? 'focused' : 'primary'}
+              variant={e.focused ? "focused" : "primary"}
             >
               <label className="flex items-center h-full w-full gap-1 text-nowrap text-ellipsis">
                 <div>
