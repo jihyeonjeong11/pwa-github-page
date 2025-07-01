@@ -6,11 +6,9 @@ import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import { DraggableEvent } from "react-draggable";
 import programs from "@/components/programs/programs";
+
 import {
-  DEFAULT_GAME_HEIGHT,
-  DEFAULT_GAME_WIDTH,
-} from "@/components/programs/games/minesweeper";
-import {
+  ProgramType,
   ResizeDirection,
   RndWindowEntriesType,
   RndWindowType,
@@ -30,23 +28,17 @@ function determineDefaultWindowSize() {
   return DEFAULT_WINDOW_SIZE;
 }
 
-function determineGamewindowSize() {
-  // todo: 스타일 변수 css와 constants 두개로 저장하기.
-  return { width: DEFAULT_GAME_WIDTH, height: DEFAULT_GAME_HEIGHT };
-}
-
 // todo: 핸들러 다른 파일로 빼기
-const generateWindow = (length = 1): RndWindowType => {
+const generateWindow = (program: ProgramType, newId: number): RndWindowType => {
   const { width, height } = determineDefaultWindowSize();
-  const program = programs["Editor"];
   const x = (window.innerWidth - width) / 2;
   const y = (window.innerHeight - height) / 2;
   return {
     // rnd props
     x,
     y,
-    width: width,
-    height: height,
+    width: program.width ? program.width : width,
+    height: program.height ? program.height : height,
     // Window props
     minimized: false,
     maximized: false,
@@ -54,30 +46,7 @@ const generateWindow = (length = 1): RndWindowType => {
     focused: false,
     // Component Props
     name: program.name,
-    id: `${program.name}-${length}`,
-    Component: program.Component,
-  };
-};
-
-const generateMineSweeper = (length = 1) => {
-  const { width, height } = determineGamewindowSize();
-  const x = (window.innerWidth - width) / 2;
-  const y = (window.innerHeight - height) / 2;
-  const program = programs.Minesweeper;
-  return {
-    // Rnd props
-    x,
-    y,
-    width: width,
-    height: height,
-    // Window props
-    minimized: false,
-    maximized: false,
-    focused: false,
-    allowResizing: program.allowResizing,
-    // Component props
-    name: program.name,
-    id: `${program.name}-${length}`,
+    id: `${program.name}-${newId}`,
     Component: program.Component,
   };
 };
@@ -104,24 +73,12 @@ function RndTester() {
     );
   }
 
-  function addNewWindow(isTextArea: boolean) {
+  function addNewWindow(k: string) {
     const lastEntry = Object.entries(entryObjects).pop();
-    if (!lastEntry) {
-      const generated = isTextArea ? generateWindow(1) : generateMineSweeper(1);
-      setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
-      focus(generated.id);
-    } else {
-      // todo: 더 나은 방법이 있을지?
-      const [id] = lastEntry;
-
-      const number = Number(id.split("-").pop());
-
-      const generated = isTextArea
-        ? generateWindow(Number(number) + 1)
-        : generateMineSweeper(Number(number) + 1);
-      setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
-      focus(generated.id);
-    }
+    const newId = lastEntry ? Number(lastEntry[1].id.split("-").pop()) + 1 : 1;
+    const generated = generateWindow(programs[k], newId);
+    setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
+    focus(generated.id);
   }
 
   // zindex length
@@ -212,12 +169,11 @@ function RndTester() {
       <h1 className="pb-4">Rnd functionality testing page.</h1>
 
       <div className="flex flex-col items-center">
-        <Button onClick={() => addNewWindow(true)} className="my-4 w-[300px]">
-          Add new window
-        </Button>
-        <Button onClick={() => addNewWindow(false)} className="my-4 w-[300px]">
-          Add new minesweeper(not playable though)
-        </Button>
+        {Object.entries(programs).map(([k, v]) => (
+          <Button onClick={() => addNewWindow(k)} className="my-4 w-[300px]">
+            Add {v.name}
+          </Button>
+        ))}
       </div>
 
       {Object.entries(entryObjects).map(([id, e]) => {

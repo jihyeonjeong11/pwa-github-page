@@ -12,6 +12,8 @@ export type BaseWindowType = {
 export type ProgramType = BaseWindowType & {
   Component: React.LazyExoticComponent<() => JSX.Element>;
   name: string;
+  width?: number;
+  height?: number;
 };
 
 export type ProgramsType = Record<string, ProgramType>;
