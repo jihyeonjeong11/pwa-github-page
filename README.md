@@ -6,6 +6,14 @@
 
 현재 개발 단계: Proof of Concept
 
+## 설치법
+
+```
+git clone
+yarn
+yarn dev
+```
+
 ## Features
 
 ### PWA

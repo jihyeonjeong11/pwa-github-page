@@ -12,6 +12,7 @@ const baseWindow: BaseWindowType = {
   focused: false,
 };
 
+// todo: dynamic import will not move module into another chunk. vite:reporter warning
 const programs: ProgramsType = {
   Editor: {
     ...baseWindow,
