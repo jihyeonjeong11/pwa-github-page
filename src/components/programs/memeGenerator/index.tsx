@@ -39,7 +39,7 @@ function MemeGenerator() {
   return (
     <div className="w-full h-[calc(100%-30px)] text-black bg-white overflow-y-scroll">
       {isSuccess &&
-        data.memes.map((d) => (
+        data.memes.slice(0, 10).map((d) => (
           <figure key={d.name}>
             <figcaption className="py-2">{d.name}</figcaption>
             <ImageWithLoading src={d.url} alt={d.name} />

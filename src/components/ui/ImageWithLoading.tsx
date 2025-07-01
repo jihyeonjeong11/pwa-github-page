@@ -1,3 +1,4 @@
+import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
@@ -12,7 +13,8 @@ function ImageWithLoading({ src, alt }: { src: string; alt: string }) {
     <>
       {!loaded && <Skeleton width={"100%"} height={300} />}
       <img
-        className="w-full h-full"
+        width={DEFAULT_WINDOW_SIZE.width}
+        height={DEFAULT_WINDOW_SIZE.width}
         src={src}
         alt={alt}
         onLoad={handleImageLoaded}
