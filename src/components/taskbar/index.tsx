@@ -30,7 +30,7 @@ export default function Taskbar({
             <div>
               <img
                 alt="logo"
-                src="./assets/start.png"
+                src="images/start.png"
                 className="w-[20px] h-[20px] object-contain"
               />
             </div>
