@@ -7,13 +7,13 @@
 ### Todos
 
 - More Testers
-- Start with StartingScreen -> testers(RND, Startscreen, AllApps, ui comps...)
+- Tester control(StartScreen) -> testers(RND, Startscreen, AllApps, ui comps...)
+-
 
 #### RND
 
-- Centralized state managing
-
--
+- Centralized state managing - use context or anything
+- Two way process stores. 1. process properties 2. RND & size & zIndex... properties
 
 #### Startscreen
 
@@ -21,4 +21,10 @@
 - StartMenu
 - Taskbar
 - Wallpaper
+- Icon executables
+
+#### Docs
+
 -
+
+#### Issues

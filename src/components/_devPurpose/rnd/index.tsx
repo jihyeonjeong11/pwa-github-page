@@ -1,6 +1,6 @@
 import Window from "@/components/Window";
 import { DraggableData, Position, ResizableDelta } from "react-rnd";
-import { lazy, useState } from "react";
+import { useState } from "react";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
@@ -14,11 +14,6 @@ import {
   RndWindowType,
 } from "@/components/programs/types";
 import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
-
-const MemeGenerator = lazy(() => import("@/components/programs/memeGenerator"));
-const Minesweeper = lazy(
-  () => import("@/components/programs/games/minesweeper")
-);
 
 // todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력. CHANGELOG 참고.
 
