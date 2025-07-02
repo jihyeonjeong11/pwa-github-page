@@ -2,6 +2,7 @@ import { getMemes } from "@/api/meme";
 import { Button } from "@/components/ui/Button";
 import ImageWithLoading from "@/components/ui/ImageWithLoading";
 import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -42,7 +43,9 @@ function MemeGenerator() {
         data.memes.slice(0, 10).map((d) => (
           <figure key={d.name}>
             <figcaption className="py-2">{d.name}</figcaption>
-            <ImageWithLoading src={d.url} alt={d.name} />
+            <Suspense fallback={<Skeleton width={"100%"} height={300} />}>
+              <ImageWithLoading src={d.url} alt={d.name} />
+            </Suspense>
           </figure>
         ))}
     </div>
