@@ -1,22 +1,21 @@
-import Window from "@/components/Window";
-import { DraggableData, Position, ResizableDelta } from "react-rnd";
-import { useState } from "react";
-import { DEFAULT_WINDOW_SIZE } from "@/constants";
-import Taskbar from "@/components/taskbar";
-import { Button } from "@/components/ui/Button";
-import { DraggableEvent } from "react-draggable";
-import programs from "@/components/programs/programs";
+import Window from '@/components/Window';
+import { DraggableData, Position, ResizableDelta } from 'react-rnd';
+import { useState } from 'react';
+import { DEFAULT_WINDOW_SIZE } from '@/constants';
+import Taskbar from '@/components/taskbar';
+import { Button } from '@/components/ui/Button';
+import { DraggableEvent } from 'react-draggable';
+import programs from '@/components/programs/programs';
 
 import {
   ProgramType,
   ResizeDirection,
   RndWindowEntriesType,
   RndWindowType,
-} from "@/components/programs/types";
-import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
+} from '@/components/programs/types';
+import { useWindowStackOrder } from '@/hooks/useWindowStackOrder';
 
-// todo: 창 닫기 시 minimize나 maximize 애니메이션이 한번 더 출력. CHANGELOG 참고.
-
+const showWallpaper = false; // todo: use hook
 function determineDefaultWindowSize() {
   // todo: Write isMobile hook
   if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
@@ -58,7 +57,7 @@ function RndTester() {
   );
   const { order } = useWindowStackOrder(entryObjects);
 
-  function focus(id = "") {
+  function focus(id = '') {
     if (!id && entryObjects[id].minimized) return;
     setEntryObjects((prev) =>
       Object.fromEntries(
@@ -75,7 +74,7 @@ function RndTester() {
 
   function addNewWindow(k: string) {
     const lastEntry = Object.entries(entryObjects).pop();
-    const newId = lastEntry ? Number(lastEntry[1].id.split("-").pop()) + 1 : 1;
+    const newId = lastEntry ? Number(lastEntry[1].id.split('-').pop()) + 1 : 1;
     const generated = generateWindow(programs[k], newId);
     setEntryObjects((p) => ({ ...p, [generated.id]: { ...generated } }));
     focus(generated.id);
@@ -118,7 +117,7 @@ function RndTester() {
     });
   }
 
-  function close(id = "") {
+  function close(id = '') {
     if (!id) return;
     setEntryObjects((p) =>
       Object.fromEntries(
@@ -163,13 +162,21 @@ function RndTester() {
         };
       });
     };
+
   return (
-    <div id="app">
+    <div
+      id="app"
+      style={{
+        backgroundImage: showWallpaper
+          ? 'url(https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?crop=entropy&fit=crop)'
+          : '',
+      }}
+    >
       <h1 className="pb-4">Rnd functionality testing page.</h1>
       <div className="flex flex-col items-center">
         {Object.entries(programs).map(([k, v]) => (
           <Button
-            key={k + "button"}
+            key={k + 'button'}
             onClick={() => addNewWindow(k)}
             className="my-4 w-[300px]"
           >
@@ -183,7 +190,7 @@ function RndTester() {
         return (
           <Window
             order={order}
-            key={"rnd" + id}
+            key={'rnd' + id}
             entry={e}
             focus={focus}
             onDragStop={onDragStop}

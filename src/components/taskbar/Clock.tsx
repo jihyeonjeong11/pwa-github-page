@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-// returntype
+//todo: get HeadLocale
 const DEFAULT_LOCALE = 'ko-KR';
 
 const DEFAULT_INTL_CONFIG = {

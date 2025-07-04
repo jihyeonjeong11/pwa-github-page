@@ -1,4 +1,4 @@
-import { JSX, memo } from "react";
+import { JSX, memo, Suspense } from 'react';
 
 function AppRenderer({
   Component,
@@ -7,7 +7,9 @@ function AppRenderer({
 }) {
   return (
     <>
-      <Component />
+      <Suspense>
+        <Component />
+      </Suspense>
     </>
   );
 }
