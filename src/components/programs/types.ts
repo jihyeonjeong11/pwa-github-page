@@ -22,7 +22,7 @@ export type RndProgramType = NonNullable<Props["default"]> & ProgramType;
 
 export type RndWindowType = RndProgramType & { id: string };
 
-// todo: 배열, 객체 테스트에서 큰 퍼포먼스 차이를 얻지 못했음.
+// todo: 배열, 객체 테스트에서 큰 퍼포먼스 차이를 얻지 못했음 배열로도 충분할듯....
 export type RndWindowListType = RndWindowType[];
 
 export type RndWindowEntriesType = Record<string, RndWindowType>;

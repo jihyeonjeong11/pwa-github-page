@@ -1,24 +1,26 @@
 import useIsMobile from "@/hooks/useIsMobile";
-import { RndWindowEntriesType } from "../programs/types";
 import { Button } from "../ui/Button";
 import { useHasIOSBottomBar } from "@/hooks/useIsIOSNotch";
 import Clock from "./Clock";
+import { ProcessListType } from "@/types/process";
+import { useContext } from "react";
+import { ProcessContext } from "@/contexts/ProcessProvider";
 
 // currently for testing
 export default function Taskbar({
   entries,
-  restoreFromMinimize,
+  //restoreFromMinimize,
   focus,
-  maximize,
-}: {
-  entries: RndWindowEntriesType;
+}: //maximize,
+{
+  entries: ProcessListType;
   restoreFromMinimize: (id: string) => void;
   focus: (id: string) => void;
   maximize: (id: string) => void;
 }) {
   const { isMobile } = useIsMobile();
   const { hasIOSBottomBar } = useHasIOSBottomBar();
-
+  const { restore, maximize } = useContext(ProcessContext);
   //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
   return (
     <nav
@@ -40,13 +42,17 @@ export default function Taskbar({
         </Button>
       </div>
       <ol className="p-0.5 flex grow gap-1">
-        {Object.entries(entries).map(([id, e]) => (
+        {entries.map(({ id, ...e }) => (
           <li key={`${e.name}_task_${id}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
-              onDoubleClick={() => e.allowResizing && maximize(id)}
+              onDoubleClick={() =>
+                e.maximized && e.allowResizing
+                  ? maximize(id)
+                  : restore(id, "maximized")
+              }
               onClick={() =>
-                e.minimized ? restoreFromMinimize(id) : focus(id)
+                e.minimized ? restore(id, "minimized") : focus(id)
               }
               className="h-[26px] overflow-hidden"
               variant={e.focused ? "focused" : "primary"}

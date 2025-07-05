@@ -1,9 +1,10 @@
 import { DraggableData, DraggableEvent } from "react-draggable";
 import AppRenderer from "../programs/AppRenderer";
-import { ResizeDirection, RndWindowType } from "../programs/types";
+import { ResizeDirection } from "../programs/types";
 import RndWindow from "./RndWindow";
 import WindowContainer from "./WindowContainer";
 import { Position, ResizableDelta } from "react-rnd";
+import { ProcessType } from "@/types/process";
 
 function Window({
   order,
@@ -16,7 +17,7 @@ function Window({
   close,
 }: {
   order: string[];
-  entry: RndWindowType;
+  entry: ProcessType;
   onDragStop: (
     _event: DraggableEvent,
     data: Partial<DraggableData>

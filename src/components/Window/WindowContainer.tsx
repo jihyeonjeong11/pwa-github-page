@@ -4,21 +4,22 @@ import { Button } from "@/components/ui/Button";
 import { Minimize, Maximize, Close } from "@/components/ui/NavigationIcons";
 import { useWindowTransition } from "./hooks/useWindowTransition";
 import { cn } from "@/lib/utils";
-import { RndWindowType } from "../programs/types";
+import { ProcessContext } from "@/contexts/ProcessProvider";
+import { useContext } from "react";
+import { ProcessType } from "@/types/process";
 
-// todo: hook으로 빼면 더 복잡하게 추가 가능. 이후에 minimize 애니메이션 살리는게 편할 듯.
 // drag -> 타이틀바, 타이틀바 클릭, 터치 -> 포커스, 버튼 세개 -> 최소화 최대화 닫기
 // todo: 주말에 사이즈 배리어블 따로 빼서 정리할
 
 function WindowContainer({
   entry,
-  minimize,
-  maximize,
-  close,
+  //minimize,
+  //maximize,
+  //close,
   focus,
   children,
 }: {
-  entry: RndWindowType;
+  entry: ProcessType;
   minimize: (id: string) => void;
   maximize: (id: string) => void;
   close: (id: string) => void;
@@ -27,7 +28,7 @@ function WindowContainer({
 }) {
   const windowTransition = useWindowTransition(entry);
   const { focused, id } = entry;
-
+  const { close, minimize, maximize, restore } = useContext(ProcessContext);
   return (
     <WindowRoot
       onClick={() => {
@@ -36,7 +37,11 @@ function WindowContainer({
       {...windowTransition}
     >
       <WindowHeader
-        onDoubleClick={() => entry.allowResizing && maximize(id)}
+        onDoubleClick={() =>
+          entry.allowResizing && entry.maximized
+            ? restore(id, "maximized")
+            : maximize(id)
+        }
         className={cn(
           focused
             ? "justify-between drag-handle"
@@ -59,9 +64,11 @@ function WindowContainer({
             <Minimize />
           </Button>
           <Button
-            onClick={() => {
-              if (entry.allowResizing) maximize(id);
-            }}
+            onClick={() =>
+              entry.allowResizing && entry.maximized
+                ? restore(id, "maximized")
+                : maximize(id)
+            }
             variant={"primary"}
             className={"p-0 w-[22px] flex items-center justify-center"}
           >

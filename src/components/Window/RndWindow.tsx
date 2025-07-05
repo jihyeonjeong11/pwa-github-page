@@ -3,6 +3,7 @@ import { DraggableEvent } from "react-draggable";
 import { useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
 import { ResizeDirection, RndWindowType } from "../programs/types";
+import { ProcessType } from "@/types/process";
 
 const RESIZING_DISABLED = {
   bottom: false,
@@ -36,7 +37,7 @@ function RndWindow({
 }: {
   order: string[];
   children: React.ReactElement;
-  entry: RndWindowType;
+  entry: ProcessType;
   focus: (id: string) => void;
   onDragStop: (
     _event: DraggableEvent,
@@ -62,14 +63,14 @@ function RndWindow({
       cancel=".cancel"
       dragHandleClassName="drag-handle"
       style={style}
-      position={{
-        x: entry.x,
-        y: entry.y,
-      }}
-      onDragStart={() => {
-        focus(entry.id);
-      }}
-      onDragStop={(_event, { x, y }) => onDragStop(_event, { x, y })(entry.id)}
+      // position={{
+      //   x: entry.x,
+      //   y: entry.y,
+      // }}
+      // onDragStart={() => {
+      //   focus(entry.id);
+      // }}
+      // onDragStop={(_event, { x, y }) => onDragStop(_event, { x, y })(entry.id)}
       onResizeStop={(e, dir, ref, delta, position) =>
         onResizeStop(e, dir, ref, delta, position)(entry.id)
       }

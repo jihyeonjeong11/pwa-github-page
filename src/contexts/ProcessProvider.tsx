@@ -1,39 +1,42 @@
-import { RndWindowListType, RndWindowType } from "@/components/programs/types";
 import { createContext, ReactNode, useReducer } from "react";
+import {
+  open,
+  processReducer,
+  close,
+  minimize,
+  maximize,
+  restore,
+} from "@/lib/processActions";
+import { ProcessContextType } from "@/types/ProcessContext";
 
-const initialProcesses = {
+const initialProcesses: ProcessContextType = {
   processes: [],
+  open: (): string => "",
+  close: (): string => "",
+  maximize: (): void => undefined,
+  minimize: (): string => "",
+  restore: (): void => undefined,
 };
 
-const ProcessContext = createContext<{ processes: RndWindowListType }>(
-  initialProcesses
-);
-
-const updateProcess = (
-  id: string,
-  updates: Partial<RndWindowType>,
-  processes: RndWindowListType
-) =>
-  processes.map((process) =>
-    process.id === id ? { ...process, ...updates } : process
-  );
-
-export const processReducer = (
-  processes: RndWindowType,
-  { id, process, updates }: any
-) => {
-  if (id && updates) return updateProcess(id, updates, processes);
-  return processes;
-};
+export const ProcessContext =
+  createContext<ProcessContextType>(initialProcesses);
 
 function ProcessProvider({ children }: { children: ReactNode }) {
-  const [processes, updateProcesses] = useReducer(
+  const [processes, dispatch] = useReducer(
     processReducer,
     initialProcesses.processes
   );
-
   return (
-    <ProcessContext.Provider value={{ processes }}>
+    <ProcessContext.Provider
+      value={{
+        processes,
+        open: open(processes, dispatch),
+        close: close(dispatch),
+        minimize: minimize(dispatch),
+        maximize: maximize(dispatch),
+        restore: restore(dispatch),
+      }}
+    >
       {children}
     </ProcessContext.Provider>
   );

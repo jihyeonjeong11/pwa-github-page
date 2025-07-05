@@ -3,6 +3,7 @@ import { useLayoutEffect, useState } from "react";
 import { TASKBAR_HEIGHT } from "@/constants";
 import { Easing } from "motion/react";
 import { RndWindowType } from "../../programs/types";
+import { ProcessType } from "@/types/process";
 
 // consider: 윈도우 상태 스테이트 enum으로 만들어서 그걸로 전부 처리할 것. -> active -> minimizing -> minimized 식으로.. variants를 꼭 쓰지 않아도?>
 const baseMaximize = {
@@ -29,7 +30,7 @@ export const viewHeight = (): number => window.innerHeight;
 
 export const viewWidth = (): number => window.innerWidth;
 
-export function useWindowTransition(entry: RndWindowType) {
+export function useWindowTransition(entry: ProcessType) {
   const [maximize, setMaximize] = useState<Variant>(
     Object.create(null) as Variant
   );
