@@ -88,7 +88,8 @@ export const open =
       ...app,
       id: `test-${processes.length}`,
     });
-    return updateProcesses({ process: generated });
+    updateProcesses({ process: generated });
+    return generated.id;
   };
 
 export const processReducer = (

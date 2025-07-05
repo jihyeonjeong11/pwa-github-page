@@ -12,6 +12,7 @@ import {
 } from "@/components/programs/types";
 import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
 import { ProcessContext } from "@/contexts/ProcessProvider";
+import { SessionContext } from "@/contexts/SessionProvider";
 
 const showWallpaper = false; // todo: use hook
 // function determineDefaultWindowSize() {
@@ -32,7 +33,7 @@ function RndTester() {
   );
   const { order } = useWindowStackOrder(entryObjects);
   const { processes, open } = useContext(ProcessContext);
-
+  const { foreground, sessions } = useContext(SessionContext);
   function focus(id = "") {
     if (!id && entryObjects[id].minimized) return;
     setEntryObjects((prev) =>
@@ -147,7 +148,9 @@ function RndTester() {
             key={k + "button"}
             onClick={(e) => {
               e.preventDefault();
-              open(v);
+              const id = open(v);
+
+              foreground(id);
             }}
             className="my-4 w-[300px]"
           >
