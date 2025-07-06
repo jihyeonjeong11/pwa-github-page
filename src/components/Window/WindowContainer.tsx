@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { useContext } from "react";
 import { ProcessType } from "@/types/process";
+import { SessionContext } from "@/contexts/SessionProvider";
 
 // drag -> 타이틀바, 타이틀바 클릭, 터치 -> 포커스, 버튼 세개 -> 최소화 최대화 닫기
 // todo: 주말에 사이즈 배리어블 따로 빼서 정리할
@@ -29,6 +30,9 @@ function WindowContainer({
   const windowTransition = useWindowTransition(entry);
   const { focused, id } = entry;
   const { close, minimize, maximize, restore } = useContext(ProcessContext);
+  const {
+    session: { foregroundId },
+  } = useContext(SessionContext);
   return (
     <WindowRoot
       onClick={() => {
@@ -43,7 +47,7 @@ function WindowContainer({
             : maximize(id)
         }
         className={cn(
-          focused
+          id === foregroundId
             ? "justify-between drag-handle"
             : "justify-between bg-primary-button-border drag-handle",
           "w-full h-full flex"

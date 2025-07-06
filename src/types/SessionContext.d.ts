@@ -1,3 +1,11 @@
+export type SessionStateType = {
+  id: string;
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+};
+
 export type SessionType = {
   foregroundId: string;
   states: Record<string, unknown>; //todo: Adjust type as needed
@@ -7,11 +15,11 @@ export type SessionType = {
 export type SessionObjectType = Record<string, SessionType>;
 
 export type SessionContextType = {
-  sessions: SessionObjectType;
-  focus: (id: string) => void;
+  session: SessionType;
+  foreground: (id: string) => void;
 };
 
 export type SessionAction = {
   foregroundId?: string;
-  state?: SessionObjectType;
+  state?: SessionStateType;
 };

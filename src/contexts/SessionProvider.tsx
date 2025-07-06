@@ -1,17 +1,14 @@
-import {
-  changeForeground,
-  foreground,
-  sessionReducer,
-} from "@/lib/sessionActions";
+import { foreground, sessionReducer } from "@/lib/sessionActions";
+import { SessionContextType } from "@/types/SessionContext";
 import { createContext, useReducer } from "react";
 
-const initialSessionState = {
+const initialSessionState: SessionContextType = {
   session: {
     foregroundId: "",
     states: {},
     stackOrder: [],
   },
-  focus: () => null, //todo focus
+  foreground: () => null,
 };
 
 export const SessionContext = createContext(initialSessionState);
