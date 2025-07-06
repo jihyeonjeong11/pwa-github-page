@@ -1,10 +1,8 @@
-# PWA-Windows
-
-## 윈도우 95 테마 PWA
+# PWA-Windows - WIndows 95 themed PWA app based on reactjs
 
 ### Deployed / Download link : [깃헙 페이지](https://jihyeonjeong11.github.io/pwa-github-page/)
 
-현재 개발 단계: Proof of Concept
+Current stage: Proof of Concepts
 
 ## 설치법
 
@@ -20,13 +18,27 @@ yarn dev
 
 - PWA powered by [Vite PWA](https://vite-pwa-org.netlify.app/)
 
-### Windows Interactions - 작업 중
+### Feature lists - Todo
 
-![rnd-test](/public/images/rnd-test.webp)
+#### - Desktop & Wallpaper
 
-- 리사이즈, 드래그 powered by [React rnd](https://github.com/bokuweb/react-rnd)
-- 창 최소화, 최대화, 닫기
-- 윈도우 애니메이션 powered by [Motion](https://motion.dev/)
+#### - Some Real app(use Webaseembly or, text editor)
+
+### Feature lists - WIP
+
+#### - Contexts
+
+#### - Taskbar
+
+#### - Styling
+
+#### - Windows(Rnd) feature
+
+#### - Windows animation(motion)
+
+### Featire lists - Done
+
+#### - Taskbar clock
 
 ## License
 
