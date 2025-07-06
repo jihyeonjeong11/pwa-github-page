@@ -10,16 +10,16 @@ export const foreground =
   (id: string): void =>
     updateSession({ foregroundId: id });
 
-const saveState = (session: SessionType, state: SessionStateType) => {
-  return {
-    ...session,
-    states: {
-      ...session.states,
-      [state.id]: state,
-    },
-    stackOrder: session.stackOrder.filter((stackId) => stackId !== state.id),
+export const saveState =
+  (session: SessionType, updateSession: Dispatch<SessionAction>) =>
+  (state): void => {
+    const { x: previousX = 0, y: previousY = 0 } =
+      session.states[state.id] || {};
+
+    updateSession({
+      state: state,
+    });
   };
-};
 
 const changeForeground = (session: SessionType, foregroundId: string) => ({
   ...session,

@@ -17,6 +17,7 @@ export type SessionObjectType = Record<string, SessionType>;
 export type SessionContextType = {
   session: SessionType;
   foreground: (id: string) => void;
+  saveState: (session: SessionType) => void;
 };
 
 export type SessionAction = {

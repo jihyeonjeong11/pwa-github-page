@@ -3,7 +3,7 @@ import { ProcessListType } from "./process";
 
 export type ProcessContextType = {
   processes: ProcessListType;
-  open: (app: ProgramType) => void;
+  open: (app: ProgramType) => string;
   close: (id: string) => void;
   maximize: (id: string) => void;
   minimize: (id: string) => void;

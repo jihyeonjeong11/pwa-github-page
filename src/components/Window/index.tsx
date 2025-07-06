@@ -12,9 +12,6 @@ function Window({
   focus,
   onDragStop,
   onResizeStop,
-  minimize,
-  maximize,
-  close,
 }: {
   order: string[];
   entry: ProcessType;
@@ -42,13 +39,7 @@ function Window({
       onDragStop={onDragStop}
       onResizeStop={onResizeStop}
     >
-      <WindowContainer
-        entry={entry}
-        minimize={minimize}
-        maximize={maximize}
-        close={close}
-        focus={focus}
-      >
+      <WindowContainer entry={entry}>
         {/* todo: id 전달하기 */}
         <AppRenderer Component={entry.Component} />
       </WindowContainer>

@@ -5,14 +5,12 @@ import Clock from "./Clock";
 import { ProcessListType } from "@/types/process";
 import { useContext } from "react";
 import { ProcessContext } from "@/contexts/ProcessProvider";
+import { SessionContext } from "@/contexts/SessionProvider";
 
 // currently for testing
 export default function Taskbar({
   entries,
-  //restoreFromMinimize,
-  focus,
-}: //maximize,
-{
+}: {
   entries: ProcessListType;
   restoreFromMinimize: (id: string) => void;
   focus: (id: string) => void;
@@ -21,6 +19,10 @@ export default function Taskbar({
   const { isMobile } = useIsMobile();
   const { hasIOSBottomBar } = useHasIOSBottomBar();
   const { restore, maximize } = useContext(ProcessContext);
+  const {
+    session: { foregroundId },
+    foreground,
+  } = useContext(SessionContext);
   //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
   return (
     <nav
@@ -52,10 +54,10 @@ export default function Taskbar({
                   : restore(id, "maximized")
               }
               onClick={() =>
-                e.minimized ? restore(id, "minimized") : focus(id)
+                e.minimized ? restore(id, "minimized") : foreground(id)
               }
               className="h-[26px] overflow-hidden"
-              variant={e.focused ? "focused" : "primary"}
+              variant={id === foregroundId ? "focused" : "primary"}
             >
               <label className="flex items-center h-full w-full gap-1 text-nowrap text-ellipsis">
                 <div>

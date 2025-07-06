@@ -4,6 +4,8 @@ import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Process from "./process";
 import { Dispatch } from "react";
 import { ProcessAction, ProcessListType } from "@/types/process";
+import { v7 as uuid } from "uuid";
+import { RndDragCallback, RndResizeCallback } from "react-rnd";
 
 function determineDefaultWindowSize() {
   // todo: Write isMobile hook
@@ -15,6 +17,24 @@ function determineDefaultWindowSize() {
   }
   return DEFAULT_WINDOW_SIZE;
 }
+
+export const position =
+  (updateProcesses: Dispatch<ProcessAction>) =>
+  (id: string): RndDragCallback =>
+  (_event, { x, y }): void =>
+    updateProcesses({ id, updates: { x, y } });
+
+export const size =
+  (updateProcesses: Dispatch<ProcessAction>) =>
+  (id: string): RndResizeCallback =>
+  (
+    _event,
+    _direction,
+    { offsetWidth: width, offsetHeight: height },
+    _delta,
+    { x, y }
+  ): void =>
+    updateProcesses({ id, updates: { height, width, x, y } });
 
 // todo: 핸들러 다른 파일로 빼기
 export const generateWindow = (
@@ -46,10 +66,12 @@ const updateProcess = (
   id: string,
   updates: Partial<RndWindowType>,
   processes: ProcessListType
-) =>
-  processes.map((process) =>
+) => {
+  console.log("update");
+  return processes.map((process) =>
     process.id === id ? { ...process, ...updates } : process
   );
+};
 
 const addProcess = (
   process: RndWindowType,
@@ -86,8 +108,10 @@ export const open =
     // todo: id 체커
     const generated = new Process({
       ...app,
-      id: `test-${processes.length}`,
+      id: `test-${uuid()}`,
     });
+
+    console.log(generated);
     updateProcesses({ process: generated });
     return generated.id;
   };

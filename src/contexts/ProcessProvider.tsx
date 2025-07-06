@@ -6,6 +6,8 @@ import {
   minimize,
   maximize,
   restore,
+  position,
+  size,
 } from "@/lib/processActions";
 import { ProcessContextType } from "@/types/ProcessContext";
 
@@ -35,6 +37,8 @@ function ProcessProvider({ children }: { children: ReactNode }) {
         minimize: minimize(dispatch),
         maximize: maximize(dispatch),
         restore: restore(dispatch),
+        position: position(dispatch),
+        size: size(dispatch),
       }}
     >
       {children}

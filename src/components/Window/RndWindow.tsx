@@ -1,9 +1,10 @@
 import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
 import { DraggableEvent } from "react-draggable";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { MIN_WINDOW_SIZE } from "@/constants";
 import { ResizeDirection, RndWindowType } from "../programs/types";
 import { ProcessType } from "@/types/process";
+import { ProcessContext } from "@/contexts/ProcessProvider";
 
 const RESIZING_DISABLED = {
   bottom: false,
@@ -51,6 +52,7 @@ function RndWindow({
     position: Position
   ) => (id: string) => void;
 }) {
+  const { position, size } = useContext(ProcessContext);
   const style = useMemo<React.CSSProperties>(
     () => ({
       zIndex: order.indexOf(entry.id) + 1,
@@ -63,18 +65,13 @@ function RndWindow({
       cancel=".cancel"
       dragHandleClassName="drag-handle"
       style={style}
-      // position={{
-      //   x: entry.x,
-      //   y: entry.y,
-      // }}
-      // onDragStart={() => {
-      //   focus(entry.id);
-      // }}
-      // onDragStop={(_event, { x, y }) => onDragStop(_event, { x, y })(entry.id)}
-      onResizeStop={(e, dir, ref, delta, position) =>
-        onResizeStop(e, dir, ref, delta, position)(entry.id)
-      }
-      size={{ width: entry.width, height: entry.height }}
+      position={{
+        x: entry.x!,
+        y: entry.y!,
+      }}
+      onDragStop={position(entry.id)}
+      onResizeStop={size(entry.id)}
+      size={{ width: entry.width!, height: entry.height! }}
       minHeight={MIN_WINDOW_SIZE.height}
       minWidth={MIN_WINDOW_SIZE.width}
       enableResizing={

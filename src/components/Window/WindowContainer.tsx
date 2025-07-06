@@ -10,33 +10,25 @@ import { ProcessType } from "@/types/process";
 import { SessionContext } from "@/contexts/SessionProvider";
 
 // drag -> 타이틀바, 타이틀바 클릭, 터치 -> 포커스, 버튼 세개 -> 최소화 최대화 닫기
-// todo: 주말에 사이즈 배리어블 따로 빼서 정리할
 
 function WindowContainer({
   entry,
-  //minimize,
-  //maximize,
-  //close,
-  focus,
   children,
 }: {
   entry: ProcessType;
-  minimize: (id: string) => void;
-  maximize: (id: string) => void;
-  close: (id: string) => void;
-  focus: (id: string) => void;
   children: React.ReactElement;
 }) {
   const windowTransition = useWindowTransition(entry);
-  const { focused, id } = entry;
+  const { id } = entry;
   const { close, minimize, maximize, restore } = useContext(ProcessContext);
   const {
     session: { foregroundId },
+    foreground,
   } = useContext(SessionContext);
   return (
     <WindowRoot
       onClick={() => {
-        focus(id);
+        foreground(id);
       }}
       {...windowTransition}
     >

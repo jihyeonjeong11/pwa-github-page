@@ -4,6 +4,8 @@ export type ProcessType = {
   Component: React.LazyExoticComponent<() => JSX.Element>;
   width?: number;
   height?: number;
+  x?: number;
+  y?: number;
   allowResizing: boolean;
   minimized: boolean;
   maximized: boolean;

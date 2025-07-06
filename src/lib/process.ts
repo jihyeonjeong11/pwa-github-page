@@ -6,6 +6,8 @@ class Process {
   Component;
   width;
   height;
+  x;
+  y;
   allowResizing;
   minimized;
   maximized;
@@ -17,6 +19,8 @@ class Process {
     Component,
     width,
     height,
+    x,
+    y,
     allowResizing = true,
     minimized = false,
     maximized = false,
@@ -31,6 +35,8 @@ class Process {
     this.minimized = minimized;
     this.maximized = maximized;
     this.focused = focused;
+    this.x = x || 0;
+    this.y = y || 0;
   }
 }
 

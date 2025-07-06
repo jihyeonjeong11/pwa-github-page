@@ -1,14 +1,15 @@
-import { foreground, sessionReducer } from "@/lib/sessionActions";
+import { foreground, saveState, sessionReducer } from "@/lib/sessionActions";
 import { SessionContextType } from "@/types/SessionContext";
 import { createContext, useReducer } from "react";
 
 const initialSessionState: SessionContextType = {
   session: {
     foregroundId: "",
-    states: {},
+    states: {}, // todo: position
     stackOrder: [],
   },
   foreground: () => null,
+  saveState: () => null,
 };
 
 export const SessionContext = createContext(initialSessionState);
@@ -21,7 +22,11 @@ function SessionProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <SessionContext.Provider
-      value={{ session, foreground: foreground(dispatch) }}
+      value={{
+        session,
+        foreground: foreground(dispatch),
+        saveState: saveState(session, dispatch),
+      }}
     >
       {children}
     </SessionContext.Provider>
