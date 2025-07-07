@@ -5,6 +5,7 @@ import Clock from "./Clock";
 import { useContext } from "react";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
+import { ProcessType } from "@/types/process";
 
 export default function Taskbar() {
   const { isMobile } = useIsMobile();
@@ -14,6 +15,11 @@ export default function Taskbar() {
     foreground,
     session: { foregroundId },
   } = useContext(SessionContext);
+
+  const onRestore = (e: ProcessType) => {
+    if (e.minimized) restore(e.id, "minimized");
+    foreground(e.id);
+  };
 
   //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
   return (
@@ -36,20 +42,18 @@ export default function Taskbar() {
         </Button>
       </div>
       <ol className="p-0.5 flex grow gap-1">
-        {processes.map(({ id, ...e }) => (
-          <li key={`${e.name}_task_${id}`} className="text-sm">
+        {processes.map((e) => (
+          <li key={`${e.name}_task_${e.id}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button
               onDoubleClick={() =>
                 e.maximized && e.allowResizing
-                  ? maximize(id)
-                  : restore(id, "maximized")
+                  ? maximize(e.id)
+                  : restore(e.id, "maximized")
               }
-              onClick={() =>
-                e.minimized ? restore(id, "minimized") : foreground(id)
-              }
+              onClick={() => onRestore(e)}
               className="h-[26px] overflow-hidden"
-              variant={id === foregroundId ? "focused" : "primary"}
+              variant={e.id === foregroundId ? "focused" : "primary"}
             >
               <label className="flex items-center h-full w-full gap-1 text-nowrap text-ellipsis">
                 <div>

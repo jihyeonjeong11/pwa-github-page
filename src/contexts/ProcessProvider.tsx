@@ -13,11 +13,13 @@ import { ProcessContextType } from "@/types/ProcessContext";
 
 const initialProcesses: ProcessContextType = {
   processes: [],
-  open: (): string => "",
-  close: (): string => "",
-  maximize: (): void => undefined,
-  minimize: (): string => "",
-  restore: (): void => undefined,
+  open: () => "",
+  close: () => "",
+  maximize: () => undefined,
+  minimize: () => "",
+  restore: () => undefined,
+  position: () => undefined,
+  size: () => undefined,
 };
 
 export const ProcessContext =

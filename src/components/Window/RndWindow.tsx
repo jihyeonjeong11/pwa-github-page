@@ -31,12 +31,12 @@ const RESIZING_ENABLED = {
 function RndWindow({
   children,
   entry,
-  focus,
+
   onDragStop,
   onResizeStop,
-  order,
+  zIndex,
 }: {
-  order: string[];
+  zIndex: number;
   children: React.ReactElement;
   entry: ProcessType;
   focus: (id: string) => void;
@@ -52,26 +52,17 @@ function RndWindow({
     position: Position
   ) => (id: string) => void;
 }) {
-  console.log(order);
-  const { position, size } = useContext(ProcessContext);
-  const style = useMemo<React.CSSProperties>(
-    () => ({
-      zIndex: order.indexOf(entry.id) + 1,
-    }),
-    [entry.id, order]
-  );
-
   return (
     <Rnd
       cancel=".cancel"
       dragHandleClassName="drag-handle"
-      style={style}
+      style={{ zIndex: zIndex }}
       position={{
         x: entry.x!,
         y: entry.y!,
       }}
-      onDragStop={position(entry.id)}
-      onResizeStop={size(entry.id)}
+      onDragStop={onDragStop}
+      onResizeStop={onResizeStop}
       size={{ width: entry.width!, height: entry.height! }}
       minHeight={MIN_WINDOW_SIZE.height}
       minWidth={MIN_WINDOW_SIZE.width}

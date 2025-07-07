@@ -43,7 +43,6 @@ export const getState = (session: SessionType) => (id: string) => {
 export const foreground =
   (updateSession: Dispatch<SessionAction>) =>
   (id: string): void => {
-    console.log("foreground", id);
     updateSession({ foregroundId: id });
   };
 

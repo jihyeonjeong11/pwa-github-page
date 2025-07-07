@@ -76,7 +76,6 @@ export const position =
   (id: string): RndDragCallback =>
   (_event, { x, y }): void =>
     updateProcesses({ id, updates: { x, y } });
-
 export const size =
   (updateProcesses: Dispatch<ProcessAction>) =>
   (id: string): RndResizeCallback =>

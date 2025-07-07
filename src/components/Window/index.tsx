@@ -1,49 +1,24 @@
-import { DraggableData, DraggableEvent } from "react-draggable";
 import AppRenderer from "../programs/AppRenderer";
-import { ResizeDirection } from "../programs/types";
 import RndWindow from "./RndWindow";
 import WindowContainer from "./WindowContainer";
-import { Position, ResizableDelta } from "react-rnd";
 import { ProcessType } from "@/types/process";
 import useWindowControl from "@/hooks/useWindowControl";
 
-function Window({
-  order,
-  entry,
-  focus,
-  onDragStop,
-  onResizeStop,
-}: {
-  order: string[];
-  entry: ProcessType;
-  onDragStop: (
-    _event: DraggableEvent,
-    data: Partial<DraggableData>
-  ) => (id: string) => void;
-  onResizeStop: (
-    e: MouseEvent | TouchEvent,
-    dir: ResizeDirection,
-    elementRef: HTMLElement,
-    delta: ResizableDelta,
-    position: Position
-  ) => (id: string) => void;
-  minimize: (id: string) => void;
-  maximize: (id: string) => void;
-  close: (id: string) => void;
-  focus: (id: string) => void;
-}) {
+function Window({ entry }: { entry: ProcessType }) {
   const {
-    onOpen,
     onMaximize,
     onClickHeader,
     onDoubleClick,
     onClose,
     onMinimize,
+    zIndex,
+    onDragStop,
+    onResizeStop,
   } = useWindowControl(entry);
 
   return (
     <RndWindow
-      order={order}
+      zIndex={zIndex}
       entry={entry}
       focus={focus}
       onDragStop={onDragStop}

@@ -28,61 +28,12 @@ function RndTester() {
   const [entryObjects, setEntryObjects] = useState<RndWindowEntriesType>(
     {} as RndWindowEntriesType
   );
-  const { order } = useWindowStackOrder(entryObjects);
   const { processes, open, position, size, minimize, maximize, restore } =
     useContext(ProcessContext);
   const {
     foreground,
     session: { foregroundId },
   } = useContext(SessionContext);
-
-  // todo: handler goes to custom hook useWIndow
-
-  // function close(id = "") {
-  //   if (!id) return;
-  //   setEntryObjects((p) =>
-  //     Object.fromEntries(
-  //       Object.entries(p).filter(([entryId]) => entryId !== id)
-  //     )
-  //   );
-  // }
-  // function onDragStop(_event: DraggableEvent, data: Partial<DraggableData>) {
-  //   return function (id: string) {
-  //     setEntryObjects((p) => {
-  //       return {
-  //         ...p,
-  //         [id]: {
-  //           ...p[id],
-  //           x: data.x!,
-  //           y: data.y!,
-  //         },
-  //       };
-  //     });
-  //   };
-  // }
-
-  // const onResizeStop =
-  //   (
-  //     _e: MouseEvent | TouchEvent,
-  //     _dir: ResizeDirection,
-  //     _ref: HTMLElement,
-  //     _delta: ResizableDelta,
-  //     _position: Position
-  //   ) =>
-  //   (id: string) => {
-  //     setEntryObjects((p) => {
-  //       return {
-  //         ...p,
-  //         [id]: {
-  //           ...p[id],
-  //           width: _ref.offsetWidth,
-  //           height: _ref.offsetHeight,
-  //           x: _position.x,
-  //           y: _position.y,
-  //         },
-  //       };
-  //     });
-  //   };
 
   return (
     <div
@@ -112,7 +63,6 @@ function RndTester() {
       {processes.map((process) => {
         return (
           <Window
-            order={order}
             key={process.id}
             entry={process}
             onDragStop={position(process.id)}

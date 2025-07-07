@@ -24,8 +24,8 @@ function WindowContainer({
   onClickHeader: () => void;
   onMaximize: () => void;
   onDoubleClick: () => void;
-  onMinimize: () => void;
-  onClose: () => void;
+  onMinimize: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
   const windowTransition = useWindowTransition(entry);
   const { id } = entry;
