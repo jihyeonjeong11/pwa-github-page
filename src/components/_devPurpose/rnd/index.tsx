@@ -1,15 +1,11 @@
 import Window from "@/components/Window";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Taskbar from "@/components/taskbar";
 import { Button } from "@/components/ui/Button";
 import programs from "@/components/programs/programs";
 
-import { RndWindowEntriesType } from "@/components/programs/types";
-import { useWindowStackOrder } from "@/hooks/useWindowStackOrder";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
-import useWindowControl from "@/hooks/useWindowControl";
-import { on } from "events";
 
 const showWallpaper = false; // todo: use hook
 // function determineDefaultWindowSize() {
@@ -24,16 +20,8 @@ const showWallpaper = false; // todo: use hook
 // }
 
 function RndTester() {
-  // todo: Window 하나당 singleton을 위해 context 도입하기 및 useHook 만들기.
-  const [entryObjects, setEntryObjects] = useState<RndWindowEntriesType>(
-    {} as RndWindowEntriesType
-  );
-  const { processes, open, position, size, minimize, maximize, restore } =
-    useContext(ProcessContext);
-  const {
-    foreground,
-    session: { foregroundId },
-  } = useContext(SessionContext);
+  const { processes, open } = useContext(ProcessContext);
+  const { foreground } = useContext(SessionContext);
 
   return (
     <div
@@ -61,14 +49,7 @@ function RndTester() {
       </div>
 
       {processes.map((process) => {
-        return (
-          <Window
-            key={process.id}
-            entry={process}
-            onDragStop={position(process.id)}
-            onResizeStop={size(process.id)}
-          />
-        );
+        return <Window key={process.id} entry={process} />;
       })}
 
       <Taskbar />

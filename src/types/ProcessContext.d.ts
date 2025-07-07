@@ -8,6 +8,6 @@ export type ProcessContextType = {
   maximize: (id: string) => void;
   minimize: (id: string) => void;
   restore: (id: string, key: "minimized" | "maximized") => void;
-  position: (id: string) => void;
-  size: (id: string) => void;
+  position: (id: string) => RndDragCallback;
+  size: (id: string) => RndResizeCallback;
 };

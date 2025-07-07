@@ -1,10 +1,6 @@
-import { Rnd, DraggableData, ResizableDelta, Position } from "react-rnd";
-import { DraggableEvent } from "react-draggable";
-import { useContext, useMemo } from "react";
+import { Rnd, RndDragCallback, RndResizeCallback } from "react-rnd";
 import { MIN_WINDOW_SIZE } from "@/constants";
-import { ResizeDirection, RndWindowType } from "../programs/types";
 import { ProcessType } from "@/types/process";
-import { ProcessContext } from "@/contexts/ProcessProvider";
 
 const RESIZING_DISABLED = {
   bottom: false,
@@ -40,17 +36,8 @@ function RndWindow({
   children: React.ReactElement;
   entry: ProcessType;
   focus: (id: string) => void;
-  onDragStop: (
-    _event: DraggableEvent,
-    data: Partial<DraggableData>
-  ) => (id: string) => void;
-  onResizeStop: (
-    e: MouseEvent | TouchEvent,
-    dir: ResizeDirection,
-    elementRef: HTMLElement,
-    delta: ResizableDelta,
-    position: Position
-  ) => (id: string) => void;
+  onDragStop: RndDragCallback;
+  onResizeStop: RndResizeCallback;
 }) {
   return (
     <Rnd
