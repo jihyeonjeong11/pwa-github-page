@@ -15,11 +15,11 @@ const initialProcesses: ProcessContextType = {
   processes: [],
   open: () => "",
   close: () => "",
-  maximize: () => undefined,
+  maximize: () => null,
   minimize: () => "",
-  restore: () => undefined,
-  position: () => undefined,
-  size: () => undefined,
+  restore: () => null,
+  position: () => null,
+  size: () => null,
 };
 
 export const ProcessContext =

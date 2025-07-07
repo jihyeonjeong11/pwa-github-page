@@ -5,17 +5,18 @@ import { Dispatch } from "react";
 import { ProcessAction, ProcessListType } from "@/types/process";
 import { v7 as uuid } from "uuid";
 import { RndDragCallback, RndResizeCallback } from "react-rnd";
+import { DEFAULT_WINDOW_SIZE } from "@/constants";
 
-// function determineDefaultWindowSize() {
-//   // todo: Write isMobile hook
-//   if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
-//     return {
-//       width: window.innerWidth,
-//       height: window.innerWidth - 100,
-//     };
-//   }
-//   return DEFAULT_WINDOW_SIZE;
-// }
+function determineDefaultWindowSize() {
+  // todo: Write isMobile hook
+  if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
+    return {
+      width: window.innerWidth,
+      height: window.innerWidth - 100,
+    };
+  }
+  return DEFAULT_WINDOW_SIZE;
+}
 
 // // todo: 핸들러 다른 파일로 빼기
 // export const generateWindow = (
@@ -115,8 +116,23 @@ export const open =
   (processes: ProcessListType, updateProcesses: Dispatch<ProcessAction>) =>
   (app: ProgramType) => {
     // todo: 윈도우 overlay 감지 펑션. 만약 새로 생기는 윈도우가 이전 윈도우를 가린다면, x + 100 y + 100으로 효과를 줄것.
+    // todo: latest, 첫 생성 시 중앙에 둠.
+    // todo: make it recursive
+    const { width, height } = determineDefaultWindowSize();
+    let initialX = (window.innerWidth - width) / 2;
+    let initialY = (window.innerHeight - height) / 2;
+
+    processes.forEach((e) => {
+      if (e.x === initialX && e.y === initialY) {
+        initialX += 50;
+        initialY += 50;
+      }
+    });
+
     const generated = new Process({
       ...app,
+      x: initialX,
+      y: initialY,
       id: `test-${uuid()}`,
     });
 
