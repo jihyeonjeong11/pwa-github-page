@@ -1,22 +1,75 @@
 // todo: reducer
 import { ProgramType, RndWindowType } from "@/components/programs/types";
-import { DEFAULT_WINDOW_SIZE } from "@/constants";
 import Process from "./process";
 import { Dispatch } from "react";
 import { ProcessAction, ProcessListType } from "@/types/process";
 import { v7 as uuid } from "uuid";
 import { RndDragCallback, RndResizeCallback } from "react-rnd";
 
-function determineDefaultWindowSize() {
-  // todo: Write isMobile hook
-  if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
-    return {
-      width: window.innerWidth,
-      height: window.innerWidth - 100,
-    };
+// function determineDefaultWindowSize() {
+//   // todo: Write isMobile hook
+//   if (window.innerWidth < DEFAULT_WINDOW_SIZE.width) {
+//     return {
+//       width: window.innerWidth,
+//       height: window.innerWidth - 100,
+//     };
+//   }
+//   return DEFAULT_WINDOW_SIZE;
+// }
+
+// // todo: 핸들러 다른 파일로 빼기
+// export const generateWindow = (
+//   program: ProgramType,
+//   newId: number
+// ): RndWindowType => {
+//   const { width, height } = determineDefaultWindowSize();
+//   const x = (window.innerWidth - width) / 2;
+//   const y = (window.innerHeight - height) / 2;
+//   return {
+//     // rnd props
+//     x,
+//     y,
+//     width: program.width ? program.width : width,
+//     height: program.height ? program.height : height,
+//     // Window props
+//     minimized: false,
+//     maximized: false,
+//     allowResizing: program.allowResizing,
+//     focused: false,
+//     // Component Props
+//     name: program.name,
+//     id: `${program.name}-${newId}`,
+//     Component: program.Component,
+//   };
+// };
+
+const updateProcess = (
+  id: string,
+  updates: Partial<RndWindowType>,
+  processes: ProcessListType
+) => {
+  return processes.map((process) =>
+    process.id === id ? { ...process, ...updates } : process
+  );
+};
+
+const addProcess = (
+  process: RndWindowType,
+  processes: ProcessListType,
+  previousState: Partial<RndWindowType> = {}
+) => [...processes, { ...process, ...previousState }];
+
+export const processReducer = (
+  processes: ProcessListType,
+  { id, process, updates }: ProcessAction
+) => {
+  if (id && updates) return updateProcess(id, updates, processes);
+  if (process) return addProcess(process, processes);
+  if (id) {
+    return processes.filter((process) => process.id !== id);
   }
-  return DEFAULT_WINDOW_SIZE;
-}
+  return processes;
+};
 
 export const position =
   (updateProcesses: Dispatch<ProcessAction>) =>
@@ -35,49 +88,6 @@ export const size =
     { x, y }
   ): void =>
     updateProcesses({ id, updates: { height, width, x, y } });
-
-// todo: 핸들러 다른 파일로 빼기
-export const generateWindow = (
-  program: ProgramType,
-  newId: number
-): RndWindowType => {
-  const { width, height } = determineDefaultWindowSize();
-  const x = (window.innerWidth - width) / 2;
-  const y = (window.innerHeight - height) / 2;
-  return {
-    // rnd props
-    x,
-    y,
-    width: program.width ? program.width : width,
-    height: program.height ? program.height : height,
-    // Window props
-    minimized: false,
-    maximized: false,
-    allowResizing: program.allowResizing,
-    focused: false,
-    // Component Props
-    name: program.name,
-    id: `${program.name}-${newId}`,
-    Component: program.Component,
-  };
-};
-
-const updateProcess = (
-  id: string,
-  updates: Partial<RndWindowType>,
-  processes: ProcessListType
-) => {
-  console.log("update");
-  return processes.map((process) =>
-    process.id === id ? { ...process, ...updates } : process
-  );
-};
-
-const addProcess = (
-  process: RndWindowType,
-  processes: ProcessListType,
-  previousState: Partial<RndWindowType> = {}
-) => [...processes, { ...process, ...previousState }];
 
 export const maximize =
   (updateProcesses: Dispatch<ProcessAction>) =>
@@ -105,25 +115,12 @@ export const restore =
 export const open =
   (processes: ProcessListType, updateProcesses: Dispatch<ProcessAction>) =>
   (app: ProgramType) => {
-    // todo: id 체커
+    // todo: 윈도우 overlay 감지 펑션. 만약 새로 생기는 윈도우가 이전 윈도우를 가린다면, x + 100 y + 100으로 효과를 줄것.
     const generated = new Process({
       ...app,
       id: `test-${uuid()}`,
     });
 
-    console.log(generated);
     updateProcesses({ process: generated });
     return generated.id;
   };
-
-export const processReducer = (
-  processes: ProcessListType,
-  { id, process, updates }: ProcessAction
-) => {
-  if (id && updates) return updateProcess(id, updates, processes);
-  if (process) return addProcess(process, processes);
-  if (id) {
-    return processes.filter((process) => process.id !== id);
-  }
-  return processes;
-};

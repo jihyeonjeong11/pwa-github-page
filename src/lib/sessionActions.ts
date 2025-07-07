@@ -5,6 +5,40 @@ import {
 } from "@/types/SessionContext";
 import { Dispatch } from "react";
 
+const updateState = (session: SessionType, state: SessionStateType) => ({
+  ...session,
+  states: {
+    ...session.states,
+    [state.id]: state,
+  },
+  stackOrder: session.stackOrder.filter((stackId) => stackId !== state.id),
+});
+
+const changeForeground = (session: SessionType, foregroundId: string) => ({
+  ...session,
+  foregroundId,
+  stackOrder: [
+    ...(foregroundId ? [foregroundId] : []),
+    ...session.stackOrder.filter((stackId) => stackId !== foregroundId),
+  ],
+});
+
+export const sessionReducer = (
+  session: SessionType,
+  { foregroundId, state }: SessionAction
+) => {
+  // x, y 저장용
+  if (state) return updateState(session, state);
+  if (foregroundId) {
+    return changeForeground(session, foregroundId);
+  }
+  return session;
+};
+
+export const getState = (session: SessionType) => (id: string) => {
+  return session.states[id] || {};
+};
+
 export const foreground =
   (updateSession: Dispatch<SessionAction>) =>
   (id: string): void =>
@@ -12,27 +46,16 @@ export const foreground =
 
 export const saveState =
   (session: SessionType, updateSession: Dispatch<SessionAction>) =>
-  (state): void => {
-    const { x: previousX = 0, y: previousY = 0 } =
-      session.states[state.id] || {};
+  ({ id, height = 0, width = 0, x = 0, y = 0 }: SessionStateType) => {
+    const { x: previousX = 0, y: previousY = 0 } = getState(session)(id);
 
     updateSession({
-      state: state,
+      state: {
+        id,
+        height,
+        width,
+        x: previousX === x ? x : previousX + x,
+        y: previousY === y ? y : previousY + y,
+      },
     });
   };
-
-const changeForeground = (session: SessionType, foregroundId: string) => ({
-  ...session,
-  foregroundId,
-});
-
-export const sessionReducer = (
-  session: SessionType,
-  { foregroundId, state }: SessionAction
-) => {
-  if (state) return saveState(session, state);
-  if (foregroundId) {
-    return changeForeground(session, foregroundId);
-  }
-  return session;
-};

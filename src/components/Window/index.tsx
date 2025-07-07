@@ -5,6 +5,7 @@ import RndWindow from "./RndWindow";
 import WindowContainer from "./WindowContainer";
 import { Position, ResizableDelta } from "react-rnd";
 import { ProcessType } from "@/types/process";
+import useWindowControl from "@/hooks/useWindowControl";
 
 function Window({
   order,
@@ -31,6 +32,7 @@ function Window({
   close: (id: string) => void;
   focus: (id: string) => void;
 }) {
+  const control = useWindowControl(entry);
   return (
     <RndWindow
       order={order}

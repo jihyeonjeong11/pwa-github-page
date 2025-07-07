@@ -2,27 +2,19 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { Button } from "../ui/Button";
 import { useHasIOSBottomBar } from "@/hooks/useIsIOSNotch";
 import Clock from "./Clock";
-import { ProcessListType } from "@/types/process";
 import { useContext } from "react";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
 
-// currently for testing
-export default function Taskbar({
-  entries,
-}: {
-  entries: ProcessListType;
-  restoreFromMinimize: (id: string) => void;
-  focus: (id: string) => void;
-  maximize: (id: string) => void;
-}) {
+export default function Taskbar() {
   const { isMobile } = useIsMobile();
   const { hasIOSBottomBar } = useHasIOSBottomBar();
-  const { restore, maximize } = useContext(ProcessContext);
+  const { processes, maximize, restore } = useContext(ProcessContext);
   const {
-    session: { foregroundId },
     foreground,
+    session: { foregroundId },
   } = useContext(SessionContext);
+
   //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
   return (
     <nav
@@ -44,7 +36,7 @@ export default function Taskbar({
         </Button>
       </div>
       <ol className="p-0.5 flex grow gap-1">
-        {entries.map(({ id, ...e }) => (
+        {processes.map(({ id, ...e }) => (
           <li key={`${e.name}_task_${id}`} className="text-sm">
             {/* todo: 아이콘 */}
             <Button

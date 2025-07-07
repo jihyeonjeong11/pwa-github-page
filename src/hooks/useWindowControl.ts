@@ -3,9 +3,10 @@
 
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
+import { ProcessType } from "@/types/process";
 import { useCallback, useContext } from "react";
 
-function useWindowControl() {
+function useWindowControl({ process }: { process: ProcessType }) {
   const { saveState, session, foreground } = useContext(SessionContext);
   const { open, processes } = useContext(ProcessContext);
 
