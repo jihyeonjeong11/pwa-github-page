@@ -32,7 +32,15 @@ function Window({
   close: (id: string) => void;
   focus: (id: string) => void;
 }) {
-  const control = useWindowControl(entry);
+  const {
+    onOpen,
+    onMaximize,
+    onClickHeader,
+    onDoubleClick,
+    onClose,
+    onMinimize,
+  } = useWindowControl(entry);
+
   return (
     <RndWindow
       order={order}
@@ -41,7 +49,14 @@ function Window({
       onDragStop={onDragStop}
       onResizeStop={onResizeStop}
     >
-      <WindowContainer entry={entry}>
+      <WindowContainer
+        entry={entry}
+        onMaximize={onMaximize}
+        onClickHeader={onClickHeader}
+        onDoubleClick={onDoubleClick}
+        onClose={onClose}
+        onMinimize={onMinimize}
+      >
         {/* todo: id 전달하기 */}
         <AppRenderer Component={entry.Component} />
       </WindowContainer>

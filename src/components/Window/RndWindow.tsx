@@ -52,6 +52,7 @@ function RndWindow({
     position: Position
   ) => (id: string) => void;
 }) {
+  console.log(order);
   const { position, size } = useContext(ProcessContext);
   const style = useMemo<React.CSSProperties>(
     () => ({

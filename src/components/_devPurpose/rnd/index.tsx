@@ -35,20 +35,6 @@ function RndTester() {
     foreground,
     session: { foregroundId },
   } = useContext(SessionContext);
-  function focus(id = "") {
-    if (!id && entryObjects[id].minimized) return;
-    setEntryObjects((prev) =>
-      Object.fromEntries(
-        Object.entries(prev).map(([entryId, entry]) => [
-          entryId,
-          {
-            ...entry,
-            focused: entryId === id,
-          },
-        ])
-      )
-    );
-  }
 
   // todo: handler goes to custom hook useWIndow
 
@@ -129,12 +115,8 @@ function RndTester() {
             order={order}
             key={process.id}
             entry={process}
-            focus={focus}
             onDragStop={position(process.id)}
             onResizeStop={size(process.id)}
-            minimize={onMinimize}
-            maximize={maximize}
-            close={close}
           />
         );
       })}

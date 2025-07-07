@@ -29,7 +29,8 @@ export const sessionReducer = (
 ) => {
   // x, y 저장용
   if (state) return updateState(session, state);
-  if (foregroundId) {
+  // 포커스 지우는 용도
+  if (typeof foregroundId === "string") {
     return changeForeground(session, foregroundId);
   }
   return session;
@@ -41,8 +42,10 @@ export const getState = (session: SessionType) => (id: string) => {
 
 export const foreground =
   (updateSession: Dispatch<SessionAction>) =>
-  (id: string): void =>
+  (id: string): void => {
+    console.log("foreground", id);
     updateSession({ foregroundId: id });
+  };
 
 export const saveState =
   (session: SessionType, updateSession: Dispatch<SessionAction>) =>

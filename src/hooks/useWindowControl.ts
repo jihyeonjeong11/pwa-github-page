@@ -6,20 +6,60 @@ import { SessionContext } from "@/contexts/SessionProvider";
 import { ProcessType } from "@/types/process";
 import { useCallback, useContext } from "react";
 
-function useWindowControl({ process }: { process: ProcessType }) {
+function useWindowControl(entry: ProcessType) {
   const { saveState, session, foreground } = useContext(SessionContext);
-  const { open, processes } = useContext(ProcessContext);
+  const { open, processes, restore, maximize, close, minimize } =
+    useContext(ProcessContext);
 
   const onOpen = useCallback(
     (program) => {
       const id = open(program);
-      console.log("after open", processes, id);
       foreground(id);
     },
     [open, processes, foreground]
   );
 
-  return { onOpen };
+  const onClickHeader = useCallback(() => {
+    return foreground(entry.id);
+  }, [entry.id, foreground]);
+
+  const onDoubleClick = useCallback(() => {
+    return entry.allowResizing && entry.maximized
+      ? restore(entry.id, "maximized")
+      : maximize(entry.id);
+  }, [entry.allowResizing, entry.id, entry.maximized, maximize, restore]);
+
+  const onMaximize = useCallback(() => {
+    return entry.allowResizing && entry.maximized
+      ? restore(entry.id, "maximized")
+      : maximize(entry.id);
+  }, [entry.allowResizing, entry.maximized, maximize, restore, entry.id]);
+
+  const onClose = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      close(entry.id);
+    },
+    [close, entry.id]
+  );
+
+  const onMinimize = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      foreground("");
+      minimize(entry.id);
+    },
+    [entry.id, foreground, minimize]
+  );
+
+  return {
+    onOpen,
+    onMaximize,
+    onClickHeader,
+    onDoubleClick,
+    onClose,
+    onMinimize,
+  };
 }
 
 export default useWindowControl;
