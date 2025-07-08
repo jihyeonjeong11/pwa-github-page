@@ -14,6 +14,7 @@ const baseWindow: BaseWindowType = {
 };
 
 // todo: dynamic import will not move module into another chunk. vite:reporter warning
+// todo: add icons
 const programs: ProgramsType = {
   Editor: {
     ...baseWindow,

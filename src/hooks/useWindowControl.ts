@@ -4,7 +4,7 @@
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
 import { ProcessType } from "@/types/process";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext } from "react";
 
 const baseZindex = 1000;
 
@@ -13,9 +13,8 @@ function useWindowControl(entry: ProcessType) {
   const { restore, maximize, close, minimize, position, size } =
     useContext(ProcessContext);
 
-  const zIndex = useMemo(() => {
-    return baseZindex + session.stackOrder.slice().reverse().indexOf(entry.id);
-  }, [entry.id, session.stackOrder]);
+  const zIndex =
+    baseZindex + session.stackOrder.slice().reverse().indexOf(entry.id);
 
   const onDragStop = position(entry.id);
   const onResizeStop = size(entry.id);
