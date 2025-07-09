@@ -1,9 +1,11 @@
 import PWABadge from "./PWABadge.tsx";
 import "./app.css";
-import RndTester from "./components/_devPurpose/rnd/index.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import ProcessProvider from "./contexts/ProcessProvider.tsx";
 import SessionProvider from "./contexts/SessionProvider.tsx";
+import Desktop from "./components/Desktop/index.tsx";
+
+//import RndTester from "./components/_devPurpose/rnd/index.tsx";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +16,7 @@ export default function App() {
       <SessionProvider>
         <ProcessProvider>
           <QueryClientProvider client={queryClient}>
-            <RndTester />
+            {/* <RndTester /> */} <Desktop />
           </QueryClientProvider>
         </ProcessProvider>
       </SessionProvider>
