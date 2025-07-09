@@ -5,7 +5,6 @@ import useWallpaper from "@/hooks/useWallpaper";
 import Taskbar from "../taskbar";
 import { useContext } from "react";
 import { ProcessContext } from "@/contexts/ProcessProvider";
-import { SessionContext } from "@/contexts/SessionProvider";
 import Window from "@/components/Window";
 import programs from "../programs/programs";
 import FileEntry from "../file";
@@ -15,8 +14,7 @@ import FileEntry from "../file";
 
 function Desktop() {
   const { style, getRandomWallpaper } = useWallpaper();
-  const { processes, open } = useContext(ProcessContext);
-  const { foreground } = useContext(SessionContext);
+  const { processes } = useContext(ProcessContext);
   return (
     <div
       id="app"

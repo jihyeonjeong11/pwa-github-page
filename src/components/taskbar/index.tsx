@@ -22,6 +22,7 @@ export default function Taskbar() {
   };
 
   //todo: 언젠가 바텀 패딩이 더 잡힌다면 notch-safe가 pwa를 지원하는 것임.
+  // todo: starting menu
   return (
     <nav
       style={{ paddingBottom: isMobile && hasIOSBottomBar ? 55 : 0 }}
