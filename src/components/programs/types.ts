@@ -14,6 +14,7 @@ export type ProgramType = BaseWindowType & {
   name: string;
   width?: number;
   height?: number;
+  icon?: string;
 };
 
 export type ProgramsType = Record<string, ProgramType>;

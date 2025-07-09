@@ -20,17 +20,22 @@ Instead of /public/images/Bubbles.webp, use /images/Bubbles.webp.
 // todo: 3d background just for fun
 
 const wallpaperArr = [bubbles, thatch, rivets, stone, forest];
+const size = ["cover", "contain", "auto"];
 
 function useWallpaper() {
   const [wallpaper, setWallpaper] = useState("");
+  const [sizeStrategy, setSizeStrategy] = useState("");
 
   const getRandomWallpaper = () => {
     const randomIndex = Math.floor(Math.random() * wallpaperArr.length + 1);
     setWallpaper(wallpaperArr[randomIndex]);
+    const randomStrategy = Math.floor(Math.random() * size.length + 1);
+    setSizeStrategy(size[randomStrategy]);
   };
 
   return {
     style: {
+      backgroundSize: sizeStrategy,
       backgroundImage: `url(${wallpaper})`,
     },
     getRandomWallpaper,
