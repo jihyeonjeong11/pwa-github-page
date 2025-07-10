@@ -11,7 +11,7 @@ import FileEntry from "../file";
 
 // todo: 윈도우 로딩 스크린
 // todo: taskbar -> 시작메뉴 dropdown
-
+// todo: file이 리렌더 됨.
 function Desktop() {
   const { style, getRandomWallpaper } = useWallpaper();
   const { processes } = useContext(ProcessContext);
@@ -27,16 +27,6 @@ function Desktop() {
     >
       <div className="flex flex-col gap-2 items-start">
         {Object.entries(programs).map(([k, v]) => (
-          // <Button
-          //   key={k + "button"}
-          //   onClick={() => {
-          //     const id = open(v);
-          //     foreground(id);
-          //   }}
-          //   className="my-4 w-[300px]"
-          // >
-          //   Add {v.name}
-          // </Button>
           <FileEntry key={k} program={v} />
         ))}
       </div>

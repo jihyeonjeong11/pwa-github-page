@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
 import { ProcessType } from "@/types/process";
+import StartMenu from "./StartMenu";
 
 export default function Taskbar() {
   const { isMobile } = useIsMobile();
@@ -28,20 +29,7 @@ export default function Taskbar() {
       style={{ paddingBottom: isMobile && hasIOSBottomBar ? 55 : 0 }}
       className={`fixed left-0 bottom-0 bg-primary-window-background w-full h-8 border-t-2 border-t-white flex justify-start gap-2 notch-safe`}
     >
-      <div className="p-0.5">
-        <Button className="p-1 h-[26px]">
-          <label className="flex items-center h-full w-full gap-1">
-            <div>
-              <img
-                alt="logo"
-                src="images/start.png"
-                className="w-[20px] h-[20px] object-contain"
-              />
-            </div>
-            Start
-          </label>
-        </Button>
-      </div>
+      <StartMenu />
       <ol className="p-0.5 flex grow gap-1">
         {processes.map((e) => (
           <li key={`${e.name}_task_${e.id}`} className="text-sm">
