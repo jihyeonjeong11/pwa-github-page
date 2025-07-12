@@ -1,15 +1,22 @@
-import { JSX, memo, Suspense } from "react";
+import { JSX, LazyExoticComponent, memo, Suspense } from "react";
+
+export type ComponentProcessProps = {
+  id: string;
+};
 
 function AppRenderer({
   Component,
+  id,
 }: {
-  Component: React.LazyExoticComponent<() => JSX.Element>;
+  Component: LazyExoticComponent<({ id }: { id: string }) => JSX.Element>;
+  id: string;
 }) {
+  console.log("renderer", id);
   // todo: fallback 빈 로딩공간
   return (
     <>
       <Suspense>
-        <Component />
+        <Component id={id} />
       </Suspense>
     </>
   );

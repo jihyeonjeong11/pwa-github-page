@@ -1,9 +1,7 @@
-export type ProcessType = {
+import { ProgramType } from "@/components/programs/types";
+
+export type ProcessType = ProgramType & {
   id: string;
-  name: string;
-  Component: React.LazyExoticComponent<() => JSX.Element>;
-  width?: number;
-  height?: number;
   x?: number;
   y?: number;
   allowResizing: boolean;

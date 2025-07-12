@@ -15,7 +15,7 @@ function Window({ entry }: { entry: ProcessType }) {
     onDragStop,
     onResizeStop,
   } = useWindowControl(entry);
-
+  console.log("meme", entry.id);
   return (
     <RndWindow
       zIndex={zIndex}
@@ -33,7 +33,7 @@ function Window({ entry }: { entry: ProcessType }) {
         onMinimize={onMinimize}
       >
         {/* todo: id 전달하기 */}
-        <AppRenderer Component={entry.Component} />
+        <AppRenderer Component={entry.Component} id={entry.id} />
       </WindowContainer>
     </RndWindow>
   );

@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, LazyExoticComponent } from "react";
 import { Props } from "react-rnd";
 
 // todo: 더 쪼갤 수 있나?
@@ -10,7 +10,7 @@ export type BaseWindowType = {
 };
 
 export type ProgramType = BaseWindowType & {
-  Component: React.LazyExoticComponent<() => JSX.Element>;
+  Component: LazyExoticComponent<({ id }: { id: string }) => JSX.Element>;
   name: string;
   width?: number;
   height?: number;
