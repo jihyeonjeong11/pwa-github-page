@@ -3,12 +3,16 @@ import * as pdfjs from "pdfjs-dist";
 import { ComponentProcessProps } from "../AppRenderer";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { PDFDocumentProxy } from "pdfjs-dist";
+import Skeleton from "react-loading-skeleton";
 
 const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 const BASE_SCALE = 1.5;
 
 // todo: web pdf -> local pdf from static path -> local pdf from fs
+// todo: usePdf hook
+// todo: usePdfSize hook , 아니라면, 사이즈를 고정으로 두고 확대/축소만 가능하도록..
+// todo: pdf loader -> drag and drop or upload button -> pdf load
 function PdfReader({
   id,
   pdfUrl = testPdfUrl,
@@ -25,8 +29,6 @@ function PdfReader({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("first run");
-
     const loadPdf = async () => {
       setLoading(true);
       setError("");
@@ -41,7 +43,6 @@ function PdfReader({
         try {
           const loadingTask = pdfjs.getDocument(testPdfUrl);
           pdfRef.current = await loadingTask.promise;
-          console.log(pdfRef.current);
           setTotalPages(pdfRef.current._pdfInfo.numPages);
 
           if (pageNum !== 1) {
@@ -52,7 +53,6 @@ function PdfReader({
           console.error(e, "error loading pdf");
         }
       } else {
-        console.log("second run");
         // Page change
         if (pdfRef.current && canvasRef.current) {
           try {
@@ -84,9 +84,12 @@ function PdfReader({
   }
 
   return (
-    <div>
+    <div className="w-full">
       {loading && <>loading...</>}
-      <canvas ref={canvasRef} className="max-w-full h-auto"></canvas>
+      {/* todo: add title */}
+      <div className="overflow-hidden w-ful h-[calc(100%-60px)]">
+        <canvas ref={canvasRef} className="w-full" />
+      </div>
       {!loading && pdfRef.current && (
         <div className="flex flex-col items-center mt-6">
           <div className="mb-4 text-gray-700">
@@ -94,14 +97,16 @@ function PdfReader({
           </div>
           <div className="flex space-x-4 mb-6">
             <button
-              onClick={() => null}
+              onClick={() => setPageNum((prev) => Math.max(prev - 1, 1))}
               disabled={pageNum <= 1}
               className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300"
             >
               Previous
             </button>
             <button
-              onClick={() => null}
+              onClick={() =>
+                setPageNum((prev) => Math.min(prev + 1, totalPages))
+              }
               disabled={pageNum >= totalPages}
               className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300"
             >

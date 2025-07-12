@@ -41,6 +41,7 @@ const programs: ProgramsType = {
     name: "pdf-reader",
     Component: lazy(() => import("@/components/programs/pdfReader/index")),
     width: DEFAULT_WINDOW_SIZE.width,
+    allowResizing: false,
     icon: "./images/pdf.ico",
   },
 };
