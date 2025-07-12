@@ -3,8 +3,9 @@
 2025/07/11
 
 - 버전 컨트롤
-- 실제 앱 기능 추가(메모장?)
-- useIndexedDB for file system
+- 실제 앱 기능 추가
+- ideas: pdf reader, rich text editor, a windows game
+- useIndexedDB for file system v1 -> browserfs v2
 - 시작 메뉴
 - 바탕화면 파일
 - 바탕화면 월페이퍼
@@ -102,6 +103,12 @@ https://codepen.io/gabriellewee/pen/MWqRZzp
 
 - When to use useLayoutEffect - when dom need to be mutated before DOM measurements!
   https://kentcdodds.com/blog/useeffect-vs-uselayouteffect
+
+- pdfjs-example
+  https://mozilla.github.io/pdf.js/examples/
+
+- pdfjs-react-exp
+  https://codesandbox.io/p/sandbox/pdf-viewer-w7wpu?file=%2Fsrc%2FPdfUrlViewer.js
 
 코드 구조:
 Inspired by [Colocation by Kent C. Dodds](https://kentcdodds.com/blog/colocation)

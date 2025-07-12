@@ -44,8 +44,8 @@ function StartMenu() {
   return (
     <DropdownMenuPrimitive.Root onOpenChange={setIsOpen} open={isOpen}>
       <div className="p-0.5">
-        <DropdownMenuPrimitive.Trigger>
-          <Button className="p-1 h-[26px]">
+        <Button asChild className="p-1 h-[26px]">
+          <DropdownMenuPrimitive.Trigger>
             <label className="flex items-center h-full w-full gap-1">
               <div>
                 <img
@@ -56,8 +56,9 @@ function StartMenu() {
               </div>
               Start
             </label>
-          </Button>
-        </DropdownMenuPrimitive.Trigger>
+          </DropdownMenuPrimitive.Trigger>
+        </Button>
+
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.Content
             className={cn(

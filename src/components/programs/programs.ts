@@ -36,6 +36,13 @@ const programs: ProgramsType = {
     Component: lazy(() => import("@/components/programs/memeGenerator/index")),
     name: "meme-generator",
   },
+  PdfReader: {
+    ...baseWindow,
+    name: "pdf-reader",
+    Component: lazy(() => import("@/components/programs/pdfReader/index")),
+    width: DEFAULT_WINDOW_SIZE.width,
+    icon: "./images/pdf.ico",
+  },
 };
 
 export default programs;
