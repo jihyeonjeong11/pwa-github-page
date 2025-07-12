@@ -10,7 +10,13 @@ import { ProgramType } from "../programs/types";
 const STARTMENU_ICON_WIDTH = 36;
 const STARTMENU_ICON_HEIGHT = 36;
 
-function MenuItem({ program, onClick }: { program: Partial<ProgramType> }) {
+function MenuItem({
+  program,
+  onClick,
+}: {
+  program: Partial<ProgramType>;
+  onClick: () => void;
+}) {
   const icon = program.icon ? program.icon : "images/drive1.ico";
 
   return (
@@ -55,7 +61,7 @@ function StartMenu() {
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.Content
             className={cn(
-              "bg-primary-window-background h-[300px] flex",
+              "bg-primary-window-background min-h-[220px] flex",
               outerBorderClass
             )}
             align="start"
@@ -63,7 +69,7 @@ function StartMenu() {
           >
             <DropdownMenuPrimitive.Item className="bg-secondary-window-background w-[30px]">
               <div
-                className="w-full h-full pt-4 flex items-center text-white"
+                className="w-full pt-4 flex items-center text-white"
                 style={{
                   writingMode: "vertical-rl",
                   transform: "rotate(180deg)",

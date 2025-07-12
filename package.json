@@ -2,7 +2,16 @@
   "name": "pwa-windows",
   "private": true,
   "version": "0.3.0",
+  "description": "PWA app imitating Iconic Windows OS",
   "type": "module",
+  "keywords": [
+    "pwa",
+    "windows",
+    "95",
+    "reactjs"
+  ],
+  "author": "JIHYEON JEONG",
+  "LICENSE": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
