@@ -6,6 +6,7 @@ import programs from "../programs/programs";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
 import { ProgramType } from "../programs/types";
+import { Start } from "@/images";
 
 const STARTMENU_ICON_WIDTH = 36;
 const STARTMENU_ICON_HEIGHT = 36;
@@ -50,7 +51,7 @@ function StartMenu() {
               <div>
                 <img
                   alt="logo"
-                  src="images/start.png"
+                  src={Start}
                   className="w-[20px] h-[20px] object-contain"
                 />
               </div>

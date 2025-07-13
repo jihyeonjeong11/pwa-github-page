@@ -5,6 +5,7 @@ import {
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
+import { PdfIcon } from "@/images";
 
 const baseWindow: BaseWindowType = {
   allowResizing: true,
@@ -42,7 +43,7 @@ const programs: ProgramsType = {
     Component: lazy(() => import("@/components/programs/pdfReader/index")),
     width: DEFAULT_WINDOW_SIZE.width,
     allowResizing: false,
-    icon: "./images/pdf.ico",
+    icon: PdfIcon,
   },
 };
 

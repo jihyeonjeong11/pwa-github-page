@@ -121,7 +121,6 @@ export const open =
     const { width, height } = determineDefaultWindowSize();
     let initialX = (window.innerWidth - width) / 2;
     let initialY = (window.innerHeight - height) / 2;
-    console.log(width, height, "hello");
     processes.forEach((e) => {
       if (e.x === initialX && e.y === initialY) {
         initialX += 50;
@@ -131,6 +130,8 @@ export const open =
 
     const generated = new Process({
       ...app,
+      width,
+      height,
       x: initialX,
       y: initialY,
       id: `test-${uuid()}`,

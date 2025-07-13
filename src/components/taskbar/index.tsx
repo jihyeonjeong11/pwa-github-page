@@ -7,6 +7,7 @@ import { ProcessContext } from "@/contexts/ProcessProvider";
 import { SessionContext } from "@/contexts/SessionProvider";
 import { ProcessType } from "@/types/process";
 import StartMenu from "./StartMenu";
+import { Drive1Icon } from "@/images";
 
 export default function Taskbar() {
   const { isMobile } = useIsMobile();
@@ -48,7 +49,7 @@ export default function Taskbar() {
                 <div>
                   <img
                     alt="disk"
-                    src="images/drive1.ico"
+                    src={Drive1Icon}
                     className="w-[20px] h-[20px] object-contain"
                   />
                 </div>
