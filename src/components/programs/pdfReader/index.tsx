@@ -1,14 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ComponentProcessProps } from "../AppRenderer";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import PdfForm from "./PdfForm";
 import usePDF from "./usePDF";
+import useResizableContent from "@/hooks/useResizableContent";
 
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
 // todo: local pdf from fs
 // todo: usePdf hook 클리닝
-// todo: usePdfSize hook , 아니라면, 사이즈를 고정으로 두고 확대/축소만 가능하도록..
+// todo: useResizableContent hook , resizeObserver needed
 // todo: onDrag 리사이징
 // todo: pdf 컨트롤, useIntersectionObserver
 // todo: canvas 렌더러
@@ -18,8 +19,8 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   const [pdfTitle, setPdfTitle] = useState("");
 
   const { processes } = useContext(ProcessContext);
-  const { width } = processes.find((p) => p.id === id)!;
-  const { status, pages } = usePDF(pdfBlob, width!);
+  const { width, height } = processes.find((p) => p.id === id)!;
+  const { status, pages } = usePDF(pdfBlob, width!, height!);
 
   const onDropPdf = (file: File) => {
     setPdfBlob(URL.createObjectURL(file));

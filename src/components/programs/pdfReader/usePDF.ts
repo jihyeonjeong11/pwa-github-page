@@ -3,12 +3,29 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import * as pdfjs from "pdfjs-dist";
 import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
+import useResizableContent from "@/hooks/useResizableContent";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
-function usePDF(pdfUrl: string, width: number) {
+// Here's how we'll structure it:
+
+// Store the PDFDocumentProxy: Your usePDF hook needs to hold onto the loaded PDF document (docs) itself. This allows you to re-access any page (docs.getPage(i)) for re-rendering without having to re-fetch the entire PDF file.
+
+// Create a renderPages function: This function will take the PDFDocumentProxy and the desired targetWidth, then iterate through all pages, re-render them to new canvases (or re-use existing ones if optimized), and update the pages state.
+
+// Trigger renderPages:
+
+// Once the PDF document is initially loaded.
+
+// Whenever the targetWidth changes.
+
+function usePDF(pdfUrl: string, width: number, height: number) {
   const [pages, setPages] = useState<HTMLCanvasElement[]>([]);
   const [status, setStatus] = useState<"loading" | "error" | "loaded" | "">("");
+  const [docs, setDocs] = useState<PDFDocumentProxy | null>(
+    Object.create(null) as PDFDocumentProxy
+  );
+  useResizableContent(width, height, () => null);
 
   const loadPage = useCallback(
     async (docs: PDFDocumentProxy, i: number) => {
@@ -38,6 +55,7 @@ function usePDF(pdfUrl: string, width: number) {
     async (blob: string) => {
       try {
         const docs = await pdfjs.getDocument(blob).promise;
+        setDocs(docs);
         const pdfInfo: PDFDocumentProxy = docs._pdfInfo;
         const totalPages = pdfInfo.numPages;
         const pagePromises = [];
