@@ -3,113 +3,92 @@ import * as pdfjs from "pdfjs-dist";
 import { ComponentProcessProps } from "../AppRenderer";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import { PDFDocumentProxy } from "pdfjs-dist";
-import { Button } from "@/components/ui/Button";
+import PdfForm from "./PdfForm";
+import usePDF from "./usePDF";
 
 const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
-const BASE_SCALE = 1.5;
 
 // todo: web pdf -> local pdf from static path -> local pdf from fs
 // todo: usePdf hook
 // todo: usePdfSize hook , 아니라면, 사이즈를 고정으로 두고 확대/축소만 가능하도록..
 // todo: pdf loader -> drag and drop or upload button -> pdf load
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
-  const [pdfUrl, setPdfUrl] = useState("");
+  const [pdfBlob, setPdfBlob] = useState("");
+  const [pdfTitle, setPdfTitle] = useState("");
+  const { status, pages } = usePDF(pdfBlob);
+  console.log("loading");
+  console.log(pages, "loaded pages");
   const { processes } = useContext(ProcessContext);
   const { width, height } = processes.find((p) => p.id === id)!;
   const pdfRef = useRef<PDFDocumentProxy | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const onDropPdf = (file: File) => {
+    setPdfBlob(URL.createObjectURL(file));
+    setPdfTitle(file.name);
+  };
 
   // todo: process로 다룰 것.
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadPdf = async () => {
-      setLoading(true);
-      setError("");
+  // useEffect(() => {
+  //   const loadPdf = async () => {
+  //     setLoading(true);
+  //     setError("");
 
-      if (!pdfUrl) {
-        setLoading(false);
-        return;
-      }
-      // First loading
-      if (!pdfRef.current) {
-        try {
-          const loadingTask = pdfjs.getDocument(testPdfUrl);
-          pdfRef.current = await loadingTask.promise;
-          setTotalPages(pdfRef.current._pdfInfo.numPages);
+  //     if (!pdfUrl) {
+  //       setLoading(false);
+  //       return;
+  //     }
+  //     // First loading
+  //     if (!pdfRef.current) {
+  //       try {
+  //         const loadingTask = pdfjs.getDocument(pdfUrl);
+  //         pdfRef.current = await loadingTask.promise;
+  //         setTotalPages(pdfRef.current._pdfInfo.numPages);
 
-          if (pageNum !== 1) {
-            setPageNum(1);
-            return;
-          }
-        } catch (e) {
-          console.error(e, "error loading pdf");
-        }
-      } else {
-        // Page change
-        if (pdfRef.current && canvasRef.current) {
-          try {
-            const page = await pdfRef.current.getPage(pageNum);
-            const canvas = canvasRef.current;
-            const context = canvas.getContext("2d", {
-              alpha: false,
-              desynchronized: true,
-            })!;
-            const scale = BASE_SCALE;
-            const viewport = page.getViewport({ scale });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            const renderContext = {
-              canvasContext: context,
-              viewport: viewport,
-            };
-            await page.render(renderContext).promise;
-          } catch (e) {
-            console.log(e, "error reendering page");
-          } finally {
-            setLoading(false);
-          }
-        }
-      }
-    };
-    loadPdf();
-  }, [pdfUrl, pageNum, totalPages]);
+  //         if (pageNum !== 1) {
+  //           setPageNum(1);
+  //           return;
+  //         }
+  //       } catch (e) {
+  //         console.error(e, "error loading pdf");
+  //       }
+  //     } else {
+  //       // Page change
+  //       if (pdfRef.current && canvasRef.current) {
+  //         try {
+  //           const page = await pdfRef.current.getPage(pageNum);
+  //           const canvas = canvasRef.current;
+  //           const context = canvas.getContext("2d", {
+  //             alpha: false,
+  //             desynchronized: true,
+  //           })!;
+  //           const scale = BASE_SCALE;
+  //           const viewport = page.getViewport({ scale });
+  //           // todo: make it dynamic?
+  //           canvas.height = height! - 200; // viewport.height;
+  //           canvas.width = width!; // viewport.width;
+  //           const renderContext = {
+  //             canvasContext: context,
+  //             viewport: viewport,
+  //           };
+  //           await page.render(renderContext).promise;
+  //         } catch (e) {
+  //           console.log(e, "error reendering page");
+  //         } finally {
+  //           setLoading(false);
+  //         }
+  //       }
+  //     }
+  //   };
+  //   loadPdf();
+  // }, [pdfUrl, pageNum, totalPages, height, width]);
 
-  if (!pdfUrl) {
-    return (
-      <form
-        className="flex flex-col justify-center items-center h-full w-full border-2 border-dashed border-gray-400 p-8 cursor-pointer"
-        action="upload-pdf"
-        method="post"
-        encType="multipart/form-data"
-        //onClick={handleFormClick}
-        //onDragOver={handleDragOver}
-        //onDrop={handleDrop}
-      >
-        <legend className="mb-4 text-lg font-semibold">Select PDF</legend>
-
-        <fieldset className="text-center flex flex-col items-center">
-          <label className="text-gray-600 mb-2">
-            Choose, paste or drag and drop.
-          </label>
-          <input
-            type="file"
-            //ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={(e) => {
-              console.log("Files selected:", e.target.files);
-            }}
-          />
-          <p className="mt-4 text-blue-500 underline">
-            Click or drag files here
-          </p>
-        </fieldset>
-      </form>
-    );
+  if (!pdfBlob) {
+    return <PdfForm onDropPdf={onDropPdf} />;
   }
 
   if (error) {
@@ -117,11 +96,39 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full h-[calc(100%-30px)] text-black bg-white overflow-y-scroll">
+      {/* todo: header control, title, pagecount, zooming, download, print */}
+      <nav className="h-[30px] flex justify-between px-2">
+        <div>{pdfTitle}</div>
+        <div className="flex">
+          <div className="flex">
+            <div>{pageNum}</div>
+            <div> / </div>
+            <div>{totalPages}</div>
+          </div>
+          <div>zooming</div>
+        </div>
+        <div>controls</div>
+      </nav>
       {loading && <>loading...</>}
       {/* todo: add title */}
-      <div className="overflow-hidden w-ful h-[calc(100%-60px)]">
-        <canvas ref={canvasRef} className="w-full" />
+      <div className="w-full h-[calc(100%-90px)] ">
+        <div style={{ width: "100%", height: "100%", overflow: "auto" }}>
+          {pages.map((canvas, index) => (
+            <div
+              key={index}
+              style={{ marginBottom: "10px", border: "1px solid #ccc" }}
+            >
+              <div
+                ref={(node) => {
+                  if (node && !node.firstChild) {
+                    node.appendChild(canvas);
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       {!loading && pdfRef.current && (
         <div className="flex flex-col items-center mt-6">

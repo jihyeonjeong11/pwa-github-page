@@ -15,7 +15,6 @@ function Window({ entry }: { entry: ProcessType }) {
     onDragStop,
     onResizeStop,
   } = useWindowControl(entry);
-  console.log("meme", entry.id);
   return (
     <RndWindow
       zIndex={zIndex}

@@ -42,7 +42,7 @@ const programs: ProgramsType = {
     name: "pdf-reader",
     Component: lazy(() => import("@/components/programs/pdfReader/index")),
     width: DEFAULT_WINDOW_SIZE.width,
-    allowResizing: false,
+    height: DEFAULT_WINDOW_SIZE.height + 200,
     icon: PdfIcon,
   },
 };

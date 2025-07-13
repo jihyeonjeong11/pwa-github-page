@@ -11,7 +11,6 @@ function AppRenderer({
   Component: LazyExoticComponent<({ id }: { id: string }) => JSX.Element>;
   id: string;
 }) {
-  console.log("renderer", id);
   // todo: fallback 빈 로딩공간
   return (
     <>
