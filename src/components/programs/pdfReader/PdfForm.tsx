@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/Button";
 import { useEffect, useRef } from "react";
 
 function PdfForm({ onDropPdf }: { onDropPdf: (file: File) => void }) {
@@ -65,8 +66,7 @@ function PdfForm({ onDropPdf }: { onDropPdf: (file: File) => void }) {
 
   return (
     <form
-      onPaste={() => null}
-      className="flex flex-col justify-center items-center h-full w-full border-2 border-dashed border-gray-400 p-8 cursor-pointer"
+      className="flex flex-col justify-center items-center h-full w-full p-8 cursor-pointer"
       action="upload-pdf"
       method="post"
       encType="multipart/form-data"
@@ -86,7 +86,9 @@ function PdfForm({ onDropPdf }: { onDropPdf: (file: File) => void }) {
           style={{ display: "none" }}
           onChange={onChange}
         />
-        <p className="mt-4 text-blue-500 underline">Click or drag files here</p>
+        <Button asChild className="p-2">
+          <p className="mt-4 text-white  underline">Click or drag files here</p>
+        </Button>
       </fieldset>
     </form>
   );

@@ -2,8 +2,6 @@ import { memo, useEffect, useRef } from "react";
 
 function PdfPage({
   canvas,
-  id,
-  page,
 }: {
   canvas: HTMLCanvasElement;
   id: string;

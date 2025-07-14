@@ -10,17 +10,14 @@ import PdfPage from "./pdfPage";
 // todo: pdf 컨트롤, useIntersectionObserver
 
 // todo: useResizableContent hook , resizeObserver needed
-// todo: onDrag 리사이징
-// todo: canvas 렌더러
-// todo: usePdf hook 클리닝
 
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   const [pdfBlob, setPdfBlob] = useState("");
   const [pdfTitle, setPdfTitle] = useState("");
 
   const { processes } = useContext(ProcessContext);
-  const { width, height } = processes.find((p) => p.id === id)!;
-  const { status, pages } = usePDF(pdfBlob, width!, height!);
+  const { width } = processes.find((p) => p.id === id)!;
+  const { status, pages } = usePDF(pdfBlob, width!);
 
   const onDropPdf = (file: File) => {
     setPdfBlob(URL.createObjectURL(file));
@@ -36,9 +33,9 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   }
 
   return (
-    <div className="w-full h-[calc(100%-30px)] text-black bg-primary-background ">
+    <div className="flex flex-col w-full h-[calc(100%-30px)] text-black bg-primary-background ">
       {/* todo: header control, title, pagecount, zooming, download, print */}
-      {/* <nav className="h-[30px] flex justify-between px-2">
+      <nav className="flex-shrink-0 h-[35px] flex justify-between px-2 pt-1">
         <div>{pdfTitle}</div>
         <div className="flex">
           <div className="flex">
@@ -49,12 +46,12 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
           <div>zooming</div>
         </div>
         <div>controls</div>
-      </nav> */}
+      </nav>
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">
         <ol className="flex justify-center flex-col items-center">
-          {pages.slice(0, 10).map((canvas, index) => (
-            <PdfPage canvas={canvas} key={index} id={id} page={1} />
+          {pages.map((canvas, index) => (
+            <PdfPage canvas={canvas} key={index} id={id} page={index} />
           ))}
         </ol>
       </div>
