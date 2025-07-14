@@ -104,7 +104,7 @@ function StartMenu() {
               />
               <DropdownMenuPrimitive.Item className="flex flex-col">
                 <MenuItem
-                  onClick={() => null} // todo: can i shutdown pwa?
+                  onClick={() => alert("Figuring out how to close...")} // todo: can i shutdown pwa?
                   program={{ name: "Shut Down", icon: "images/off.ico" }}
                 />
               </DropdownMenuPrimitive.Item>

@@ -44,7 +44,7 @@ function WindowContainer({
         )}
       >
         <div className="flex-1 min-w-0">
-          <div className="px-2 overflow-hidden text-nowrap text-ellipsis">{`${id}`}</div>
+          <div className="px-2 overflow-hidden text-nowrap text-ellipsis">{`${entry.name}`}</div>
         </div>
         <nav className="flex flex-shrink-0 gap-1 h-full cancel items-center pr-1">
           <Button
