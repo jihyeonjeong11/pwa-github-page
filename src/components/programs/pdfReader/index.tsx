@@ -7,12 +7,12 @@ import useResizableContent from "@/hooks/useResizableContent";
 
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
-// todo: local pdf from fs
-// todo: usePdf hook 클리닝
+// todo: pdf 컨트롤, useIntersectionObserver
+
 // todo: useResizableContent hook , resizeObserver needed
 // todo: onDrag 리사이징
-// todo: pdf 컨트롤, useIntersectionObserver
 // todo: canvas 렌더러
+// todo: usePdf hook 클리닝
 
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   const [pdfBlob, setPdfBlob] = useState("");
@@ -54,10 +54,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
       <div className="w-full h-[calc(100%-30px)] overflow-y-scroll">
         <ol>
           {pages.map((canvas, index) => (
-            <li
-              key={index}
-              style={{ marginBottom: "10px", border: "1px solid #ccc" }}
-            >
+            <li key={index}>
               <div
                 ref={(node) => {
                   if (node && !node.firstChild) {

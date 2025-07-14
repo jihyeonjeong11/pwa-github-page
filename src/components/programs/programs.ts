@@ -43,6 +43,7 @@ const programs: ProgramsType = {
     Component: lazy(() => import("@/components/programs/pdfReader/index")),
     width: DEFAULT_WINDOW_SIZE.width,
     height: DEFAULT_WINDOW_SIZE.height,
+    allowResizing: false, // 맨 나중에... 재사용성까지 해서 만들어야 함.
     icon: PdfIcon,
   },
 };
