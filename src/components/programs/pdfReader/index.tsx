@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ComponentProcessProps } from "../AppRenderer";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import PdfForm from "./PdfForm";
 import usePDF from "./usePDF";
-import useResizableContent from "@/hooks/useResizableContent";
+import PdfPage from "./pdfPage";
 
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
@@ -53,16 +53,8 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">
         <ol className="flex justify-center flex-col items-center">
-          {pages.map((canvas, index) => (
-            <li key={index}>
-              <div
-                ref={(node) => {
-                  if (node && !node.firstChild) {
-                    node.appendChild(canvas);
-                  }
-                }}
-              />
-            </li>
+          {pages.slice(0, 10).map((canvas, index) => (
+            <PdfPage canvas={canvas} key={index} id={id} page={1} />
           ))}
         </ol>
       </div>
