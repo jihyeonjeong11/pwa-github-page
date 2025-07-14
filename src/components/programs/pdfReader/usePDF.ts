@@ -1,5 +1,3 @@
-// return [canvas with pdf pages]
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import * as pdfjs from "pdfjs-dist";
 import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
@@ -8,6 +6,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 
 function usePDF(pdfUri: string, width: number) {
   const [pages, setPages] = useState<HTMLCanvasElement[]>([]);
+  const [page, setPage] = useState({ total: 0, current: 0 });
   const [status, setStatus] = useState<"loading" | "error" | "loaded" | "">("");
 
   const loadPage = useCallback(async (docs: PDFDocumentProxy, i: number) => {
@@ -40,9 +39,9 @@ function usePDF(pdfUri: string, width: number) {
   }, []);
 
   const loadPdf = useCallback(
-    async (blob: string) => {
+    async (uri: string) => {
       try {
-        const docs = await pdfjs.getDocument(blob).promise;
+        const docs = await pdfjs.getDocument(uri).promise;
         const pdfInfo: PDFDocumentProxy = docs._pdfInfo;
         const totalPages = pdfInfo.numPages;
         const pagePromises = [];
@@ -52,6 +51,7 @@ function usePDF(pdfUri: string, width: number) {
 
         const renderedCanvases = await Promise.all(pagePromises);
         setPages(renderedCanvases);
+        setPage({ current: 1, total: totalPages });
         setStatus("loaded");
       } catch (e) {
         setStatus("error");
@@ -72,12 +72,18 @@ function usePDF(pdfUri: string, width: number) {
     };
   }, [loadPdf, pdfUri]);
 
+  const onChangePage = useCallback((current: number) => {
+    setPage((prev) => ({ ...prev, current }));
+  }, []);
+
   const memoizedResult = useMemo(
     () => ({
       status,
       pages,
+      page,
+      onChangePage,
     }),
-    [status, pages]
+    [status, pages, page, onChangePage]
   );
 
   return memoizedResult;

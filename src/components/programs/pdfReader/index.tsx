@@ -17,7 +17,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
 
   const { processes } = useContext(ProcessContext);
   const { width } = processes.find((p) => p.id === id)!;
-  const { status, pages } = usePDF(pdfBlob, width!);
+  const { status, pages, page, onChangePage } = usePDF(pdfBlob, width!);
 
   const onDropPdf = (file: File) => {
     setPdfBlob(URL.createObjectURL(file));
@@ -39,9 +39,9 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
         <div>{pdfTitle}</div>
         <div className="flex">
           <div className="flex">
-            <div>{pages.length}</div>
+            <div>{page.current}</div>
             <div> / </div>
-            <div>{pages.length}</div>
+            <div>{page.total}</div>
           </div>
           <div>zooming</div>
         </div>
@@ -49,9 +49,15 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
       </nav>
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">
-        <ol className="flex justify-center flex-col items-center">
+        <ol className="flex justify-center flex-col items-center gap-2">
           {pages.map((canvas, index) => (
-            <PdfPage canvas={canvas} key={index} id={id} page={index} />
+            <PdfPage
+              canvas={canvas}
+              key={index}
+              id={id}
+              page={index + 1}
+              onChangePage={onChangePage}
+            />
           ))}
         </ol>
       </div>
