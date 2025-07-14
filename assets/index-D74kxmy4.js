@@ -1,1 +1,0 @@
-import{j as l}from"./index-DUONJ5PQ.js";function a({id:t}){return console.log("123",t),l.jsx("div",{className:"w-full h-[calc(100%-30px)] text-black bg-white",children:l.jsx("textarea",{className:"w-full h-full p-2"})})}export{a as default};
