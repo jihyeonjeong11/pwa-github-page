@@ -1,8 +1,10 @@
 # PWA-Windows - WIndows 95 themed PWA app based on reactjs
 
-### Deployed / Download link : [깃헙 페이지](https://jihyeonjeong11.github.io/pwa-github-page/)
+![introduction](./public/introduction.png)
 
-Current stage: Proof of Concepts
+### Deployed / Download link : [Github page](https://jihyeonjeong11.github.io/pwa-github-page/)
+
+Current stage: Proof of Concepts - building first program PDF Reader
 
 ## 설치법
 
@@ -17,6 +19,12 @@ yarn dev
 ### PWA
 
 - PWA powered by [Vite PWA](https://vite-pwa-org.netlify.app/)
+
+- Windows & Process management inspired by [DaedalOS](https://dustinbrett.com/)
+
+- Windows 95 theme by [Windows 95 UI Kit](https://themesberg.com/product/ui-kit/windows-95-ui-kit)
+
+- PDF reader by [PDFjs](https://www.npmjs.com/package/pdfjs-dist)
 
 ### Feature lists - Todo
 
