@@ -54,13 +54,16 @@ function WindowContainer({
           >
             <Minimize />
           </Button>
-          <Button
-            onClick={onMaximize}
-            variant={"primary"}
-            className={"p-0 w-[22px] flex items-center justify-center"}
-          >
-            <Maximize />
-          </Button>
+          {entry.allowResizing && (
+            <Button
+              onClick={onMaximize}
+              variant={"primary"}
+              className={"p-0 w-[22px] flex items-center justify-center"}
+            >
+              <Maximize />
+            </Button>
+          )}
+
           <Button
             onClick={onClose}
             variant={"primary"}

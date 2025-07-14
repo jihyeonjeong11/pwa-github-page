@@ -24,9 +24,11 @@ function useWindowControl(entry: ProcessType) {
   }, [entry.id, foreground]);
 
   const onDoubleClick = useCallback(() => {
-    return entry.allowResizing && entry.maximized
-      ? restore(entry.id, "maximized")
-      : maximize(entry.id);
+    if (entry.allowResizing) {
+      return entry.maximized
+        ? restore(entry.id, "maximized")
+        : maximize(entry.id);
+    }
   }, [entry.allowResizing, entry.id, entry.maximized, maximize, restore]);
 
   const onMaximize = useCallback(() => {
