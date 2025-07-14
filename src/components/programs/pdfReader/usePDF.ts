@@ -19,12 +19,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 
 // Whenever the targetWidth changes.
 
-function usePDF(pdfUrl: string, width: number, height: number) {
+function usePDF(pdfUri: string, width: number, height: number) {
   const [pages, setPages] = useState<HTMLCanvasElement[]>([]);
   const [status, setStatus] = useState<"loading" | "error" | "loaded" | "">("");
-  const [docs, setDocs] = useState<PDFDocumentProxy | null>(
-    Object.create(null) as PDFDocumentProxy
-  );
+  const [docs, setDocs] = useState<PDFDocumentProxy | null>(null);
   useResizableContent(width, height, () => null);
 
   const loadPage = useCallback(
@@ -32,18 +30,24 @@ function usePDF(pdfUrl: string, width: number, height: number) {
       const page = await docs.getPage(i);
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d")!;
-
       const originalViewport = page.getViewport({ scale: 1 });
+      const scaleToFitDesiredWidth = width / originalViewport.width;
+      const caliberatedViewport = page.getViewport({
+        scale: scaleToFitDesiredWidth,
+      });
 
-      const calculatedScale = width / originalViewport.width;
+      const devicePixelRatio = window.devicePixelRatio || 1;
 
-      const viewport = page.getViewport({ scale: calculatedScale });
+      canvas.width = Math.floor(caliberatedViewport.width * devicePixelRatio);
+      canvas.height = Math.floor(caliberatedViewport.height * devicePixelRatio);
+      canvas.style.width = `${caliberatedViewport.width}px`;
+      canvas.style.height = `${caliberatedViewport.height}px`;
 
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
+      context.scale(devicePixelRatio, devicePixelRatio);
       const renderContext = {
         canvasContext: context,
-        viewport: viewport,
+        viewport: caliberatedViewport,
       };
       await page.render(renderContext);
       return canvas;
@@ -75,12 +79,16 @@ function usePDF(pdfUrl: string, width: number, height: number) {
   );
 
   useEffect(() => {
-    if (pdfUrl) {
+    if (pdfUri) {
       setStatus("loading");
-      loadPdf(pdfUrl);
+      loadPdf(pdfUri);
     }
-    return () => setStatus("");
-  }, [loadPdf, pdfUrl]);
+    return () => {
+      setPages([]);
+      setStatus("");
+    };
+    // todo: destroy workerSrc. Use useRef?
+  }, [loadPdf, pdfUri]);
 
   const memoizedResult = useMemo(
     () => ({

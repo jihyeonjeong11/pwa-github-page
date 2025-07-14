@@ -36,7 +36,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   }
 
   return (
-    <div className="w-full h-[calc(100%-30px)] text-black bg-white ">
+    <div className="w-full h-[calc(100%-30px)] text-black bg-primary-background ">
       {/* todo: header control, title, pagecount, zooming, download, print */}
       {/* <nav className="h-[30px] flex justify-between px-2">
         <div>{pdfTitle}</div>
@@ -52,7 +52,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
       </nav> */}
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">
-        <ol>
+        <ol className="flex justify-center flex-col items-center">
           {pages.map((canvas, index) => (
             <li key={index}>
               <div
