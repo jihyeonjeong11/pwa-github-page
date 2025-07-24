@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import * as pdfjs from "pdfjs-dist";
 import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 
@@ -14,7 +14,7 @@ function usePDF(pdfUri: string, width: number) {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d")!;
     const originalViewport = page.getViewport({ scale: 1 });
-    const scaleToFitDesiredWidth = width / 2 / originalViewport.width;
+    const scaleToFitDesiredWidth = width / 1.5 / originalViewport.width;
     const caliberatedViewport = page.getViewport({
       scale: scaleToFitDesiredWidth,
     });
@@ -72,6 +72,22 @@ function usePDF(pdfUri: string, width: number) {
     };
   }, [loadPdf, pdfUri]);
 
+  const onChangeInputPage = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newPage = Number(e.target.value);
+
+      if (Number.isNaN(newPage) || newPage < 1 || newPage > page.total) {
+        return;
+      }
+
+      setPage((prev) => ({ ...prev, current: Number(e.target.value) }));
+
+      const pages = document.querySelectorAll("[id^='pdf-']");
+      pages[newPage - 1].scrollIntoView();
+    },
+    [page.total]
+  );
+
   const onChangePage = useCallback((current: number) => {
     setPage((prev) => ({ ...prev, current }));
   }, []);
@@ -82,8 +98,9 @@ function usePDF(pdfUri: string, width: number) {
       pages,
       page,
       onChangePage,
+      onChangeInputPage,
     }),
-    [status, pages, page, onChangePage]
+    [status, pages, page, onChangePage, onChangeInputPage]
   );
 
   return memoizedResult;

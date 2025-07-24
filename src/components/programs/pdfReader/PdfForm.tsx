@@ -86,7 +86,7 @@ function PdfForm({ onDropPdf }: { onDropPdf: (file: File) => void }) {
           style={{ display: "none" }}
           onChange={onChange}
         />
-        <Button asChild className="p-2">
+        <Button type="submit" asChild className="p-2">
           <p className="mt-4 text-white  underline">Click or drag files here</p>
         </Button>
       </fieldset>

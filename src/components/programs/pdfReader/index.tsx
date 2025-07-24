@@ -3,7 +3,8 @@ import { ComponentProcessProps } from "../AppRenderer";
 import { ProcessContext } from "@/contexts/ProcessProvider";
 import PdfForm from "./PdfForm";
 import usePDF from "./usePDF";
-import PdfPage from "./pdfPage";
+import PdfPage from "./PdfPage";
+import { Input } from "@/components/ui/Input";
 
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
@@ -17,7 +18,10 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
 
   const { processes } = useContext(ProcessContext);
   const { width } = processes.find((p) => p.id === id)!;
-  const { status, pages, page, onChangePage } = usePDF(pdfBlob, width!);
+  const { status, pages, page, onChangePage, onChangeInputPage } = usePDF(
+    pdfBlob,
+    width!
+  );
 
   const onDropPdf = (file: File) => {
     setPdfBlob(URL.createObjectURL(file));
@@ -35,17 +39,23 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   return (
     <div className="flex flex-col w-full h-[calc(100%-30px)] text-black bg-primary-background ">
       {/* todo: header control, title, pagecount, zooming, download, print */}
-      <nav className="flex-shrink-0 h-[35px] flex justify-between px-2 pt-1">
-        <div>{pdfTitle}</div>
-        <div className="flex">
-          <div className="flex">
-            <div>{page.current}</div>
-            <div> / </div>
-            <div>{page.total}</div>
-          </div>
-          <div>zooming</div>
+      <nav className="flex-shrink-0 h-[35px] flex px-2 py-1 bg-primary-window-background">
+        <div className="text-start w-full overflow-hidden">
+          <p className="truncate">{pdfTitle}</p>
         </div>
-        <div>controls</div>
+        <div className="flex w-full">
+          <div className="flex w-full items-center justify-center">
+            <div className="w-full flex justify-center items-center gap-1">
+              <Input
+                className="w-[36px]"
+                value={page.current}
+                onChange={onChangeInputPage}
+              />
+              <div> / {page.total}</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full justify-end">controls</div>
       </nav>
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">
@@ -54,7 +64,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
             <PdfPage
               canvas={canvas}
               key={index}
-              id={id}
+              id={`pdf-${index}`}
               page={index + 1}
               onChangePage={onChangePage}
             />

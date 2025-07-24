@@ -2,6 +2,7 @@ import { memo, useEffect, useRef } from "react";
 
 function PdfPage({
   canvas,
+  id,
   page,
   onChangePage,
 }: {
@@ -11,8 +12,14 @@ function PdfPage({
   onChangePage: (current: number) => void;
 }) {
   const containerRef = useRef<HTMLLIElement | null>(null);
+
   useEffect(() => {
-    if (canvas) containerRef.current?.append(canvas);
+    if (canvas && containerRef.current) {
+      while (containerRef.current.firstChild) {
+        containerRef.current.removeChild(containerRef.current.firstChild);
+      }
+      containerRef.current.append(canvas);
+    }
 
     return () => canvas?.remove();
   }, [canvas]);
@@ -37,7 +44,7 @@ function PdfPage({
     }
   }, [page, onChangePage]);
 
-  return <li ref={containerRef} />;
+  return <li id={id} ref={containerRef} />;
 }
 
 export default memo(PdfPage);
