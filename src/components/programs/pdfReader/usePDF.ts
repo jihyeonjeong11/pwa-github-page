@@ -7,36 +7,40 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 function usePDF(pdfUri: string, width: number) {
   const [pages, setPages] = useState<HTMLCanvasElement[]>([]);
   const [page, setPage] = useState({ total: 0, current: 0 });
+  const [scale, setScale] = useState(1);
   const [status, setStatus] = useState<"loading" | "error" | "loaded" | "">("");
 
-  const loadPage = useCallback(async (docs: PDFDocumentProxy, i: number) => {
-    const page = await docs.getPage(i);
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d")!;
-    const originalViewport = page.getViewport({ scale: 1 });
-    const scaleToFitDesiredWidth = width / 1.5 / originalViewport.width;
-    const caliberatedViewport = page.getViewport({
-      scale: scaleToFitDesiredWidth,
-    });
+  const loadPage = useCallback(
+    async (docs: PDFDocumentProxy, i: number) => {
+      const page = await docs.getPage(i);
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d")!;
+      const originalViewport = page.getViewport({ scale });
+      const scaleToFitDesiredWidth = width / 1.5 / originalViewport.width;
+      const caliberatedViewport = page.getViewport({
+        scale: scaleToFitDesiredWidth,
+      });
 
-    const devicePixelRatio = window.devicePixelRatio || 1;
+      const devicePixelRatio = window.devicePixelRatio || 1;
 
-    canvas.width = Math.floor(caliberatedViewport.width * devicePixelRatio);
-    canvas.height = Math.floor(caliberatedViewport.height * devicePixelRatio);
-    canvas.style.width = `${caliberatedViewport.width}px`;
-    canvas.style.height = `${caliberatedViewport.height}px`;
+      canvas.width = Math.floor(caliberatedViewport.width * devicePixelRatio);
+      canvas.height = Math.floor(caliberatedViewport.height * devicePixelRatio);
+      canvas.style.width = `${caliberatedViewport.width}px`;
+      canvas.style.height = `${caliberatedViewport.height}px`;
 
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
-    context.scale(devicePixelRatio, devicePixelRatio);
-    const renderContext = {
-      canvasContext: context,
-      viewport: caliberatedViewport,
-    };
-    await page.render(renderContext);
-    return canvas;
-    // canvas element에 가상화를 적용할 수 있는지?
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale
+      context.scale(devicePixelRatio, devicePixelRatio);
+      const renderContext = {
+        canvasContext: context,
+        viewport: caliberatedViewport,
+      };
+      await page.render(renderContext);
+      return canvas;
+      // canvas element에 가상화를 적용할 수 있는지?
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [scale]
+  );
 
   const loadPdf = useCallback(
     async (uri: string) => {
@@ -92,15 +96,23 @@ function usePDF(pdfUri: string, width: number) {
     setPage((prev) => ({ ...prev, current }));
   }, []);
 
+  const onChangeScale = useCallback((bool: boolean) => {
+    setScale((p) =>
+      bool ? Number((p - 0.1).toFixed(1)) : Number((p + 0.1).toFixed(1))
+    );
+  }, []);
+
   const memoizedResult = useMemo(
     () => ({
       status,
       pages,
       page,
+      scale,
       onChangePage,
       onChangeInputPage,
+      onChangeScale,
     }),
-    [status, pages, page, onChangePage, onChangeInputPage]
+    [status, pages, page, scale, onChangePage, onChangeInputPage, onChangeScale]
   );
 
   return memoizedResult;

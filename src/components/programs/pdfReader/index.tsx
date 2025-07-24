@@ -7,6 +7,7 @@ import PdfPage from "./PdfPage";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Printer } from "@/images";
+import { Plus } from "@/components/ui/NavigationIcons";
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
@@ -15,10 +16,15 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
 
   const { processes } = useContext(ProcessContext);
   const { width } = processes.find((p) => p.id === id)!;
-  const { status, pages, page, onChangePage, onChangeInputPage } = usePDF(
-    pdfBlob,
-    width!
-  );
+  const {
+    status,
+    pages,
+    page,
+    scale,
+    onChangePage,
+    onChangeInputPage,
+    onChangeScale,
+  } = usePDF(pdfBlob, width!);
 
   const onDropPdf = (file: File) => {
     setPdfBlob(URL.createObjectURL(file));
@@ -42,13 +48,31 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
         </div>
         <div className="flex w-full">
           <div className="flex w-full items-center justify-center">
-            <div className="w-full flex justify-center items-center gap-1">
-              <Input
-                className="w-[36px]"
-                value={page.current}
-                onChange={onChangeInputPage}
-              />
-              <div> / {page.total}</div>
+            <div className="w-full flex justify-center items-center gap-4">
+              <div className="flex gap-2 justify-center items-center">
+                <Input
+                  className="w-[36px]"
+                  value={page.current}
+                  onChange={onChangeInputPage}
+                />
+                <div> / {page.total}</div>
+              </div>
+              <div className="flex justify-center items-center gap-2">
+                <Button
+                  className="p-0 w-[22px]"
+                  onClick={() => onChangeScale(false)}
+                >
+                  -
+                </Button>
+
+                <span>{scale}</span>
+                <Button
+                  className="p-0 w-[22px]"
+                  onClick={() => onChangeScale(true)}
+                >
+                  +
+                </Button>
+              </div>
             </div>
           </div>
         </div>
