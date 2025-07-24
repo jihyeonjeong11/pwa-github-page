@@ -5,12 +5,9 @@ import PdfForm from "./PdfForm";
 import usePDF from "./usePDF";
 import PdfPage from "./PdfPage";
 import { Input } from "@/components/ui/Input";
-
+import { Button } from "@/components/ui/Button";
+import { Printer } from "@/images";
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
-
-// todo: pdf 컨트롤, useIntersectionObserver
-
-// todo: useResizableContent hook , resizeObserver needed
 
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
   const [pdfBlob, setPdfBlob] = useState("");
@@ -55,7 +52,22 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-end">controls</div>
+        <div className="flex w-full justify-end">
+          <Button
+            className={"p-0 w-[32px] flex items-center justify-center"}
+            variant="primary"
+            onClick={async () => {
+              const { default: printJs } = await import("print-js");
+              printJs({
+                printable: pdfBlob,
+                type: "pdf",
+              });
+            }}
+          >
+            {/* todo: 트랜지션 로딩 버튼 */}
+            <img src={Printer} className="p-1" />
+          </Button>
+        </div>
       </nav>
       {status === "loading" && <>loading...</>}
       <div className="w-full h-full overflow-y-scroll">

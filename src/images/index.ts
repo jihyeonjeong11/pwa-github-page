@@ -8,6 +8,7 @@ import RndTest from "./rnd-test.webp";
 import Start from "./start.png";
 import Stone from "./Stone.webp";
 import Thatch from "./Thatch.webp";
+import Printer from "./Printer.ico";
 
 export {
   Bubbles,
@@ -20,4 +21,6 @@ export {
   Start,
   Stone,
   Thatch,
+  // --- background images ---
+  Printer,
 };
