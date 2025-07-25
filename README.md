@@ -24,7 +24,9 @@ yarn dev
 
 - Windows 95 theme by [Windows 95 UI Kit](https://themesberg.com/product/ui-kit/windows-95-ui-kit)
 
-- PDF reader by [PDFjs](https://www.npmjs.com/package/pdfjs-dist)
+- PDF reader and controls by [PDFjs](https://www.npmjs.com/package/pdfjs-dist)
+
+- PDF print by [Printjs](https://printjs.crabbly.com/)
 
 ### Feature lists - Todo
 
