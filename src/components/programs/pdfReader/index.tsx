@@ -7,7 +7,6 @@ import PdfPage from "./PdfPage";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Printer } from "@/images";
-import { Plus } from "@/components/ui/NavigationIcons";
 // const testPdfUrl = `https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf`;
 
 function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
@@ -65,7 +64,7 @@ function PdfReader({ id }: ComponentProcessProps & { pdfUrl?: string }) {
                   -
                 </Button>
 
-                <span>{scale}</span>
+                <span>x{scale}</span>
                 <Button
                   className="p-0 w-[22px]"
                   onClick={() => onChangeScale(true)}

@@ -15,6 +15,7 @@ function usePDF(pdfUri: string, width: number) {
       const page = await docs.getPage(i);
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d")!;
+      // todo: js-pdf 스케일이 반대로 적용되고 있음. 원인 필요
       const originalViewport = page.getViewport({ scale });
       const scaleToFitDesiredWidth = width / 1.5 / originalViewport.width;
       const caliberatedViewport = page.getViewport({
@@ -38,6 +39,7 @@ function usePDF(pdfUri: string, width: number) {
       return canvas;
       // canvas element에 가상화를 적용할 수 있는지?
     },
+    // todo: width 변경 시 새 사이즈로 로드. 현재로써는 퍼포먼스 이슈로 도입 불가 scale 역시 마찬가지임
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [scale]
   );
@@ -97,9 +99,14 @@ function usePDF(pdfUri: string, width: number) {
   }, []);
 
   const onChangeScale = useCallback((bool: boolean) => {
-    setScale((p) =>
-      bool ? Number((p - 0.1).toFixed(1)) : Number((p + 0.1).toFixed(1))
-    );
+    //
+    setScale((p) => {
+      if (bool) {
+        return Math.max(Number((p - 0.1).toFixed(1)), 0.1); // 스케일의 최소값 (확대의 최대치)
+      } else {
+        return Math.min(Number((p + 0.1).toFixed(1)), 2);
+      }
+    });
   }, []);
 
   const memoizedResult = useMemo(
