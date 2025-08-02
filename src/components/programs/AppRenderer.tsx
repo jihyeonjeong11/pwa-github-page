@@ -12,6 +12,7 @@ function AppRenderer({
   id: string;
 }) {
   // todo: fallback 빈 로딩공간
+  // todo: ref 여기서 선언
   return (
     <>
       <Suspense>

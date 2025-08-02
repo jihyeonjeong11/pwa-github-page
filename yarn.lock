@@ -3327,6 +3327,11 @@ emulators-ui@^0.73.9:
   resolved "https://registry.yarnpkg.com/emulators-ui/-/emulators-ui-0.73.9.tgz#194bf4d7712c3e5b31c073826373b42d2c9200be"
   integrity sha512-Zx1eD9yHt+QjMwU0ay9FQKhyvvKucL1bRsTlZdHZsBrU3rNsZm52XODXFLSHMmAksEUe5TRocopWduJF7R9+xw==
 
+emulators@^8.3.9:
+  version "8.3.9"
+  resolved "https://registry.yarnpkg.com/emulators/-/emulators-8.3.9.tgz#b2ffe0143811fa65ea1c451eaa1dd80b892602e8"
+  integrity sha512-KRoi5rvWCrRTzboCQlftbASdsdmnAtkGQdBTcjXV9GZ9hmGL01cxDVUQYpKSH0O4Lcoatwb+2HcYUJFohijNmw==
+
 end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   version "1.4.4"
   resolved "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.4.tgz"
