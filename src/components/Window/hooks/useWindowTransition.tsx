@@ -1,9 +1,8 @@
-import { Variant } from "motion/react";
-import { useLayoutEffect, useState } from "react";
-import { TASKBAR_HEIGHT } from "@/constants";
-import { Easing } from "motion/react";
-import { RndWindowType } from "../../programs/types";
-import { ProcessType } from "@/types/process";
+import { Variant } from 'motion/react';
+import { useLayoutEffect, useState } from 'react';
+import { TASKBAR_HEIGHT } from '@/constants';
+import { Easing } from 'motion/react';
+import { ProcessType } from '@/types/process';
 
 // consider: 윈도우 상태 스테이트 enum으로 만들어서 그걸로 전부 처리할 것. -> active -> minimizing -> minimized 식으로.. variants를 꼭 쓰지 않아도?>
 const baseMaximize = {
@@ -42,7 +41,7 @@ export function useWindowTransition(entry: ProcessType) {
     if (entry.minimized) {
       setMinimize({
         ...baseMinimize,
-        x: -entry.x,
+        x: -entry.x!,
         y: window.innerHeight,
       });
     }
@@ -52,8 +51,8 @@ export function useWindowTransition(entry: ProcessType) {
     if (entry.maximized) {
       setMaximize({
         ...baseMaximize,
-        x: -entry.x,
-        y: -entry.y,
+        x: -entry.x!,
+        y: -entry.y!,
         width: window.innerWidth,
         height: window.innerHeight - TASKBAR_HEIGHT,
       });
@@ -61,10 +60,10 @@ export function useWindowTransition(entry: ProcessType) {
   }, [entry.maximized, entry.x, entry.y]);
 
   return {
-    animate: entry.minimized ? "minimize" : entry.maximized ? "maximize" : "",
+    animate: entry.minimized ? 'minimize' : entry.maximized ? 'maximize' : '',
     transition: {
       duration: 0.5,
-      ease: "easeInOut" as Easing,
+      ease: 'easeInOut' as Easing,
     },
     variants: {
       initial: initial,
