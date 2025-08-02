@@ -46,6 +46,11 @@ const programs: ProgramsType = {
     // 맨 나중에... 재사용성까지 해서 만들어야 함.
     icon: PdfIcon,
   },
+  JSDOS: {
+    ...baseWindow,
+    name: "Js-dos",
+    Component: lazy(() => import("@/components/programs/jsdos/index")),
+  },
 };
 
 export default programs;
