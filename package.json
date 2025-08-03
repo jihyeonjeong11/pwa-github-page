@@ -39,6 +39,7 @@
     "lorem-ipsum": "^2.0.8",
     "motion": "^12.16.0",
     "path": "^0.12.7",
+    "path-browserify": "^1.0.1",
     "pnpm": "^10.11.1",
     "print-js": "^1.6.0",
     "react": "^19.0.0",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@eslint/js": "^9.18.0",
     "@tanstack/eslint-plugin-query": "^5.81.2",
+    "@types/path-browserify": "^1.0.3",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vite-pwa/assets-generator": "^0.2.6",

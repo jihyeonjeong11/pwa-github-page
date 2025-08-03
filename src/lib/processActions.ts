@@ -6,6 +6,7 @@ import { ProcessAction, ProcessListType } from "@/types/process";
 import { v7 as uuid } from "uuid";
 import { RndDragCallback, RndResizeCallback } from "react-rnd";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
+import { preloadLibs } from "./utils";
 
 function determineDefaultWindowSize() {
   // todo: Write isMobile hook
@@ -120,6 +121,7 @@ export const open =
     // todo: latest, 첫 생성 시 중앙에 둠.
     // todo: make it recursive
     const { width, height } = determineDefaultWindowSize();
+    if (app.libs) preloadLibs(app.libs);
     let initialX = (window.innerWidth - width) / 2;
     let initialY = (window.innerHeight - height) / 2;
     processes.forEach((e) => {

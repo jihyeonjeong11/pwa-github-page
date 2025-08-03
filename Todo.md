@@ -11,6 +11,12 @@
 - 바탕화면 월페이퍼
 - Toast modal
 
+- for fun: add dosbox
+- https://github.com/caiiiycuk/js-dos
+- ./dos.html
+- need fs layer for save? screenshot?
+- need bundled game program to run
+
 2025/06/21
 
 - 기존 라우팅 제거 RndTester를 렌더링함.
