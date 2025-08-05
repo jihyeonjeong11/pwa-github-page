@@ -34,35 +34,39 @@ export const preloadLibs = (libs: string[] = []) => {
       return;
     }
 
-    console.log(123123);
-
     const link = document.createElement("link");
-
     link.fetchPriority = "high";
-    link.rel = "preload";
     link.href = lib;
 
+    // todo: better execute preloaded js in another block
     switch (getExtension(lib)) {
       case ".css":
         link.as = "style";
+        document.head.append(link);
         break;
       case ".htm":
       case ".html":
         link.rel = "prerender";
+        document.head.append(link);
         break;
       case ".js":
-        link.rel = "modulepreload";
+        document.head.append(link);
+
+        // eslint-disable-next-line no-case-declarations
+        const script = document.createElement("script");
+        script.src = lib;
+        document.head.append(script);
         break;
       case ".json":
       case ".wasm":
         link.as = "fetch";
         link.crossOrigin = "anonymous";
+        document.head.append(link);
         break;
       default:
         link.as = "script";
+        document.head.append(link);
         break;
     }
-
-    document.head.append(link);
   });
 };
