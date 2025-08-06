@@ -8,6 +8,7 @@ export type ProcessType = ProgramType & {
   minimized: boolean;
   maximized: boolean;
   focused: boolean;
+  libs?: string[];
 };
 
 export type ProcessListType = ProcessType[];

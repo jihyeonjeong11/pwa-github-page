@@ -58,8 +58,10 @@ const programs: ProgramsType = {
     name: "Js-dos",
     Component: lazy(() => import("@/components/programs/jsdos/index")),
     libs: [
+      "src/Program Files/js-dos/js-dos.js",
+      "src/Program Files/js-dos/js-dos-css.css",
       // "src/Program Files/js-dos/emulators-ui.js",
-      // "src/Program Files/js-dos/emulators.js",
+      "src/Program Files/js-dos/emulators.js",
       //"src/Program Files/js-dos/wdosbox.wasm",
     ],
   },

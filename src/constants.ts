@@ -10,3 +10,9 @@ export const MIN_WINDOW_SIZE = {
 };
 
 export const TASKBAR_HEIGHT = 32;
+
+//https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener
+export const ONE_TIME_PASSIVE_EVENT = {
+  once: true,
+  passive: true,
+} as AddEventListenerOptions;

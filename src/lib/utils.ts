@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { extname, basename } from "path-browserify";
+import { ONE_TIME_PASSIVE_EVENT } from "@/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,9 +26,54 @@ export const getExtension = (url: string): string => {
   return ext.toLowerCase();
 };
 
+export const loadStyle = (href: string) =>
+  new Promise((resolve, reject) => {
+    const links = [
+      ...document.querySelectorAll("link[rel=stylesheet]"),
+    ] as HTMLLinkElement[];
+    if (links.some((link) => link.href.endsWith(href))) {
+      return resolve(new Event("Already loaded."));
+    }
+
+    const link = document.createElement("link");
+
+    link.rel = "stylesheet";
+    link.fetchPriority = "high";
+    link.href = href;
+    link.addEventListener("error", reject, ONE_TIME_PASSIVE_EVENT);
+    link.addEventListener("load", resolve, ONE_TIME_PASSIVE_EVENT);
+
+    document.head.append(link);
+  });
+
+export const loadScript = (src: string) =>
+  new Promise((resolve, reject) => {
+    const scripts = [...document.scripts];
+    if (scripts.find((script) => script.src.endsWith(src))) {
+      return resolve(new Event("Already loaded."));
+    }
+
+    const script = document.createElement("script");
+    script.async = false;
+    script.fetchPriority = "high";
+    script.src = src;
+    script.addEventListener("error", reject, ONE_TIME_PASSIVE_EVENT);
+    script.addEventListener("load", resolve, ONE_TIME_PASSIVE_EVENT);
+
+    document.head.append(script);
+  });
+
+export const loadFiles = async (files?: string[]): Promise<void> =>
+  !files || files.length === 0
+    ? Promise.resolve()
+    : files.reduce(async (_promise, file) => {
+        await (getExtension(file) === ".css"
+          ? loadStyle(encodeURI(file))
+          : loadScript(encodeURI(file)));
+      }, Promise.resolve());
+
 export const preloadLibs = (libs: string[] = []) => {
   const scripts = [...document.scripts];
-  console.log("start", libs);
 
   libs.map(encodeURI).forEach((lib) => {
     if (scripts.some((script) => script.src.endsWith(lib))) {
@@ -35,38 +81,33 @@ export const preloadLibs = (libs: string[] = []) => {
     }
 
     const link = document.createElement("link");
+
     link.fetchPriority = "high";
+    link.rel = "preload";
     link.href = lib;
 
-    // todo: better execute preloaded js in another block
     switch (getExtension(lib)) {
       case ".css":
         link.as = "style";
-        document.head.append(link);
         break;
       case ".htm":
       case ".html":
         link.rel = "prerender";
-        document.head.append(link);
         break;
       case ".js":
-        document.head.append(link);
-
-        // eslint-disable-next-line no-case-declarations
-        const script = document.createElement("script");
-        script.src = lib;
-        document.head.append(script);
+        // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/modulepreload
+        link.rel = "modulepreload";
         break;
       case ".json":
       case ".wasm":
         link.as = "fetch";
         link.crossOrigin = "anonymous";
-        document.head.append(link);
         break;
       default:
         link.as = "script";
-        document.head.append(link);
         break;
     }
+
+    document.head.append(link);
   });
 };
