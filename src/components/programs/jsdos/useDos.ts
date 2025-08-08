@@ -1,6 +1,6 @@
-import { RefObject, useEffect, useState } from "react";
-import { type DosInstance } from "emulators-ui/dist/types/js-dos";
-import { loadFiles } from "@/lib/utils";
+import { RefObject, useEffect, useState } from 'react';
+import { type DosInstance } from 'emulators-ui/dist/types/js-dos';
+import { loadFiles } from '@/lib/utils';
 
 export function useDos(
   ref: RefObject<HTMLDivElement | null>,
