@@ -13,7 +13,6 @@ export function useDos(
     const root = ref.current!;
     loadFiles(libs).then(() => {
       if (window.Dos) {
-        console.log("dos found");
         const instance = window.Dos(root);
         setDos(instance);
       }
