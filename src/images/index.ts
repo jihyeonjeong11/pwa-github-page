@@ -9,6 +9,8 @@ import Start from "./start.png";
 import Stone from "./Stone.webp";
 import Thatch from "./Thatch.webp";
 import Printer from "./Printer.ico";
+import JsDos from "./jsdos.ico";
+import TipTap from "./tiptap.ico";
 
 export {
   Bubbles,
@@ -23,4 +25,6 @@ export {
   Thatch,
   // --- background images ---
   Printer,
+  JsDos,
+  TipTap,
 };

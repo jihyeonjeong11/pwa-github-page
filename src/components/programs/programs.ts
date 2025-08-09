@@ -5,7 +5,7 @@ import {
   DEFAULT_GAME_WIDTH,
 } from "@/components/programs/games/minesweeper";
 import { DEFAULT_WINDOW_SIZE } from "@/constants";
-import { PdfIcon } from "@/images";
+import { JsDos, PdfIcon, TipTap } from "@/images";
 
 const baseWindow: BaseWindowType = {
   allowResizing: true,
@@ -51,12 +51,13 @@ const programs: ProgramsType = {
     Component: lazy(() => import("@/components/programs/pdfReader/index")),
     width: DEFAULT_WINDOW_SIZE.width,
     height: DEFAULT_WINDOW_SIZE.height,
-    icon: PdfIcon,
+    icon: TipTap,
   },
   JSDOS: {
     ...baseWindow,
     name: "Js-dos",
     Component: lazy(() => import("@/components/programs/jsdos/index")),
+    icon: JsDos,
     libs: [
       "src/Program Files/js-dos/js-dos.js",
       "src/Program Files/js-dos/js-dos-css.css",
