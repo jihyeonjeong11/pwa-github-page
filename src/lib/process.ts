@@ -13,6 +13,7 @@ class Process {
   maximized;
   focused;
   libs;
+  icon;
 
   constructor({
     id,
@@ -27,6 +28,7 @@ class Process {
     maximized = false,
     focused = false,
     libs = [],
+    icon,
   }: ProcessType) {
     this.id = id;
     this.name = name;
@@ -40,6 +42,7 @@ class Process {
     this.x = x || 0;
     this.y = y || 0;
     this.libs = libs;
+    this.icon = icon;
   }
 }
 

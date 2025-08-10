@@ -48,8 +48,8 @@ export default function Taskbar() {
               <label className="flex items-center h-full w-full gap-1 text-nowrap text-ellipsis">
                 <div>
                   <img
-                    alt="disk"
-                    src={Drive1Icon}
+                    alt="taskbar-icon"
+                    src={e.icon ? e.icon : Drive1Icon}
                     className="w-[20px] h-[20px] object-contain"
                   />
                 </div>

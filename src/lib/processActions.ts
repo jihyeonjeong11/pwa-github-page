@@ -103,7 +103,7 @@ export const minimize =
 
 export const close =
   (updateProcesses: Dispatch<ProcessAction>) => (id: string) => {
-    updateProcesses({ id: id });
+    updateProcesses({ id });
   };
 
 export const restore =
