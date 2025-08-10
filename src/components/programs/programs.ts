@@ -48,7 +48,7 @@ const programs: ProgramsType = {
   TipTap: {
     ...baseWindow,
     name: "tiptap",
-    Component: lazy(() => import("@/components/programs/pdfReader/index")),
+    Component: lazy(() => import("@/components/programs/editor/index")),
     width: DEFAULT_WINDOW_SIZE.width,
     height: DEFAULT_WINDOW_SIZE.height,
     icon: TipTap,
