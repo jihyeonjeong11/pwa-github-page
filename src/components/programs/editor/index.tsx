@@ -1,5 +1,4 @@
 import { EditorContext, EditorContent, useEditor } from "@tiptap/react";
-
 import StarterKit from "@tiptap/starter-kit";
 import { useMemo } from "react";
 import MenuBar from "./MenuBar";
@@ -18,7 +17,10 @@ const EditorPage = () => {
   return (
     <EditorContext.Provider value={providerValue}>
       <MenuBar editor={editor} />
-      <EditorContent className="h-[calc(100%-60px)] bg-white" editor={editor} />
+      <EditorContent
+        className="overflow-y-scroll h-[calc(100%-60px)] bg-white"
+        editor={editor}
+      />
     </EditorContext.Provider>
   );
 };
