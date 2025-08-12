@@ -8,6 +8,9 @@ const EditorPage = () => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: "<p>Hello World!</p>",
+    editorProps: {
+      attributes: { class: "h-full  text-black" },
+    },
   });
 
   const providerValue = useMemo(() => ({ editor }), [editor]);
@@ -15,10 +18,7 @@ const EditorPage = () => {
   return (
     <EditorContext.Provider value={providerValue}>
       <MenuBar editor={editor} />
-      <EditorContent
-        className="h-[calc(100%-100px)] w-full text-black"
-        editor={editor}
-      />
+      <EditorContent className="max-h-[calc(100%-60px)]" editor={editor} />
     </EditorContext.Provider>
   );
 };

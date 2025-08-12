@@ -55,8 +55,8 @@ function MenuBar({ editor }: { editor: Editor }) {
   });
 
   return (
-    <div className="control-group">
-      <div className="button-group">
+    <div className="h-8 w-full justify-center flex gap-2 py-2">
+      <div>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editorState.canBold}
