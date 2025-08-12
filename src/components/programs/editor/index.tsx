@@ -18,7 +18,7 @@ const EditorPage = () => {
   return (
     <EditorContext.Provider value={providerValue}>
       <MenuBar editor={editor} />
-      <EditorContent className="max-h-[calc(100%-60px)]" editor={editor} />
+      <EditorContent className="h-[calc(100%-60px)] bg-white" editor={editor} />
     </EditorContext.Provider>
   );
 };
